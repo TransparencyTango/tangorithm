@@ -1,36 +1,40 @@
+#! /usr/bin/env python3
+
 from sklearn import svm, preprocessing
 import numpy as np
 import pandas as pd
 from sklearn.svm import SVC
 
-
-dataset_cvs = pd.read_csv("synthetic_dataset.csv", header = 1, usecols = [0,1]).values
-decisions = pd.read_csv("synthetic_dataset.csv", header = 1, usecols = [3], squeeze=True).values
+header = pd.read_csv("synthetic_dataset.csv", nrows=1).columns.values
+num_features = len(header) - 1
+dataset_cvs = pd.read_csv("synthetic_dataset.csv", usecols = [i for i in range(num_features)]).values
+decisions = pd.read_csv("synthetic_dataset.csv", usecols = [num_features], squeeze=True).values
 
 class SVMClassifier():
     def __init__(self):
-        self.dataset_cvs_encoded, self.label_encoder_color, self.label_encoder_age, self.one_hot_encoder = encode_set_for_svm(dataset_cvs)
+        self.dataset_cvs_encoded, self.label_encoders, self.one_hot_encoder = encode_set_for_svm(dataset_cvs)
         self.clf = SVC(gamma='auto')
         self.clf.fit(self.dataset_cvs_encoded, decisions)
 
     def decide_on(self, question):
         encoded_question = question
-        encoded_question[:, 0] = self.label_encoder_color.transform(question[:, 0])
-        encoded_question[:, 1] = self.label_encoder_age.transform(question[:, 1])
+        for i in range(num_features):
+            encoded_question[:, i] = self.label_encoders[i].transform(question[:,i])
         encoded_question = self.one_hot_encoder.transform(encoded_question).toarray()
         print(self.clf.predict(encoded_question))
 
 
 
 def encode_set_for_svm(dataset_cvs):
-    label_encoder_color = preprocessing.LabelEncoder()
-    dataset_cvs[:, 0] = label_encoder_color.fit_transform(dataset_cvs[:, 0])
-    label_encoder_age = preprocessing.LabelEncoder()
-    dataset_cvs[:, 1] = label_encoder_age.fit_transform(dataset_cvs[:, 1])
+    label_encoders = []
+    for i in range(num_features):
+        label_encoder = preprocessing.LabelEncoder()
+        dataset_cvs[:,i] = label_encoder.fit_transform(dataset_cvs[:,i])
+        label_encoders.append(label_encoder)
     one_hot_enc = preprocessing.OneHotEncoder()
     dataset_cvs_encoded = one_hot_enc.fit_transform(dataset_cvs).toarray()
-    return dataset_cvs_encoded, label_encoder_color, label_encoder_age, one_hot_enc
+    return dataset_cvs_encoded, label_encoders, one_hot_enc
 
-question = np.array([['red', '0-29']])
+question = np.array([['red', '0-29', 'blue'], ['blond', '30-50', 'yellow'], ['brown', '0-29', 'red']])
 svm = SVMClassifier()
 svm.decide_on(question)

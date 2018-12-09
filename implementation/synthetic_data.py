@@ -36,7 +36,7 @@ class Dataset_generator:
     def write_to_csv(self, file_name = "synthetic_dataset.csv"):
         with open(file_name, "w") as csv_file:
             writer = csv.writer(csv_file)
-            writer.writerow(self.features)
+            writer.writerow(self.features + ["label"])
             for i in range(self.config_dict["sample_size"]):
                 writer.writerow(self.generate_data())
 
