@@ -1,5 +1,3 @@
-#! /usr/bin/env python3
-
 from sklearn import svm, preprocessing
 import numpy as np
 import pandas as pd
@@ -35,6 +33,11 @@ def encode_set_for_svm(dataset_cvs):
     dataset_cvs_encoded = one_hot_enc.fit_transform(dataset_cvs).toarray()
     return dataset_cvs_encoded, label_encoders, one_hot_enc
 
-question = np.array([['red', '0-29', 'blue'], ['blond', '30-50', 'yellow'], ['brown', '0-29', 'red']])
-svm = SVMClassifier()
-svm.decide_on(question)
+
+def main():
+	question = np.array([['red', '0-29', 'blue'], ['blond', '30-50', 'yellow'], ['brown', '0-29', 'red']])
+	svm = SVMClassifier()
+	svm.decide_on(question)
+
+if __name__ == "__main__":
+	main()
