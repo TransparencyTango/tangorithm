@@ -8,7 +8,7 @@ import imutils
 import numpy as np
 from flask import Flask
 
-ROOT = "C:/Users/Eduard/Documents/Informatik/WS18_19/SWProjekt/Face Detection"
+ROOT = "C:/Users/Eduard/Documents/Informatik/WS18_19/SWProjekt/Face Detection/"
 PROTOTXT = "deploy.prototxt"
 PRETRAINED_MODEL = "res10_300x300_ssd_iter_140000.caffemodel"
 CONFIDENCE = 0.9
@@ -23,7 +23,7 @@ app = Flask(__name__)
 
 @app.route("/init")
 def setup():
-    global cam, net
+    global net
     # load our serialized model from disk
     print("[INFO] loading model...")
     net = cv2.dnn.readNetFromCaffe(ROOT + PROTOTXT,
@@ -41,6 +41,7 @@ def detect():
     done for speedup. Currently unity also needs webcam access and no two
     programs can access the webcam at the same time.
     """
+    global cam
     # get webcam access
     cam = cv2.VideoCapture(0)
     frame = None
