@@ -8,7 +8,7 @@ import imutils
 import numpy as np
 from flask import Flask
 
-ROOT = "C:/Users/Eduard/Documents/Informatik/WS18_19/datadazed/Face Detection"
+ROOT = "C:/Users/Eduard/Documents/Informatik/WS18_19/SWProjekt/Face Detection"
 PROTOTXT = "deploy.prototxt"
 PRETRAINED_MODEL = "res10_300x300_ssd_iter_140000.caffemodel"
 CONFIDENCE = 0.9
