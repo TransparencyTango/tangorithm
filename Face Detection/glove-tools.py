@@ -8,7 +8,6 @@ from flask import Flask, request
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.neighbors import KDTree
 
-GLOVEFILE = "C:/Users/Eduard/Downloads/glove.6B/glove.6B.50d.txt"
 glovemodel = None
 
 
@@ -123,6 +122,7 @@ def getDistances():
 
 
 # Testing Code for data exploration
+# GLOVEFILE = "C:/Users/Eduard/Downloads/glove.6B/glove.6B.50d.txt"
 # if __name__ == "__main__":
 #     glove = GloveModel(GLOVEFILE)
 #     while True:
