@@ -4,12 +4,15 @@ import csv
 
 import numpy as np
 import pandas as pd
+from flask import Flask, request
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.neighbors import KDTree
 
 GLOVEFILE = "C:/Users/Eduard/Downloads/glove.6B/glove.6B.50d.txt"
+glovemodel = None
 
 
+# ------------------ GLOVE TOOLS ---------------------------
 def loadGloveModel(gloveFile):
     words = pd.read_table(gloveFile, sep=" ", index_col=0,
                           header=None, quoting=csv.QUOTE_NONE)
@@ -33,7 +36,6 @@ def getCosineSimilarities(vectors):
 
 
 def getEuclideanDistances(vectors):
-    print("Vectors shape: ", vectors.shape)
     m, _ = vectors.shape
     distances = np.zeros((m, m))
     for i in range(m):
@@ -55,6 +57,10 @@ class GloveModel():
 
     def getDistances(self, wordList, metric="euclidean"):
         """
+        Input: List of strings
+
+        Output: DataFrame with pairwise distances
+
         metric:
             values: euclidean (default) or cosine
                 euclidean -> euclidean distance
@@ -90,20 +96,47 @@ class GloveModel():
         return results
 
 
-if __name__ == "__main__":
-    glove = GloveModel(GLOVEFILE)
-    while True:
-        wordList = input("Enter list of words separated by space: ")
-        wordList = wordList.split(" ")
-        if wordList[0]:
-            print("\n")
-            print("Euclidean Distances: ")
-            print(glove.getDistances(wordList))
-            print("\n", "Cosine Distances: ")
-            print(glove.getDistances(wordList, metric="cosine"))
-            print("\n")
-            print("kNN for {0}".format(wordList[0]))
-            print(glove.getKNN(100, wordList[0]))
-        else:
-            print("Exiting...")
-            break
+# ------------------ Server Functions ---------------------------
+app = Flask(__name__)
+
+
+@app.route("/setup")
+def setup():
+    global glovemodel
+    file_path = request.args["path"]
+    glovemodel = GloveModel(file_path)
+    msg = "Setup successful."
+    return msg
+
+
+@app.route("/getDistances")
+def getDistances():
+    global glovemodel
+    req = request.args["words"]
+    if glovemodel:
+        wordList = req.split(" ")
+        distance_table = glovemodel.getDistances(wordList, metric="cosine")
+        msg = str(distance_table.loc[wordList[0]].values[0][1:])
+        return msg
+    else:
+        return ""
+
+
+# Testing Code for data exploration
+# if __name__ == "__main__":
+#     glove = GloveModel(GLOVEFILE)
+#     while True:
+#         wordList = input("Enter list of words separated by space: ")
+#         wordList = wordList.split(" ")
+#         if wordList[0]:
+#             print("\n")
+#             print("Euclidean Distances: ")
+#             print(glove.getDistances(wordList))
+#             print("\n", "Cosine Distances: ")
+#             print(glove.getDistances(wordList, metric="cosine"))
+#             print("\n")
+#             print("kNN for {0}".format(wordList[0]))
+#             print(glove.getKNN(100, wordList[0]))
+#         else:
+#             print("Exiting...")
+#             break
