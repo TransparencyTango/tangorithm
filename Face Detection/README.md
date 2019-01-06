@@ -3,6 +3,7 @@
 - csv
 - pandas
 - sklearn
+- flask
 
 # Nutzung glove tools:
 0. (einmalig zu Beginn) Starte den Flask Server
