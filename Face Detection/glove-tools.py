@@ -112,10 +112,12 @@ def setup():
 def getDistances():
     global glovemodel
     req = request.args["words"]
-    if glovemodel:
-        wordList = req.split(" ")
+    wordList = req.split(" ")
+    if glovemodel and len(wordList) > 1:
         distance_table = glovemodel.getDistances(wordList, metric="cosine")
-        msg = str(distance_table.loc[wordList[0]].values[0][1:])
+        distance_table = distance_table.drop_duplicates()
+        distances = distance_table.loc[wordList[0]].values[1:]
+        msg = str(distances)
         return msg
     else:
         return ""
