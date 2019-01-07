@@ -1,43 +1,50 @@
 import React from 'react';
+import {Redirect} from "react-router-dom";
 
-export const Start = (props) =>
-    <React.Fragment>
-        <h2>Who are you?</h2>
-        <div>I am </div>
-        <AskUserAttributes/>
-        <div>.</div>
-    </React.Fragment>;
+class Start extends React.Component {
     
-class AskUserAttributes extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {value: 'analytic'};
+    constructor(props) {
+        super(props);
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+        this.state = {
+                mentalStat: 'analytic',
+                toMirror: false};
+                
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
 
-  handleChange(event) {
-    this.setState({value: event.target.value});
-  }
+    handleChange(event) {
+        this.setState({mentalStat: event.target.value});
+    }
 
-  handleSubmit(event) {
-    //alert('You are ' + this.state.value);
-    event.preventDefault();
-  }
+    handleSubmit(event) {
+        this.props.setMentalStat(event.target.value);
+        this.setState({toMirror: true});
+        event.preventDefault();
+    }
 
   render() {
+    if (this.state.toMirror) {
+        return (<Redirect to="mirror/" />);
+    }
+
     return (
-      <form onSubmit={this.handleSubmit}>
-        <label>
-            I am 
-            <select value={this.state.value} onChange={this.handleChange}>
-                <option value="analytic">analytic</option>
-                <option value="creative">creative</option>
-            </select>
-        </label>
-        <input type="submit" value="See me" />
-      </form>
+        <React.Fragment>
+            <h2>Who are you?</h2>
+            <div>I am </div>
+            <form onSubmit={this.handleSubmit}>
+                <label>
+                    <select value={this.state.mentalStat} onChange={this.handleChange}>
+                        <option value="analytic">analytic</option>
+                        <option value="creative">creative</option>
+                    </select>
+                </label>
+                <input type="submit" value="See me" />
+            </form>
+            <div>.</div>
+        </React.Fragment>
     );
   }
 }
+export {Start};

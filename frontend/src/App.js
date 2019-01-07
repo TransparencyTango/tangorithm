@@ -12,14 +12,22 @@ class AppRouter extends Component {
   constructor() {
     super();
     this.state = {
-      person: "unknown"
+      person: "unknown",
+      //mentalStat: "unknown"
     }
+    this.stat = "unknown";
 
     this.receivePersonData = this.receivePersonData.bind(this);
+    this.setMentalStat = this.setMentalStat.bind(this);
   }
 
   receivePersonData = (personValue) => {
       this.setState({person: personValue});
+  }
+  
+  setMentalStat = (mentalStat) => {
+        this.stat = mentalStat; 
+        //this.setState({mentalStat: mentalStat});
   }
 
   render() {
@@ -40,7 +48,7 @@ class AppRouter extends Component {
             </ul>
           </nav>
 
-          <Route path="/" exact component={Start} />
+          <Route path="/" exact component={() => <Start setMentalStat={this.setMentalStat}/>} />
           <Route
                 path="/mirror"
                 component={() => <Mirror  person={this.state.person}/>}
