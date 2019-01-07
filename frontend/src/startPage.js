@@ -1,7 +1,14 @@
 import React from 'react';
 
-class Start extends React.Component {
-
+export const Start = (props) =>
+    <React.Fragment>
+        <h2>Who are you?</h2>
+        <div>I am </div>
+        <AskUserAttributes/>
+        <div>.</div>
+    </React.Fragment>;
+    
+class AskUserAttributes extends React.Component {
   constructor(props) {
     super(props);
     this.state = {value: 'analytic'};
@@ -14,21 +21,16 @@ class Start extends React.Component {
     this.setState({value: event.target.value});
   }
 
-  handleSubmit(property) {
-    return event => {
-      event.preventDefault();
-      property === "creative" ? this.props.onSubmit("pink") : this.props.onSubmit("green");
-    }
+  handleSubmit(event) {
+    //alert('You are ' + this.state.value);
+    event.preventDefault();
   }
 
   render() {
     return (
-      <React.Fragment>
-          <h2>Who are you?</h2>
-          <div>I am </div>
-      <form onSubmit={this.handleSubmit(this.state.value)}>
+      <form onSubmit={this.handleSubmit}>
         <label>
-            I am
+            I am 
             <select value={this.state.value} onChange={this.handleChange}>
                 <option value="analytic">analytic</option>
                 <option value="creative">creative</option>
@@ -36,10 +38,6 @@ class Start extends React.Component {
         </label>
         <input type="submit" value="See me" />
       </form>
-      <div>.</div>
-      </React.Fragment>
     );
   }
 }
-
-export default Start;

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import './App.css';
-import Start from './startPage';
+import {Start} from './startPage';
 import Mirror from './Mirror.js';
 
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
@@ -11,15 +11,15 @@ class AppRouter extends Component {
 
   constructor() {
     super();
-      this.state = {
-        person: "unknown"
-      }
+    this.state = {
+      person: "unknown"
+    }
 
     this.receivePersonData = this.receivePersonData.bind(this);
   }
 
   receivePersonData = (personValue) => {
-    this.setState({person: personValue});
+      this.setState({person: personValue});
   }
 
   render() {
@@ -40,13 +40,10 @@ class AppRouter extends Component {
             </ul>
           </nav>
 
+          <Route path="/" exact component={Start} />
           <Route
-            path="/" exact
-            component={() => <Start onSubmit={this.receivePersonData}/>}
-          />
-          <Route
-            path="/mirror"
-            component={() => <Mirror  person={this.state.person}/>}
+                path="/mirror"
+                component={() => <Mirror  person={this.state.person}/>}
           />
           <Route path="/visualization/" component={VisualizeResults} />
         </div>
