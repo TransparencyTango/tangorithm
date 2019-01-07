@@ -123,6 +123,20 @@ def getDistances():
         return ""
 
 
+@app.route("/getKNN")
+def getKNN():
+    global glovemodel
+    k = int(request.args.get("k", None))
+    word = request.args.get("word", None)
+    if k and word:
+        knn_dict = glovemodel.getKNN(k, word)
+        knn_keys = list(knn_dict.keys())
+        msg = str(knn_keys)
+        return msg
+    else:
+        return ""
+
+
 # Testing Code for data exploration
 # GLOVEFILE = "C:/Users/Eduard/Downloads/glove.6B/glove.6B.50d.txt"
 # if __name__ == "__main__":
