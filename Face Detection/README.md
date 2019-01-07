@@ -28,9 +28,19 @@
         (Cosine Similarity! Maß für Ähnlichkeit: 1.0 bedeutet sehr ähnlich,
          je kleiner desto unähnlicher)
 
+3. Abfrage von kNN:
 
-[Vorerst unwichtig: deprecated]    
-# Dependencies face_detector_server:
+    Request: http://127.0.0.1:5000/getKNN?k=number&word=example_word
+
+        Bsp:
+        http://127.0.0.1:5000/getKNN?k=100&word=caucasian
+
+        Output String: [word_1, ..., word_n]
+        (Metrik ist hier Euklidische Distanz nicht Kosinus-Ähnlichkeit!)
+
+
+
+# Dependencies face_detector_server: [Dieser Abschnitt vorerst unwichtig: deprecated]
 
 - cv2
 - imutils
