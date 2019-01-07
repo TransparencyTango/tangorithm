@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import './App.css';
+import {Start} from './startPage';
 import Mirror from './Mirror.js';
 
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
-const Start = () => <h2>Who are you?</h2>;
 const VisualizeResults = () => <h2>That is why it is you</h2>;
 
 class AppRouter extends Component {
@@ -12,7 +12,7 @@ class AppRouter extends Component {
   constructor() {
     super();
     this.state = {
-      person: "unknown",
+      person: "unknown"
     }
 
     this.receivePersonData = this.receivePersonData.bind(this);
