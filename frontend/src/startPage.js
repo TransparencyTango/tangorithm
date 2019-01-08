@@ -19,12 +19,13 @@ class Start extends React.Component {
     }
 
     handleSubmit(event) {
-        this.props.setMentalStat(event.target.value);
+        this.props.calculateReflection(event.target.value);
         this.setState({toMirror: true});
         event.preventDefault();
     }
 
   render() {
+    // after submitting go to the mirror
     if (this.state.toMirror) {
         return (<Redirect to="mirror/" />);
     }

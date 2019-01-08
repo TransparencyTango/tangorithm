@@ -12,49 +12,55 @@ class AppRouter extends Component {
   constructor() {
     super();
     this.state = {
-      person: "unknown",
-      //mentalStat: "unknown"
+      person: "unknown"
     }
-    this.stat = "unknown";
+    
+    this.userStats = {
+      mentalStat: "unknown",
+      hairColor: "unknown"
+    }
 
     this.receivePersonData = this.receivePersonData.bind(this);
-    this.setMentalStat = this.setMentalStat.bind(this);
+    this.calculateReflection = this.calculateReflection.bind(this);
   }
 
   receivePersonData = (personValue) => {
-      this.setState({person: personValue});
+    this.setState({person: personValue});
   }
   
-  setMentalStat = (mentalStat) => {
-        this.stat = mentalStat; 
-        //this.setState({mentalStat: mentalStat});
+  calculateReflection = (mentalStat) => {
+    this.userStats.mentalStat = mentalStat; 
+    // ask the Server
+    // this.userStats.hairColor = getModell/Haircolor(mentalstat)
+    this.userStats.hairColor = "green";
   }
 
   render() {
+    const shownLinks = 
+      <nav>
+          <ul>
+            <li>
+              <Link to="/">Start</Link>
+            </li>
+            <li>
+              <Link to="/mirror/">Mirror</Link>
+            </li>
+            <li>
+              <Link to="/visualization/">Explanation</Link>
+            </li>
+          </ul>
+      </nav>;
     return (
       <Router>
-        <div>
-          <nav>
-            <ul>
-              <li>
-                <Link to="/">Start</Link>
-              </li>
-              <li>
-                <Link to="/mirror/">Mirror</Link>
-              </li>
-              <li>
-                <Link to="/visualization/">Explanation</Link>
-              </li>
-            </ul>
-          </nav>
-
-          <Route path="/" exact component={() => <Start setMentalStat={this.setMentalStat}/>} />
-          <Route
-                path="/mirror"
-                component={() => <Mirror  person={this.state.person}/>}
-          />
-          <Route path="/visualization/" component={VisualizeResults} />
-        </div>
+        <React.Fragment>
+          {shownLinks}
+            <Route path="/" exact component={() => <Start calculateReflection={this.calculateReflection}/>} />
+            <Route
+                    path="/mirror"
+                    component={() => <Mirror  person={this.state.person} color={this.userStats.hairColor}/>}
+              />
+            <Route path="/visualization/" component={VisualizeResults} />
+        </React.Fragment>
       </Router>
     );
   }
