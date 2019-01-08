@@ -11,21 +11,13 @@ class AppRouter extends Component {
 
   constructor() {
     super();
-    this.state = {
-      person: "unknown"
-    }
     
     this.userStats = {
       mentalStat: "unknown",
       hairColor: "unknown"
     }
 
-    this.receivePersonData = this.receivePersonData.bind(this);
     this.calculateReflection = this.calculateReflection.bind(this);
-  }
-
-  receivePersonData = (personValue) => {
-    this.setState({person: personValue});
   }
 
   calculateReflection = (mentalStat) => {
