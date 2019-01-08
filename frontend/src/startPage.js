@@ -9,7 +9,7 @@ class Start extends React.Component {
         this.state = {
                 mentalStat: 'analytic',
                 toMirror: false};
-                
+
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -19,7 +19,7 @@ class Start extends React.Component {
     }
 
     handleSubmit(event) {
-        this.props.calculateReflection(event.target.value);
+        this.props.calculateReflection(this.state.mentalStat);
         this.setState({toMirror: true});
         event.preventDefault();
     }

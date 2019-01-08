@@ -13,12 +13,8 @@ class Mirror extends Component {
       <div>
         <h2>That is you</h2>
         <p>
-          <img src={pics[this.props.person]} alt="" />
+          <img src={pics[this.props.color]} alt="" />
         </p>
-        {//<p>
-          //Haircolor: {this.props.color}
-        //</p>
-        }
       </div>
     );
   }

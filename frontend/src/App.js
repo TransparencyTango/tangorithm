@@ -27,16 +27,16 @@ class AppRouter extends Component {
   receivePersonData = (personValue) => {
     this.setState({person: personValue});
   }
-  
+
   calculateReflection = (mentalStat) => {
-    this.userStats.mentalStat = mentalStat; 
+    this.userStats.mentalStat = mentalStat;
     // ask the Server
     // this.userStats.hairColor = getModell/Haircolor(mentalstat)
-    this.userStats.hairColor = "green";
+    this.userStats.hairColor = mentalStat === "creative" ? "pink" : "green";
   }
 
   render() {
-    const shownLinks = 
+    const shownLinks =
       <nav>
           <ul>
             <li>
@@ -57,7 +57,7 @@ class AppRouter extends Component {
             <Route path="/" exact component={() => <Start calculateReflection={this.calculateReflection}/>} />
             <Route
                     path="/mirror"
-                    component={() => <Mirror  person={this.state.person} color={this.userStats.hairColor}/>}
+                    component={() => <Mirror color={this.userStats.hairColor}/>}
               />
             <Route path="/visualization/" component={VisualizeResults} />
         </React.Fragment>
