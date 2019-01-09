@@ -11,7 +11,9 @@ class AppRouter extends Component {
 
   constructor() {
     super();
-    
+
+    this.state = {"imageName": ""};
+
     this.userStats = {
       mentalStat: "unknown",
       hairColor: "unknown"
@@ -24,8 +26,24 @@ class AppRouter extends Component {
     this.userStats.mentalStat = mentalStat;
     // ask the Server
     // this.userStats.hairColor = getModell/Haircolor(mentalstat)
-    this.userStats.hairColor = mentalStat === "creative" ? "pink" : "green";
-  }
+    const hairColorSelection =  ["green", "pink"];
+
+    fetch('getDistances?words=' + mentalStat + ' ' + hairColorSelection.join(' '), {
+        method: "GET",
+        headers: {
+          Accept: "application/text"
+        }
+      })
+      .then((response) => {
+        return response.text();
+      })
+      .then( (text) => {
+        const similarities = text.substring(1, text.length -1).split(/\s+/).map(parseFloat);
+        // image renders too late due to the direct redirection to 'mirror' after submitting
+        this.setState({"imageName": hairColorSelection[similarities.indexOf(Math.max.apply(null, similarities))]});
+      })
+      .catch((error) => console.error(error));
+    }
 
   render() {
     const shownLinks =
@@ -49,7 +67,7 @@ class AppRouter extends Component {
             <Route path="/" exact component={() => <Start calculateReflection={this.calculateReflection}/>} />
             <Route
                     path="/mirror"
-                    component={() => <Mirror color={this.userStats.hairColor}/>}
+                    component={() => <Mirror color={this.state.imageName}/>}
               />
             <Route path="/visualization/" component={VisualizeResults} />
         </React.Fragment>
