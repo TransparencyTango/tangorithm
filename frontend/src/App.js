@@ -8,6 +8,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 const VisualizeResults = () => <h2>That is why it is you</h2>;
 
 class AppRouter extends Component {
+  
 
   constructor() {
     super();
