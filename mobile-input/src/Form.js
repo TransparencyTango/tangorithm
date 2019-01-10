@@ -1,12 +1,20 @@
 import React from 'react';
+import {FormDropDown} from './FormDropDown';
+
+const dropDownItems = {
+  "interests": ["technology", "design", "photography"],
+  "mentalStats": ["analytic", "creative"],
+  "personalities": ["shy", "calm", "crazy", "wild"]
+}
+
 
 class Form extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      interest: '',
-      mentalStat: '',
-      personality: ''
+      interest: dropDownItems.interests[0],
+      mentalStat: dropDownItems.mentalStats[0],
+      personality: dropDownItems.personalities[0],
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -21,7 +29,7 @@ class Form extends React.Component {
 
   handleSubmit(event){
     event.preventDefault();
-    fetch('getDistances?words=' + this.state.interest + ',' + this.state.mentalStat + ',' + this.state.personality, {
+    fetch('getDistances?words=' + Object.values(this.state).join(','),{
         method: "POST",
       }).catch((error) => console.error(error));
   }
@@ -29,27 +37,9 @@ class Form extends React.Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <label>Interests:</label>
-        <select name="interest" value={this.state.interest} onChange={this.handleChange}>
-          <option value="technology">technology</option>
-          <option value="design">design</option>
-          <option value="photography">photography</option>
-        </select>
-        <br />
-        <label> Thinking: </label>
-        <select name="mentalStat" value={this.state.mentalStat} onChange={this.handleChange}>
-            <option value="analytic">analytic</option>
-            <option value="creative">creative</option>
-        </select>
-        <br />
-        <label> Personality: </label>
-        <select name="personality" value={this.state.value} onChange={this.handleChange}>
-          <option value="shy">shy</option>
-          <option value="calm">calm</option>
-          <option value="crazy">crazy</option>
-          <option value="wild">wild</option>
-        </select>
-        <br />
+        <FormDropDown name="interest" options={dropDownItems.interests} value={this.state.interest} handleChange={this.handleChange}/><br />
+        <FormDropDown name="mentalStat" options={dropDownItems.mentalStats} value={this.state.mentalStat} handleChange={this.handleChange}/><br />
+        <FormDropDown name="personality" options={dropDownItems.personalities} value={this.state.personality} handleChange={this.handleChange}/><br />
         <input type="submit" value="See me" />
       </form>
     );
