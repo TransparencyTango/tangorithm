@@ -29,29 +29,26 @@ class Form extends React.Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <label>
-          <select name="interest" value={this.state.interest} onChange={this.handleChange}>
-            <option value="technology">technology</option>
-            <option value="design">design</option>
-            <option value="photography">photography</option>
-          </select>
-        </label>
+        <label>Interests:</label>
+        <select name="interest" value={this.state.interest} onChange={this.handleChange}>
+          <option value="technology">technology</option>
+          <option value="design">design</option>
+          <option value="photography">photography</option>
+        </select>
         <br />
-        <label>
-          <select name="mentalStat" value={this.state.mentalStat} onChange={this.handleChange}>
-              <option value="analytic">analytic</option>
-              <option value="creative">creative</option>
-          </select>
-        </label>
+        <label> Thinking: </label>
+        <select name="mentalStat" value={this.state.mentalStat} onChange={this.handleChange}>
+            <option value="analytic">analytic</option>
+            <option value="creative">creative</option>
+        </select>
         <br />
-        <label>
-          <select name="personality" value={this.state.value} onChange={this.handleChange}>
-            <option value="shy">shy</option>
-            <option value="calm">calm</option>
-            <option value="crazy">crazy</option>
-            <option value="wild">wild</option>
-          </select>
-        </label>
+        <label> Personality: </label>
+        <select name="personality" value={this.state.value} onChange={this.handleChange}>
+          <option value="shy">shy</option>
+          <option value="calm">calm</option>
+          <option value="crazy">crazy</option>
+          <option value="wild">wild</option>
+        </select>
         <br />
         <input type="submit" value="See me" />
       </form>
