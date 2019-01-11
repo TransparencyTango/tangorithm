@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import * as BABYLON from 'babylonjs';
-import Scene from './SceneComponent.js';
+import BabylonScene from './SceneComponent.js';
 
 var pics = {
   "unknown":  require('./img/unknown_person.jpg'),
@@ -10,43 +10,29 @@ var pics = {
 
 class PageWithScene extends React.Component<{}, {}> {
     onSceneMount = (e: SceneEventArgs) => {
-        const { canvas, scene, engine } = e;
+      const { canvas, scene, engine } = e;  
+      //Adding a light
+      var light = new BABYLON.PointLight("Omni", new BABYLON.Vector3(20, 20, 100), scene);
 
-        // This creates and positions a free camera (non-mesh)
-        var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 5, -10), scene);
+      //Adding an Arc Rotate Camera
+      var camera = new BABYLON.ArcRotateCamera("Camera", 0, 0.8, 100, BABYLON.Vector3.Zero(), scene);
+      camera.attachControl(canvas, false);
+      BABYLON.SceneLoader.ImportMesh("", "/models/", "skull.babylon", scene, function (newMeshes) {
+        // Set the target of the camera to the first imported mesh
+        camera.target = newMeshes[0];
+    });
 
-        // This targets the camera to scene origin
-        camera.setTarget(BABYLON.Vector3.Zero());
-
-        // This attaches the camera to the canvas
-        camera.attachControl(canvas, true);
-
-        // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
-        var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
-
-        // Default intensity is 1. Let's dim the light a small amount
-        light.intensity = 0.7;
-
-        // Our built-in 'sphere' shape. Params: name, subdivs, size, scene
-        var sphere = BABYLON.Mesh.CreateSphere("sphere1", 16, 2, scene);
-
-        // Move the sphere upward 1/2 its height
-        sphere.position.y = 1;
-
-        // Our built-in 'ground' shape. Params: name, width, depth, subdivs, scene
-        var ground = BABYLON.Mesh.CreateGround("ground1", 6, 6, 2, scene);
-
-        engine.runRenderLoop(() => {
-            if (scene) {
-                scene.render();
-            }
-        });
+      engine.runRenderLoop(() => {
+          if (scene) {
+              scene.render();
+          }
+      });
     }
 
     render() {               
         return (
             <div>
-                <Scene onSceneMount={this.onSceneMount} />
+                <BabylonScene onSceneMount={this.onSceneMount} />
             </div>
         )
     }

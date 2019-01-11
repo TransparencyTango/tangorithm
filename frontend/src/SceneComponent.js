@@ -20,7 +20,7 @@ export const SceneProps = {
 };
 
 
-export default class Scene extends React.Component<SceneProps & React.HTMLAttributes<HTMLCanvasElement>, {}> {
+export default class BabylonScene extends React.Component<SceneProps & React.HTMLAttributes<HTMLCanvasElement>, {}> {
 
   scene: BABYLON.Scene;
   engine: BABYLON.Engine;
