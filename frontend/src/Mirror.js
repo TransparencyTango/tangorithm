@@ -15,11 +15,25 @@ class PageWithScene extends React.Component<{}, {}> {
       var light = new BABYLON.PointLight("Omni", new BABYLON.Vector3(20, 20, 100), scene);
 
       //Adding an Arc Rotate Camera
-      var camera = new BABYLON.ArcRotateCamera("Camera", 0, 0.8, 100, BABYLON.Vector3.Zero(), scene);
-      camera.attachControl(canvas, false);
-      BABYLON.SceneLoader.ImportMesh("", "/models/", "skull.babylon", scene, function (newMeshes) {
+      //var camera = new BABYLON.ArcRotateCamera("Camera", 0, 0.8, 100, BABYLON.Vector3.Zero(), scene);
+      //camera.attachControl(canvas, false);
+      
+      // Parameters: name, position, scene
+      var camera = new BABYLON.FollowCamera("FollowCam", new BABYLON.Vector3(0, 10, -10), scene);
+      camera.radius = 5;
+      camera.heightOffset = 2;
+      camera.rotationOffset = 0;
+      camera.cameraAcceleration = 0.005
+      camera.maxCameraSpeed = 10
+      camera.attachControl(canvas, true);
+      
+      ////////////////////////////////////
+      
+      BABYLON.SceneLoader.ImportMesh("", "/models/nurse/", "nurse.babylon", scene, function (newMeshes) {
         // Set the target of the camera to the first imported mesh
-        camera.target = newMeshes[0];
+        // camera.target = newMeshes[0];
+        camera.lockedTarget = newMeshes[0]; //version 2.5 onwards
+        
     });
 
       engine.runRenderLoop(() => {
@@ -32,7 +46,7 @@ class PageWithScene extends React.Component<{}, {}> {
     render() {               
         return (
             <div>
-                <BabylonScene onSceneMount={this.onSceneMount} />
+                <BabylonScene width="500" height="500" onSceneMount={this.onSceneMount} />
             </div>
         )
     }
