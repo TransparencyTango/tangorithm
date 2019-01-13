@@ -1,19 +1,15 @@
 import React from 'react';
-import {FormDropDown} from './FormDropDown';
-
-const dropDownItems = {
-  "interests": ["technology", "design", "photography"],
-  "mentalStats": ["analytic", "creative"],
-  "personalities": ["shy", "calm", "crazy", "wild"]
-}
 
 class Form extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      interest: dropDownItems.interests[0],
-      mentalStat: dropDownItems.mentalStats[0],
-      personality: dropDownItems.personalities[0],
+      characteristic1: '',
+      characteristic2: '',
+      characteristic3: '',
+      hobby1: '',
+      hobby2: '',
+      hobby3: '',
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -36,10 +32,16 @@ class Form extends React.Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <FormDropDown name="interest" options={dropDownItems.interests} value={this.state.interest} handleChange={this.handleChange}/><br />
-        <FormDropDown name="mentalStat" options={dropDownItems.mentalStats} value={this.state.mentalStat} handleChange={this.handleChange}/><br />
-        <FormDropDown name="personality" options={dropDownItems.personalities} value={this.state.personality} handleChange={this.handleChange}/><br />
-        <input type="submit" value="See me" />
+      <input type="button" value="neighbours" />
+      <input type="button" value="similarities" /><br />
+      <label> Characteristics </label> <label> Hobbies </label> <br />
+      <input type="text" name="characteristic1" value={this.state.characteristic1} onChange={this.handleChange}/>
+      <input type="text" name="hobby1"          onChange={this.handleChange}/><br />
+      <input type="text" name="characteristic2" onChange={this.handleChange}/>
+      <input type="text" name="hobby2"          onChange={this.handleChange}/><br />
+      <input type="text" name="characteristic3" onChange={this.handleChange}/>
+      <input type="text" name="hobby3"          onChange={this.handleChange}/><br />
+      <input type="submit" value="Generate" />
       </form>
     );
   }
