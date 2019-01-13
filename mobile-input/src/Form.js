@@ -7,7 +7,6 @@ const dropDownItems = {
   "personalities": ["shy", "calm", "crazy", "wild"]
 }
 
-
 class Form extends React.Component {
   constructor(props) {
     super(props);
@@ -29,7 +28,7 @@ class Form extends React.Component {
 
   handleSubmit(event){
     event.preventDefault();
-    fetch('getDistances?words=' + Object.values(this.state).join(','),{
+    fetch('postAttributes?words=' + Object.values(this.state).join(' '),{
         method: "POST",
       }).catch((error) => console.error(error));
   }

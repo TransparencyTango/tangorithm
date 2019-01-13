@@ -40,6 +40,24 @@ def getKNN():
     else:
         return None
 
+@app.route("/postAttributes", methods=['POST'])
+def postAttributes():
+    global gloveExplorer
+    req = request.args.get("words", None)
+
+    if gloveExplorer and req:
+        wordList = req.split(" ")
+        match = gloveExplorer.getMatch(wordList)
+        gloveExplorer.currentMatch = match
+        return "ok"
+    else:
+        return "failed"
+
+@app.route("/getModelName")
+def getModelName():
+    global gloveExplorer
+    return gloveExplorer.currentMatch
+
 
 if __name__ == "__main__":
 

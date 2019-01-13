@@ -102,6 +102,7 @@ class GloveExplorer(GloveModel):
         self.__unknownTags, self.__modelDescriptions = \
             self.__setModelDescriptions(models_path)
         self.__modelAverageVectors = self.__setModelAverageVectors()
+        self.currentMatch = "default"
 
     def __setModelDescriptions(self, models_path):
         modelDescriptions = parseInputFile(models_path)
