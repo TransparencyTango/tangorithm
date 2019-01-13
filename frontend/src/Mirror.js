@@ -10,7 +10,10 @@ class Mirror extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {"name" : null};
+    this.state = {
+      "isReflection": false,
+      "name" : null
+    };
     this.timer = null;
     this.fetchStatus = this.fetchStatus.bind(this);
   }
@@ -23,7 +26,8 @@ class Mirror extends Component {
       }
     })
       .then(response => response.text())
-      .then(result => this.setState({"name": result}))
+      .then(text => text.split(' '))
+      .then(result => this.setState({isReflection: result[0] === "True", name: result[1]}))
       .catch(e => console.log(e));
   }
 

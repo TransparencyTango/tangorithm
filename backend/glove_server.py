@@ -56,7 +56,7 @@ def postAttributes():
 @app.route("/getModelName")
 def getModelName():
     global gloveExplorer
-    return gloveExplorer.currentMatch
+    return str(gloveExplorer.isReflection) + ' ' + gloveExplorer.currentMatch
 
 
 if __name__ == "__main__":
