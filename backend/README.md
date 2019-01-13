@@ -22,7 +22,7 @@
     Request: http://127.0.0.1:5000/getMatch?words=word1 word2
 
         Bsp:
-        http://127.0.0.1:5000/getDistances?words=lazy cool rock
+        http://127.0.0.1:5000/getMatch?words=lazy cool rock
         (Trennzeichen = space!)
 
         Output String: "punk17"
