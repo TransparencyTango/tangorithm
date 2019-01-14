@@ -9,47 +9,57 @@ var pics = {
 };
 
 class PageWithScene extends React.Component<{}, {}> {
-    onSceneMount = (e: SceneEventArgs) => {
-      const { canvas, scene, engine } = e;  
-      //Adding a light
-      var light = new BABYLON.PointLight("Omni", new BABYLON.Vector3(20, 20, 100), scene);
+  constructor() {
+    super();   
+    this.showReflection = this.showReflection.bind(this);
+  }
+  
+  prepareCamera(){       
+    this.camera = new BABYLON.FollowCamera("FollowCam", new BABYLON.Vector3(0, 0, 0), this.scene);
+    this.camera.radius = 160;
+    this.camera.heightOffset = 100;
+    this.camera.rotationOffset = 0;
+    this.camera.cameraAcceleration = 0.05
+    this.camera.maxCameraSpeed = 10
+    this.camera.attachControl(this.canvas, true);
+    
+    //the sphere will be at the dude's head position
+    this.sphere = BABYLON.Mesh.CreateSphere("sphere1", 16, 2, this.scene);
+  }
+  
+  showReflection = (newMeshes, particleSystems, skeletons) => {
+    const dude = newMeshes[0];
+    const skeleton = skeletons[0];
+    this.sphere.attachToBone(skeleton.bones[34], dude);
+		this.sphere.scaling = new BABYLON.Vector3(5, 5, 5);
+    this.camera.lockedTarget = this.sphere;
+  }
 
-      //Adding an Arc Rotate Camera
-      //var camera = new BABYLON.ArcRotateCamera("Camera", 0, 0.8, 100, BABYLON.Vector3.Zero(), scene);
-      //camera.attachControl(canvas, false);
-      
-      // Parameters: name, position, scene
-      var camera = new BABYLON.FollowCamera("FollowCam", new BABYLON.Vector3(0, 10, -10), scene);
-      camera.radius = 5;
-      camera.heightOffset = 2;
-      camera.rotationOffset = 0;
-      camera.cameraAcceleration = 0.005
-      camera.maxCameraSpeed = 10
-      camera.attachControl(canvas, true);
-      
-      ////////////////////////////////////
-      
-      BABYLON.SceneLoader.ImportMesh("", "/models/nurse/", "nurse.babylon", scene, function (newMeshes) {
-        // Set the target of the camera to the first imported mesh
-        // camera.target = newMeshes[0];
-        camera.lockedTarget = newMeshes[0]; //version 2.5 onwards
-        
+  onSceneMount = (e: SceneEventArgs) => {
+    const { canvas, scene, engine } = e;  
+    this.canvas = canvas;
+    this.scene = scene;
+    
+    const light = new BABYLON.PointLight("Omni", new BABYLON.Vector3(20, 20, 100), this.scene);
+    
+    this.prepareCamera();      
+       
+    BABYLON.SceneLoader.ImportMesh("", "/models/dude/", "dude.babylon", this.scene, this.showReflection);
+
+    engine.runRenderLoop(() => {
+        if (this.scene) {
+            this.scene.render();
+        }
     });
+  }
 
-      engine.runRenderLoop(() => {
-          if (scene) {
-              scene.render();
-          }
-      });
-    }
-
-    render() {               
-        return (
-            <div>
-                <BabylonScene width="500" height="500" onSceneMount={this.onSceneMount} />
-            </div>
-        )
-    }
+  render() {               
+      return (
+          <div>
+              <BabylonScene width="250" height="250" onSceneMount={this.onSceneMount} />
+          </div>
+      )
+  }
 }
 
 class Mirror extends Component {
@@ -58,14 +68,10 @@ class Mirror extends Component {
     return (
       <div>
         <h2>That is you</h2>
-        <p>
-          <img src={pics[this.props.color]} alt="" />
-        </p>
         <PageWithScene />
       </div>
     );
   }
-
 }
 
 export default Mirror;
