@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import * as BABYLON from 'babylonjs';
 import BabylonScene from './SceneComponent.js';
+import 'babylonjs-loaders';
+
+//isImportTest = true
+//this will load the nurse2/nurse.obj .odel
+//to use textures move nurse.mtl into the same folder
+const isImportTest = true;
 
 var pics = {
   "unknown":  require('./img/unknown_person.jpg'),
@@ -10,21 +16,43 @@ var pics = {
 
 class PageWithScene extends React.Component<{}, {}> {
   constructor() {
-    super();   
-    this.showReflection = this.showReflection.bind(this);
+    super();
+    if (isImportTest) {
+      this.showImportTest = this.showImportTest.bind(this);
+    }
+    else{
+      this.showReflection = this.showReflection.bind(this);
+    }
   }
   
-  prepareCamera(){       
-    this.camera = new BABYLON.FollowCamera("FollowCam", new BABYLON.Vector3(0, 0, 0), this.scene);
-    this.camera.radius = 160;
-    this.camera.heightOffset = 100;
-    this.camera.rotationOffset = 0;
-    this.camera.cameraAcceleration = 0.05
-    this.camera.maxCameraSpeed = 10
-    this.camera.attachControl(this.canvas, true);
+  prepareCamera(){   
+    if (isImportTest) {
+      this.camera = new BABYLON.FollowCamera("FollowCam", new BABYLON.Vector3(0, 0, 0), this.scene);
+      this.camera.radius = 2;
+      this.camera.heightOffset = 1;
+      this.camera.rotationOffset = 0;
+      this.camera.cameraAcceleration = 0.05
+      this.camera.maxCameraSpeed = 10
+      this.camera.attachControl(this.canvas, true);
+    }
+    else {
+      this.camera = new BABYLON.FollowCamera("FollowCam", new BABYLON.Vector3(0, 0, 0), this.scene);
+      this.camera.radius = 160;
+      this.camera.heightOffset = 100;
+      this.camera.rotationOffset = 0;
+      this.camera.cameraAcceleration = 0.05
+      this.camera.maxCameraSpeed = 10
+      this.camera.attachControl(this.canvas, true);
+      
+      //the sphere will be at the dude's head position
+      this.sphere = BABYLON.Mesh.CreateSphere("sphere1", 16, 2, this.scene);   
+    }
     
-    //the sphere will be at the dude's head position
-    this.sphere = BABYLON.Mesh.CreateSphere("sphere1", 16, 2, this.scene);
+    
+  }
+  
+  showImportTest = (newMeshes, particleSystems, skeletons) => {
+    this.camera.lockedTarget = newMeshes[2];
   }
   
   showReflection = (newMeshes, particleSystems, skeletons) => {
@@ -42,9 +70,14 @@ class PageWithScene extends React.Component<{}, {}> {
     
     const light = new BABYLON.PointLight("Omni", new BABYLON.Vector3(20, 20, 100), this.scene);
     
-    this.prepareCamera();      
-       
-    BABYLON.SceneLoader.ImportMesh("", "/models/dude/", "dude.babylon", this.scene, this.showReflection);
+    this.prepareCamera();
+
+    if (isImportTest) {
+      BABYLON.SceneLoader.ImportMesh("", "/models/nurse2/", "nurse.obj", this.scene, this.showImportTest);
+    }
+    else {
+      BABYLON.SceneLoader.ImportMesh("", "/models/dude/", "dude.babylon", this.scene, this.showReflection);
+    }
 
     engine.runRenderLoop(() => {
         if (this.scene) {
