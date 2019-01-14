@@ -16,26 +16,27 @@ code {
 label{
   display: inline-block;
   line-height: 25px;
-  width: 130px;
+  width: 40%;
   height: 20px;
-  margin: 10px;
+  margin: 3%;
+  text-align: center;
 }
 
 input[type=button] {
-  width: 130px;
+  width: 40%;
   height: 30px;
-  margin: 30px 10px;
+  margin: 5% 3%;
 }
 
 input[type=text] {
-  width: 130px;
+  width: 40%;
   height: 30px;
-  margin: 10px;
+  margin: 3%;
   font-size: 16px;
 }
 
 input[type=submit] {
-  width: 300px;
+  width: 89%;
   height: 50px;
-  margin: 30px 10px;
+  margin: 5% 3%;
 }
