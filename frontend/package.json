@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "babylonjs": "^3.3.0",
+    "babylonjs-loaders": "^3.3.0",
+    "earcut": "^2.1.4",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-router-dom": "^4.3.1",

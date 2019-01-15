@@ -1,0 +1,231 @@
+Exporter version: 5.6.4, Blender version: 2.79 (sub 0)
+========= Conversion from Blender to Babylon.js =========
+	Scene settings used :
+		export scope        :  ALL
+		inline textures     :  false
+		Positions Precision :  4
+		Normals Precision   :  3
+		UVs Precision       :  3
+		Vert Color Precision:  3
+		Mat Weight Precision:  2
+		texture directory   :  C:\Users\heem\Documents\WiSe1819\IXD\tangorithm\frontend\public\models\
+	Python World class constructor completed
+	processing begun of skeleton:  Armature, id:  0
+		processing begun of bone:  mixamorig:Hips, index:  0
+		processing begun of bone:  mixamorig:Spine, index:  1
+		processing begun of bone:  mixamorig:Spine1, index:  2
+		processing begun of bone:  mixamorig:Spine2, index:  3
+		processing begun of bone:  mixamorig:Neck, index:  4
+		processing begun of bone:  mixamorig:Head, index:  5
+		processing begun of bone:  mixamorig:RightEye, index:  6
+		processing begun of bone:  mixamorig:LeftEye, index:  7
+		processing begun of bone:  mixamorig:HeadTop_End, index:  8
+		processing begun of bone:  mixamorig:LeftShoulder, index:  9
+		processing begun of bone:  mixamorig:LeftArm, index:  10
+		processing begun of bone:  mixamorig:LeftForeArm, index:  11
+		processing begun of bone:  mixamorig:LeftHand, index:  12
+		processing begun of bone:  mixamorig:LeftHandThumb1, index:  13
+		processing begun of bone:  mixamorig:LeftHandThumb2, index:  14
+		processing begun of bone:  mixamorig:LeftHandThumb3, index:  15
+		processing begun of bone:  mixamorig:LeftHandThumb4, index:  16
+		processing begun of bone:  mixamorig:LeftHandIndex1, index:  17
+		processing begun of bone:  mixamorig:LeftHandIndex2, index:  18
+		processing begun of bone:  mixamorig:LeftHandIndex3, index:  19
+		processing begun of bone:  mixamorig:LeftHandIndex4, index:  20
+		processing begun of bone:  mixamorig:LeftHandMiddle1, index:  21
+		processing begun of bone:  mixamorig:LeftHandMiddle2, index:  22
+		processing begun of bone:  mixamorig:LeftHandMiddle3, index:  23
+		processing begun of bone:  mixamorig:LeftHandMiddle4, index:  24
+		processing begun of bone:  mixamorig:LeftHandRing1, index:  25
+		processing begun of bone:  mixamorig:LeftHandRing2, index:  26
+		processing begun of bone:  mixamorig:LeftHandRing3, index:  27
+		processing begun of bone:  mixamorig:LeftHandRing4, index:  28
+		processing begun of bone:  mixamorig:LeftHandPinky1, index:  29
+		processing begun of bone:  mixamorig:LeftHandPinky2, index:  30
+		processing begun of bone:  mixamorig:LeftHandPinky3, index:  31
+		processing begun of bone:  mixamorig:LeftHandPinky4, index:  32
+		processing begun of bone:  mixamorig:RightShoulder, index:  33
+		processing begun of bone:  mixamorig:RightArm, index:  34
+		processing begun of bone:  mixamorig:RightForeArm, index:  35
+		processing begun of bone:  mixamorig:RightHand, index:  36
+		processing begun of bone:  mixamorig:RightHandPinky1, index:  37
+		processing begun of bone:  mixamorig:RightHandPinky2, index:  38
+		processing begun of bone:  mixamorig:RightHandPinky3, index:  39
+		processing begun of bone:  mixamorig:RightHandPinky4, index:  40
+		processing begun of bone:  mixamorig:RightHandRing1, index:  41
+		processing begun of bone:  mixamorig:RightHandRing2, index:  42
+		processing begun of bone:  mixamorig:RightHandRing3, index:  43
+		processing begun of bone:  mixamorig:RightHandRing4, index:  44
+		processing begun of bone:  mixamorig:RightHandMiddle1, index:  45
+		processing begun of bone:  mixamorig:RightHandMiddle2, index:  46
+		processing begun of bone:  mixamorig:RightHandMiddle3, index:  47
+		processing begun of bone:  mixamorig:RightHandMiddle4, index:  48
+		processing begun of bone:  mixamorig:RightHandIndex1, index:  49
+		processing begun of bone:  mixamorig:RightHandIndex2, index:  50
+		processing begun of bone:  mixamorig:RightHandIndex3, index:  51
+		processing begun of bone:  mixamorig:RightHandIndex4, index:  52
+		processing begun of bone:  mixamorig:RightHandThumb1, index:  53
+		processing begun of bone:  mixamorig:RightHandThumb2, index:  54
+		processing begun of bone:  mixamorig:RightHandThumb3, index:  55
+		processing begun of bone:  mixamorig:RightHandThumb4, index:  56
+		processing begun of bone:  mixamorig:LeftUpLeg, index:  57
+		processing begun of bone:  mixamorig:LeftLeg, index:  58
+		processing begun of bone:  mixamorig:LeftFoot, index:  59
+		processing begun of bone:  mixamorig:LeftToeBase, index:  60
+		processing begun of bone:  mixamorig:LeftToe_End, index:  61
+		processing begun of bone:  mixamorig:RightUpLeg, index:  62
+		processing begun of bone:  mixamorig:RightLeg, index:  63
+		processing begun of bone:  mixamorig:RightFoot, index:  64
+		processing begun of bone:  mixamorig:RightToeBase, index:  65
+		processing begun of bone:  mixamorig:RightToe_End, index:  66
+		processing action Armature|mixamo.com|Layer0:  in[1 - 2], out[0 - 2]
+	processing begun of mesh:  Shoes
+		processing begun of Standard material:  Shoesmat
+			Diffuse texture found "asiatisch_krankenschwester_bob_schwarzhaarig_schlank_Shoes_Diff"
+				Image texture found, type:  diffuseTexture, mapped using: "ShoesDiffuseUVLayer"
+			Bump texture found "asiatisch_krankenschwester_bob_schwarzhaarig_schlank_Shoes_Norm"
+				Image texture found, type:  bumpTexture, mapped using: "ShoesDiffuseUVLayer"
+				WARNING: Opacity non-std way to indicate opacity, use material alpha to also use Opacity texture
+			Specular texture found "asiatisch_krankenschwester_bob_schwarzhaarig_schlank_Shoes_Spec"
+				Image texture found, type:  specularTexture, mapped using: "ShoesDiffuseUVLayer"
+		num positions      :  4316
+		num normals        :  4316
+		num uvs            :  8632
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  19482
+		Skeleton stats:  
+			Total Influencers:  10269
+			Avg # of influencers per vertex:  2.3793
+			Highest # of influencers observed:  3, num vertices with this:  1999
+			exported as 3 influencers
+			num skeletonWeights and skeletonIndices:  17264
+	processing begun of mesh:  default
+		processing begun of Standard material:  Bodymat
+			Diffuse texture found "asiatisch_krankenschwester_bob_schwarzhaarig_schlank_Body_Diffu"
+				Image texture found, type:  diffuseTexture, mapped using: "defaultDiffuseUVLayer"
+			Bump texture found "asiatisch_krankenschwester_bob_schwarzhaarig_schlank_Body_Norma"
+				Image texture found, type:  bumpTexture, mapped using: "defaultDiffuseUVLayer"
+				WARNING: Opacity non-std way to indicate opacity, use material alpha to also use Opacity texture
+			Specular texture found "asiatisch_krankenschwester_bob_schwarzhaarig_schlank_Body_Specu"
+				Image texture found, type:  specularTexture, mapped using: "defaultDiffuseUVLayer"
+		num positions      :  880
+		num normals        :  880
+		num uvs            :  1760
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  4560
+		Skeleton stats:  
+			Total Influencers:  880
+			Avg # of influencers per vertex:  1
+			Highest # of influencers observed:  1, num vertices with this:  880
+			exported as 1 influencers
+			num skeletonWeights and skeletonIndices:  3520
+		Shape Keys:
+	processing begun of mesh:  Hair
+		processing begun of Standard material:  Hairmat
+			Diffuse texture found "asiatisch_krankenschwester_bob_schwarzhaarig_schlank_Hair_Diffu"
+				Image texture found, type:  diffuseTexture, mapped using: "HairDiffuseUVLayer"
+			Bump texture found "asiatisch_krankenschwester_bob_schwarzhaarig_schlank_Hair_Norma"
+				Image texture found, type:  bumpTexture, mapped using: "HairDiffuseUVLayer"
+				WARNING: Opacity non-std way to indicate opacity, use material alpha to also use Opacity texture
+			Specular texture found "asiatisch_krankenschwester_bob_schwarzhaarig_schlank_Hair_Specu"
+				Image texture found, type:  specularTexture, mapped using: "HairDiffuseUVLayer"
+		num positions      :  576
+		num normals        :  576
+		num uvs            :  1152
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  2268
+		Skeleton stats:  
+			Total Influencers:  2108
+			Avg # of influencers per vertex:  3.6597
+			Highest # of influencers observed:  5, num vertices with this:  96
+			exported as 5 influencers
+			num skeletonWeights and skeletonIndices:  4608
+	processing begun of mesh:  Eyelashes
+		processing begun of Standard material:  Bodymat.001
+			Diffuse texture found "asiatisch_krankenschwester_bob_schwarzhaarig_schlank_Body_Diffu"
+				Image texture found, type:  diffuseTexture, mapped using: "EyelashesDiffuseUVLayer"
+			Bump texture found "asiatisch_krankenschwester_bob_schwarzhaarig_schlank_Body_Norma"
+				Image texture found, type:  bumpTexture, mapped using: "EyelashesDiffuseUVLayer"
+				WARNING: Opacity non-std way to indicate opacity, use material alpha to also use Opacity texture
+			Specular texture found "asiatisch_krankenschwester_bob_schwarzhaarig_schlank_Body_Specu"
+				Image texture found, type:  specularTexture, mapped using: "EyelashesDiffuseUVLayer"
+		num positions      :  106
+		num normals        :  106
+		num uvs            :  212
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  342
+		Skeleton stats:  
+			Total Influencers:  106
+			Avg # of influencers per vertex:  1
+			Highest # of influencers observed:  1, num vertices with this:  106
+			exported as 1 influencers
+			num skeletonWeights and skeletonIndices:  424
+		Shape Keys:
+	processing begun of mesh:  Bottoms
+		processing begun of Standard material:  Bottommat
+			Diffuse texture found "asiatisch_krankenschwester_bob_schwarzhaarig_schlank_Bottom_Dif"
+				Image texture found, type:  diffuseTexture, mapped using: "BottomsDiffuseUVLayer"
+			Bump texture found "asiatisch_krankenschwester_bob_schwarzhaarig_schlank_Bottom_Nor"
+				Image texture found, type:  bumpTexture, mapped using: "BottomsDiffuseUVLayer"
+				WARNING: Opacity non-std way to indicate opacity, use material alpha to also use Opacity texture
+			Specular texture found "asiatisch_krankenschwester_bob_schwarzhaarig_schlank_Bottom_Spe"
+				Image texture found, type:  specularTexture, mapped using: "BottomsDiffuseUVLayer"
+		num positions      :  1450
+		num normals        :  1450
+		num uvs            :  2900
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  5952
+		Skeleton stats:  
+			Total Influencers:  5307
+			Avg # of influencers per vertex:  3.66
+			Highest # of influencers observed:  6, num vertices with this:  2
+			exported as 6 influencers
+			num skeletonWeights and skeletonIndices:  11600
+	processing begun of mesh:  Tops
+		processing begun of Standard material:  Topmat
+			Diffuse texture found "asiatisch_krankenschwester_bob_schwarzhaarig_schlank_Top_Diffus"
+				Image texture found, type:  diffuseTexture, mapped using: "TopsDiffuseUVLayer"
+			Bump texture found "asiatisch_krankenschwester_bob_schwarzhaarig_schlank_Top_Normal"
+				Image texture found, type:  bumpTexture, mapped using: "TopsDiffuseUVLayer"
+				WARNING: Opacity non-std way to indicate opacity, use material alpha to also use Opacity texture
+			Specular texture found "asiatisch_krankenschwester_bob_schwarzhaarig_schlank_Top_Specul"
+				Image texture found, type:  specularTexture, mapped using: "TopsDiffuseUVLayer"
+		num positions      :  1233
+		num normals        :  1233
+		num uvs            :  2466
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  4770
+		Skeleton stats:  
+			WARNING: Maximum # of influencers exceeded for 291 vertices, extras ignored
+			Total Influencers:  8327
+			Avg # of influencers per vertex:  6.7534
+			Highest # of influencers observed:  11, num vertices with this:  291
+			exported as 8 influencers
+			num skeletonWeights and skeletonIndices:  9864
+	processing begun of mesh:  Body
+		registered as also a user of material:  Bodymat
+		num positions      :  10888
+		num normals        :  10888
+		num uvs            :  21776
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  49710
+		Skeleton stats:  
+			Total Influencers:  21107
+			Avg # of influencers per vertex:  1.9386
+			Highest # of influencers observed:  7, num vertices with this:  5
+			exported as 7 influencers
+			num skeletonWeights and skeletonIndices:  87104
+		Shape Keys:
+	processing begun of camera (UniversalCamera):  Camera
+	processing begun of light (POINT):  Lamp
+========= Writing of scene file started =========
+========= Writing of scene file completed =========
+========= end of processing =========
+elapsed time:  1 min, 14.2666 secs

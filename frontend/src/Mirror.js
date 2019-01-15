@@ -55,7 +55,6 @@ class Mirror extends Component {
       </div>
     );
   }
-
 }
 
 export default Mirror;

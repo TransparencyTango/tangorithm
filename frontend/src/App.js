@@ -2,13 +2,14 @@ import React, {Component} from 'react';
 import './App.css';
 import {Start} from './startPage';
 import Mirror from './Mirror.js';
+import Modeldemo from './Modeldemo';
 
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 const VisualizeResults = () => <h2>That is why it is you</h2>;
 
 class AppRouter extends Component {
-
+  
   constructor() {
     super();
 
@@ -70,6 +71,7 @@ class AppRouter extends Component {
                     component={() => <Mirror color={this.state.imageName}/>}
               />
             <Route path="/visualization/" component={VisualizeResults} />
+            <Route path="/modeldemo/" component={Modeldemo} />
         </React.Fragment>
       </Router>
     );
