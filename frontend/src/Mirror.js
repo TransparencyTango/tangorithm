@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 var pics = {
   "default":  require('./img/unknown_person.jpg'),
   "pink":     require('./img/pink_hair.jpg'),
-  "green":    require('./img/green_hair.jpg')
+  "green":    require('./img/green_hair.jpg'),
+  "punk1":    require('./img/green_hair.jpg')
 };
 
 class Mirror extends Component {
