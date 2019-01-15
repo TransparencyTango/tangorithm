@@ -1,0 +1,204 @@
+Exporter version: 5.6.4, Blender version: 2.79 (sub 0)
+========= Conversion from Blender to Babylon.js =========
+	Scene settings used :
+		export scope        :  ALL
+		inline textures     :  false
+		Positions Precision :  4
+		Normals Precision   :  3
+		UVs Precision       :  3
+		Vert Color Precision:  3
+		Mat Weight Precision:  2
+		texture directory   :  C:\Users\heem\Documents\WiSe1819\IXD\tangorithm\frontend\public\models\nurseFromDae\
+	Python World class constructor completed
+	processing begun of skeleton:  Armature, id:  0
+		processing begun of bone:  mixamorig_Hips, index:  0
+		processing begun of bone:  mixamorig_Spine, index:  1
+		processing begun of bone:  mixamorig_Spine1, index:  2
+		processing begun of bone:  mixamorig_Spine2, index:  3
+		processing begun of bone:  mixamorig_Neck, index:  4
+		processing begun of bone:  mixamorig_Head, index:  5
+		processing begun of bone:  mixamorig_RightEye, index:  6
+		processing begun of bone:  mixamorig_LeftEye, index:  7
+		processing begun of bone:  mixamorig_HeadTop_End, index:  8
+		processing begun of bone:  mixamorig_LeftShoulder, index:  9
+		processing begun of bone:  mixamorig_LeftArm, index:  10
+		processing begun of bone:  mixamorig_LeftForeArm, index:  11
+		processing begun of bone:  mixamorig_LeftHand, index:  12
+		processing begun of bone:  mixamorig_LeftHandThumb1, index:  13
+		processing begun of bone:  mixamorig_LeftHandThumb2, index:  14
+		processing begun of bone:  mixamorig_LeftHandThumb3, index:  15
+		processing begun of bone:  mixamorig_LeftHandThumb4, index:  16
+		processing begun of bone:  mixamorig_LeftHandIndex1, index:  17
+		processing begun of bone:  mixamorig_LeftHandIndex2, index:  18
+		processing begun of bone:  mixamorig_LeftHandIndex3, index:  19
+		processing begun of bone:  mixamorig_LeftHandIndex4, index:  20
+		processing begun of bone:  mixamorig_LeftHandMiddle1, index:  21
+		processing begun of bone:  mixamorig_LeftHandMiddle2, index:  22
+		processing begun of bone:  mixamorig_LeftHandMiddle3, index:  23
+		processing begun of bone:  mixamorig_LeftHandMiddle4, index:  24
+		processing begun of bone:  mixamorig_LeftHandRing1, index:  25
+		processing begun of bone:  mixamorig_LeftHandRing2, index:  26
+		processing begun of bone:  mixamorig_LeftHandRing3, index:  27
+		processing begun of bone:  mixamorig_LeftHandRing4, index:  28
+		processing begun of bone:  mixamorig_LeftHandPinky1, index:  29
+		processing begun of bone:  mixamorig_LeftHandPinky2, index:  30
+		processing begun of bone:  mixamorig_LeftHandPinky3, index:  31
+		processing begun of bone:  mixamorig_LeftHandPinky4, index:  32
+		processing begun of bone:  mixamorig_RightShoulder, index:  33
+		processing begun of bone:  mixamorig_RightArm, index:  34
+		processing begun of bone:  mixamorig_RightForeArm, index:  35
+		processing begun of bone:  mixamorig_RightHand, index:  36
+		processing begun of bone:  mixamorig_RightHandPinky1, index:  37
+		processing begun of bone:  mixamorig_RightHandPinky2, index:  38
+		processing begun of bone:  mixamorig_RightHandPinky3, index:  39
+		processing begun of bone:  mixamorig_RightHandPinky4, index:  40
+		processing begun of bone:  mixamorig_RightHandRing1, index:  41
+		processing begun of bone:  mixamorig_RightHandRing2, index:  42
+		processing begun of bone:  mixamorig_RightHandRing3, index:  43
+		processing begun of bone:  mixamorig_RightHandRing4, index:  44
+		processing begun of bone:  mixamorig_RightHandMiddle1, index:  45
+		processing begun of bone:  mixamorig_RightHandMiddle2, index:  46
+		processing begun of bone:  mixamorig_RightHandMiddle3, index:  47
+		processing begun of bone:  mixamorig_RightHandMiddle4, index:  48
+		processing begun of bone:  mixamorig_RightHandIndex1, index:  49
+		processing begun of bone:  mixamorig_RightHandIndex2, index:  50
+		processing begun of bone:  mixamorig_RightHandIndex3, index:  51
+		processing begun of bone:  mixamorig_RightHandIndex4, index:  52
+		processing begun of bone:  mixamorig_RightHandThumb1, index:  53
+		processing begun of bone:  mixamorig_RightHandThumb2, index:  54
+		processing begun of bone:  mixamorig_RightHandThumb3, index:  55
+		processing begun of bone:  mixamorig_RightHandThumb4, index:  56
+		processing begun of bone:  mixamorig_LeftUpLeg, index:  57
+		processing begun of bone:  mixamorig_LeftLeg, index:  58
+		processing begun of bone:  mixamorig_LeftFoot, index:  59
+		processing begun of bone:  mixamorig_LeftToeBase, index:  60
+		processing begun of bone:  mixamorig_LeftToe_End, index:  61
+		processing begun of bone:  mixamorig_RightUpLeg, index:  62
+		processing begun of bone:  mixamorig_RightLeg, index:  63
+		processing begun of bone:  mixamorig_RightFoot, index:  64
+		processing begun of bone:  mixamorig_RightToeBase, index:  65
+		processing begun of bone:  mixamorig_RightToe_End, index:  66
+		processing action ArmatureAction:  in[0 - 0], out[0 - 0]
+	processing begun of mesh:  Bottoms
+		processing begun of Standard material:  Bottommat
+			Diffuse texture found "Texture.012"
+				Image texture found, type:  diffuseTexture, mapped using: "Bottoms-lib-UV0"
+				WARNING: Opacity non-std way to indicate opacity, use material alpha to also use Opacity texture
+		num positions      :  1455
+		num normals        :  1455
+		num uvs            :  2910
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  5952
+		Skeleton stats:  
+			Total Influencers:  5323
+			Avg # of influencers per vertex:  3.6584
+			Highest # of influencers observed:  6, num vertices with this:  2
+			exported as 6 influencers
+			num skeletonWeights and skeletonIndices:  11640
+	processing begun of mesh:  Tops
+		processing begun of Standard material:  Topmat
+			Diffuse texture found "Texture.009"
+				Image texture found, type:  diffuseTexture, mapped using: "Tops-lib-UV0"
+				WARNING: Opacity non-std way to indicate opacity, use material alpha to also use Opacity texture
+		num positions      :  1233
+		num normals        :  1233
+		num uvs            :  2466
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  4770
+		Skeleton stats:  
+			WARNING: Maximum # of influencers exceeded for 292 vertices, extras ignored
+			Total Influencers:  8319
+			Avg # of influencers per vertex:  6.747
+			Highest # of influencers observed:  11, num vertices with this:  292
+			exported as 8 influencers
+			num skeletonWeights and skeletonIndices:  9864
+	processing begun of mesh:  Hair
+		processing begun of Standard material:  Hairmat
+			Diffuse texture found "Texture.006"
+				Image texture found, type:  diffuseTexture, mapped using: "Hair-lib-UV0"
+				WARNING: Opacity non-std way to indicate opacity, use material alpha to also use Opacity texture
+		num positions      :  576
+		num normals        :  576
+		num uvs            :  1152
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  2268
+		Skeleton stats:  
+			Total Influencers:  2108
+			Avg # of influencers per vertex:  3.6597
+			Highest # of influencers observed:  5, num vertices with this:  96
+			exported as 5 influencers
+			num skeletonWeights and skeletonIndices:  4608
+	processing begun of mesh:  Shoes
+		processing begun of Standard material:  Shoesmat
+			Diffuse texture found "Texture.003"
+				Image texture found, type:  diffuseTexture, mapped using: "Shoes-lib-UV0"
+				WARNING: Opacity non-std way to indicate opacity, use material alpha to also use Opacity texture
+		num positions      :  4313
+		num normals        :  4313
+		num uvs            :  8626
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  19476
+		Skeleton stats:  
+			Total Influencers:  10270
+			Avg # of influencers per vertex:  2.3812
+			Highest # of influencers observed:  3, num vertices with this:  2007
+			exported as 3 influencers
+			num skeletonWeights and skeletonIndices:  17252
+	processing begun of mesh:  Body
+		processing begun of Standard material:  Bodymat
+			Diffuse texture found "Texture"
+				Image texture found, type:  diffuseTexture, mapped using: "Body-lib-UV0"
+				WARNING: Opacity non-std way to indicate opacity, use material alpha to also use Opacity texture
+		num positions      :  10938
+		num normals        :  10938
+		num uvs            :  21876
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  49707
+		Skeleton stats:  
+			Total Influencers:  21184
+			Avg # of influencers per vertex:  1.9367
+			Highest # of influencers observed:  7, num vertices with this:  5
+			exported as 7 influencers
+			num skeletonWeights and skeletonIndices:  87504
+		Shape Keys:
+	processing begun of mesh:  Eyelashes
+		registered as also a user of material:  Bodymat
+		num positions      :  106
+		num normals        :  106
+		num uvs            :  212
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  342
+		Skeleton stats:  
+			Total Influencers:  106
+			Avg # of influencers per vertex:  1
+			Highest # of influencers observed:  1, num vertices with this:  106
+			exported as 1 influencers
+			num skeletonWeights and skeletonIndices:  424
+		Shape Keys:
+	processing begun of mesh:  default
+		registered as also a user of material:  Bodymat
+		num positions      :  884
+		num normals        :  884
+		num uvs            :  1768
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  4560
+		Skeleton stats:  
+			Total Influencers:  884
+			Avg # of influencers per vertex:  1
+			Highest # of influencers observed:  1, num vertices with this:  884
+			exported as 1 influencers
+			num skeletonWeights and skeletonIndices:  3536
+		Shape Keys:
+	processing begun of camera (UniversalCamera):  Camera
+	processing begun of light (POINT):  Lamp
+========= Writing of scene file started =========
+========= Writing of scene file completed =========
+========= end of processing =========
+elapsed time:  1 min, 5.5823 secs

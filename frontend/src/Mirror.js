@@ -4,8 +4,7 @@ import BabylonScene from './SceneComponent.js';
 import 'babylonjs-loaders';
 
 //isImportTest = true
-//this will load the nurse2/nurse.obj .odel
-//to use textures move nurse.mtl into the same folder
+//will import the nurse, exported from .dae to .babylon
 const isImportTest = true;
 
 var pics = {
@@ -28,9 +27,9 @@ class PageWithScene extends React.Component<{}, {}> {
   prepareCamera(){   
     if (isImportTest) {
       this.camera = new BABYLON.FollowCamera("FollowCam", new BABYLON.Vector3(0, 0, 0), this.scene);
-      this.camera.radius = 2;
-      this.camera.heightOffset = 1;
-      this.camera.rotationOffset = 0;
+      this.camera.radius = 3;
+      this.camera.heightOffset = 2;
+      this.camera.rotationOffset = 180;
       this.camera.cameraAcceleration = 0.05
       this.camera.maxCameraSpeed = 10
       this.camera.attachControl(this.canvas, true);
@@ -68,14 +67,15 @@ class PageWithScene extends React.Component<{}, {}> {
     this.canvas = canvas;
     this.scene = scene;
     
-    const light = new BABYLON.PointLight("Omni", new BABYLON.Vector3(20, 20, 100), this.scene);
-    
     this.prepareCamera();
 
     if (isImportTest) {
-      BABYLON.SceneLoader.ImportMesh("", "/models/nurse2/", "nurse.obj", this.scene, this.showImportTest);
+      this.light = new BABYLON.PointLight("Omni", new BABYLON.Vector3(20, 20, -100), this.scene);
+
+      BABYLON.SceneLoader.ImportMesh("", "/models/nurseFromDae/", "nurse.babylon", this.scene, this.showImportTest);
     }
     else {
+      this.light = new BABYLON.PointLight("Omni", new BABYLON.Vector3(20, 20, 100), this.scene);
       BABYLON.SceneLoader.ImportMesh("", "/models/dude/", "dude.babylon", this.scene, this.showReflection);
     }
 
