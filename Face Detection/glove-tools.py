@@ -4,9 +4,10 @@ import csv
 
 import numpy as np
 import pandas as pd
-from flask import Flask, request
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.neighbors import KDTree
+
+from flask import Flask, request
 
 glovemodel = None
 

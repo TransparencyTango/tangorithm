@@ -4,11 +4,11 @@
 import argparse
 import os
 
+import glove
 from flask import Flask, request
 
-import glove
-
 gloveExplorer = None
+
 
 # ------------------ Server Functions ---------------------------
 app = Flask(__name__)
@@ -31,14 +31,16 @@ def getMatch():
 def getKNN():
     global gloveExplorer
     k = int(request.args.get("k", None))
-    word = request.args.get("word", None)
-    if k and word:
-        knn_dict = glovemodel.getKNN(k, word)
+    input_words = request.args.get("words", None)
+    if k and input_words:
+        wordList = input_words.split(" ")
+        knn_dict = gloveExplorer.getKNN(k, wordList)
         knn_keys = list(knn_dict.keys())
-        msg = str(knn_keys)
+        msg = " ".join(knn_keys)
         return msg
     else:
         return None
+
 
 @app.route("/postAttributes", methods=['POST'])
 def postAttributes():
@@ -53,10 +55,25 @@ def postAttributes():
     else:
         return "failed"
 
+
 @app.route("/getModelName")
 def getModelName():
     global gloveExplorer
     return str(gloveExplorer.isReflection) + ' ' + gloveExplorer.currentMatch
+
+
+@app.route("/getSimilarities")
+def getSimilarities():
+    global gloveExplorer
+    req = request.args.get("words", None)
+
+    if req:
+        wordList = req.split(" ")
+        similarities = gloveExplorer.getSimilarities(wordList)
+        msg = " ".join(map(str, similarities))
+        return msg
+    else:
+        return None
 
 
 if __name__ == "__main__":

@@ -2,16 +2,19 @@
 # -*- coding: utf-8 -*-
 
 import csv
+import difflib
 
 import numpy as np
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.neighbors import KDTree
 
+
 # ------------------ Helper functions ---------------------------
 def parseGloveFile(gloveFile):
     words = pd.read_table(gloveFile, sep=" ", index_col=0,
                           header=None, quoting=csv.QUOTE_NONE)
+    words = words.loc[words.index.notnull()]
     return words
 
 
@@ -72,6 +75,18 @@ class GloveModel():
                 existing_words.append(word)
         return existing_words
 
+    def getMostSimilarKnownWords(self, wordList):
+        wordList = [word.lower() for word in wordList]
+        similar_words = []
+        for word in wordList:
+            print("Current Word: ", word)
+            closest_match = difflib.get_close_matches(word, self.getWords(),
+                                                      1, 0.2)
+            if closest_match:
+                print(closest_match)
+                similar_words.append(closest_match[0])
+        return similar_words
+
     def getWordVector(self, word):
         vector = None
         if (self.wordExists(word)):
@@ -93,6 +108,7 @@ class GloveModel():
     def getWords(self):
         return self.__words
 
+
 # ---------------------- Glove Explorer ---------------------
 class GloveExplorer(GloveModel):
 
@@ -103,6 +119,7 @@ class GloveExplorer(GloveModel):
             self.__setModelDescriptions(models_path)
         self.__modelAverageVectors = self.__setModelAverageVectors()
         self.isReflection, self.currentMatch = False, "default"
+        self.currentInputAverageVector = None
 
     def __setModelDescriptions(self, models_path):
         modelDescriptions = parseInputFile(models_path)
@@ -116,7 +133,6 @@ class GloveExplorer(GloveModel):
     def __setModelAverageVectors(self):
         if not self.__modelDescriptions:
             print("Average vector calculation failed. No models found.")
-            print("set model average vector encounters following model descriptions: ", self.__modelDescriptions)
             return None
 
         avgVectors = None
@@ -134,34 +150,37 @@ class GloveExplorer(GloveModel):
     def getDroppedTags(self):
         return self.__unknownTags
 
-    def getKNN(self, k, word):
-        if self.wordExists(word):
-            word_vector = self.getWordVector(word)
-            dist, idx = self.__kdTree.query(word_vector, k=k)
+    def getKNN(self, k, wordList):
+        wordList = self.getMostSimilarKnownWords(wordList)
+        if wordList:
+            word_vectors = self.getWordVectors(wordList)
+            input_avg_vector = np.average(word_vectors, axis=0)
+            dist, idx = self.__kdTree.query(input_avg_vector.reshape(1, -1),
+                                            k=k)
             results = {}
             iteration = 0
             for index in idx[0]:
-                results[self.__words[index]] = dist[0, iteration]
+                results[self.getWords()[index]] = dist[0, iteration]
                 iteration += 1
         else:
-            print("Error: Word not found")
+            print("Error: All words are unknown.")
             return None
         return results
 
-    def getMatch(self, tags):
+    def getMatch(self, wordList):
         if self.__modelAverageVectors is None:
             print("Missing model average vectors.")
             return None
 
-        tags = [tag.lower() for tag in tags]
-        existing_tags = self.getExistingWords(tags)
-        if not tags:
-            print("Warning: All tags are unknown!")
+        wordList = self.getMostSimilarKnownWords(wordList)
+        if not wordList:
+            print("Warning: All words are unknown!")
             return None
 
         modelAverageVectors = self.__modelAverageVectors.values
-        vectors = self.getWordVectors(existing_tags)
+        vectors = self.getWordVectors(wordList)
         avg_vector = np.average(vectors, axis=0)
+        self.currentInputAverageVector = avg_vector
         all_avg_vectors = np.vstack([avg_vector, modelAverageVectors])
         cosine_similarities = cosine_similarity(all_avg_vectors)[0][1:]
         max_sim_index = np.argmax(cosine_similarities)
@@ -175,7 +194,8 @@ class GloveExplorer(GloveModel):
             return None
 
         results = {}
-        unknown_tests, test_dict = removeUnknownTags(self.getWords(), test_dict)
+        unknown_tests, test_dict = removeUnknownTags(self.getWords(),
+                                                     test_dict)
 
         for test_class, tags in test_dict.items():
             if tags == []:
@@ -185,3 +205,24 @@ class GloveExplorer(GloveModel):
             match = self.getMatch(tags)
             results[test_class] = match
         return results
+
+    def getSimilarities(self, wordList):
+        ref_vector = self.currentInputAverageVector
+        if ref_vector is None:
+            print("No input vector defined yet.")
+            print("Please make a getMatch request first to init this vector")
+            return None
+
+        similarities = []
+        for word in wordList:
+            word = self.getMostSimilarKnownWords([word])
+            if word:
+                word_vector = self.getWordVector(word[0])
+                similarity = cosine_similarity(np.vstack([word_vector,
+                                                          ref_vector]))[0][1]
+                similarities.append(similarity)
+            else:
+                # -inf indicates that no word like this was found
+                similarities.append(-np.inf)
+
+        return similarities
