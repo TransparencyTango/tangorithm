@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 
 var pics = {
-  "unknown":  require('./img/unknown_person.jpg'),
+  "default":  require('./img/unknown_person.jpg'),
   "pink":     require('./img/pink_hair.jpg'),
   "green":    require('./img/green_hair.jpg'),
+  "punk1":    require('./img/green_hair.jpg')
 };
 
 class Mirror extends Component {
@@ -12,10 +13,25 @@ class Mirror extends Component {
     super(props);
     this.state = {
       "isReflection": false,
-      "name" : null
+      "name" : null,
+      "reflectionPic": "default"
     };
     this.timer = null;
     this.fetchStatus = this.fetchStatus.bind(this);
+    this.updateReflection = this.updateReflection.bind(this);
+  }
+  
+  updateReflection = (result) => {
+    const reflectionName = result[1];
+    let reflectionPic = "default";   
+    if (pics.hasOwnProperty(reflectionName)) {
+      reflectionPic = reflectionName
+    }
+
+    return this.setState({isReflection: result[0] === "True", 
+                          name: reflectionName, 
+                          reflectionPic: reflectionPic
+                        });
   }
 
   fetchStatus = () => {
@@ -27,7 +43,7 @@ class Mirror extends Component {
     })
       .then(response => response.text())
       .then(text => text.split(' '))
-      .then(result => this.setState({isReflection: result[0] === "True", name: result[1]}))
+      .then(this.updateReflection)
       .catch(e => console.log(e));
   }
 
@@ -49,7 +65,7 @@ class Mirror extends Component {
       <div>
         <h2>That is you</h2>
         <p>
-          <img src={pics[this.props.color]} alt="" />
+          <img height="250" src={pics[this.state.reflectionPic]} alt="" />        
           {this.state.name}
         </p>
       </div>
