@@ -15,18 +15,12 @@ class AppRouter extends Component {
 
     this.state = {"imageName": ""};
 
-    this.userStats = {
-      mentalStat: "unknown",
-      hairColor: "unknown"
-    }
-
     this.calculateReflection = this.calculateReflection.bind(this);
   }
 
   calculateReflection = (mentalStat) => {
-    this.userStats.mentalStat = mentalStat;
+    /*
     // ask the Server
-    // this.userStats.hairColor = getModell/Haircolor(mentalstat)
     const hairColorSelection =  ["green", "pink"];
 
     fetch('getDistances?words=' + mentalStat + ' ' + hairColorSelection.join(' '), {
@@ -43,7 +37,7 @@ class AppRouter extends Component {
         // image renders too late due to the direct redirection to 'mirror' after submitting
         this.setState({"imageName": hairColorSelection[similarities.indexOf(Math.max.apply(null, similarities))]});
       })
-      .catch((error) => console.error(error));
+      .catch((error) => console.error(error));*/
     }
 
   render() {
