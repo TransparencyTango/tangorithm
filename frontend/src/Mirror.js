@@ -17,8 +17,8 @@ class Mirror extends Component {
       "reflectionPic": "default",
       "showKNN": false,
       "showSimilarities": false,
-      "knns": null,
-      "similarities": null
+      "knns": [],
+      "similarities": []
     };
     this.timer = null;
     this.fetchStatus = this.fetchStatus.bind(this);
@@ -26,37 +26,38 @@ class Mirror extends Component {
   }
 
   updateReflection = (result) => {
-    const reflectionName = result[1];
+    const reflectionName = result.name;
     let reflectionPic = "default";
     if (pics.hasOwnProperty(reflectionName)) {
       reflectionPic = reflectionName
     }
 
-    return this.setState({isReflection: result[0] === "True",
+    return this.setState({isReflection: result.isReflection === "True",
                           name: reflectionName,
                           reflectionPic: reflectionPic,
-                          showSimilarities: result[2] === "True",
-                          showKNN: result[3] === "True",
-                          knns: result[4],
-                          similarities: result[5]
+                          showSimilarities: result.showSimilarities === "True",
+                          showKNN: result.showKNN === "True",
+                          knns: result.knns,
+                          similarities: result.similarities
                         });
   }
 
   fetchStatus = () => {
-    fetch('/getModelName', {
+    fetch('/getMirrorState', {
       method: "GET",
       header: {
-        accept: "application/text"
+        accept: "application/json"
       }
     })
-      .then(response => response.text())
-      .then(text => text.split(' '))
+      .then(response => response.json())
       .then(this.updateReflection)
       .catch(e => console.log(e));
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return this.state.name !== nextState.name || this.showKNN !== nextState.showKNN;
+    return this.state.name !== nextState.name || this.state.showKNN !== nextState.showKNN ||
+    this.state.showSimilarities !== nextState.showSimilarities || this.state.knns !== nextState.knns ||
+    this.state.similarities !== nextState.similarities;
   }
 
   componentDidMount() {
@@ -77,10 +78,10 @@ class Mirror extends Component {
           {this.state.name}
         </p>
         {this.state.showKNN &&
-          <p> 5 nearest Neighbours: {this.state.knns} </p>
+          <p> 5 nearest Neighbours: {this.state.knns.join(', ')} </p>
         }
         {this.state.showSimilarities &&
-          <p> Similarity to "successful": {this.state.similarities} </p>
+          <p> Similarity to "successful", [...]: {this.state.similarities.join(', ')} </p>
         }
       </div>
     );

@@ -19,7 +19,7 @@ const LowerButtonRow = props => {
   return(
     <React.Fragment>
     <input type="button" value="clear" onClick={props.clearForm}/>
-    <input type="button" value="reset" onClick={props.resetModel}/>
+    <input type="button" value="reset" onClick={props.resetMirror}/>
     </React.Fragment>
   );
 }
@@ -41,7 +41,7 @@ class Form extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.clearForm    = this.clearForm.bind(this);
-    this.resetModel   = this.resetModel.bind(this);
+    this.resetMirror   = this.resetMirror.bind(this);
   }
 
   handleChange(event) {
@@ -61,8 +61,8 @@ class Form extends React.Component {
     this.setState(this.initialState);
   }
 
-  resetModel() {
-    fetch('resetModel',{
+  resetMirror() {
+    fetch('resetMirror',{
         method: "POST",
       }).catch((error) => console.error(error));
   }
@@ -81,7 +81,7 @@ class Form extends React.Component {
       <input type="text" name="hobby3"          value={this.state.hobby3}          onChange={this.handleChange}/><br />
       <input type="submit" value="Generate" />
       </form>
-      <LowerButtonRow clearForm={this.clearForm} resetModel={this.resetModel}/>
+      <LowerButtonRow clearForm={this.clearForm} resetMirror={this.resetMirror}/>
       </div>
 
     );

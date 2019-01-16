@@ -118,9 +118,6 @@ class GloveExplorer(GloveModel):
         self.__unknownTags, self.__modelDescriptions = \
             self.__setModelDescriptions(models_path)
         self.__modelAverageVectors = self.__setModelAverageVectors()
-        self.isReflection, self.currentMatch = False, "default"
-        self.showKNN, self.showSimilarities = False, False
-        self.current_knn, self.current_similarities = [], []
         self.currentInputAverageVector = None
 
     def __setModelDescriptions(self, models_path):
