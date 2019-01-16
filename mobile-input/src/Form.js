@@ -1,9 +1,27 @@
 import React from 'react';
 
+const UpperButtonRow = () => {
+  return(
+    <React.Fragment>
+    <input type="button" value="neighbours" />
+    <input type="button" value="similarities" />
+    </React.Fragment>
+  );
+}
+
+const LowerButtonRow = props => {
+  return(
+    <React.Fragment>
+    <input type="button" value="clear" onClick={props.clearForm}/>
+    <input type="button" value="reset" onClick={props.resetModel}/>
+    </React.Fragment>
+  );
+}
+
 class Form extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
+    this.initialState = {
       characteristic1: '',
       characteristic2: '',
       characteristic3: '',
@@ -12,8 +30,12 @@ class Form extends React.Component {
       hobby3: '',
     };
 
+    this.state = this.initialState;
+
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.clearForm    = this.clearForm.bind(this);
+    this.resetModel   = this.resetModel.bind(this);
   }
 
   handleChange(event) {
@@ -29,20 +51,33 @@ class Form extends React.Component {
       }).catch((error) => console.error(error));
   }
 
+  clearForm() {
+    this.setState(this.initialState);
+  }
+
+  resetModel() {
+    fetch('resetModel',{
+        method: "POST",
+      }).catch((error) => console.error(error));
+  }
+
   render() {
     return (
+      <div>
+      <UpperButtonRow />
       <form onSubmit={this.handleSubmit}>
-      <input type="button" value="neighbours" />
-      <input type="button" value="similarities" /><br />
       <label> Characteristics </label> <label> Hobbies </label> <br />
       <input type="text" name="characteristic1" value={this.state.characteristic1} onChange={this.handleChange}/>
-      <input type="text" name="hobby1"          onChange={this.handleChange}/><br />
-      <input type="text" name="characteristic2" onChange={this.handleChange}/>
-      <input type="text" name="hobby2"          onChange={this.handleChange}/><br />
-      <input type="text" name="characteristic3" onChange={this.handleChange}/>
-      <input type="text" name="hobby3"          onChange={this.handleChange}/><br />
+      <input type="text" name="hobby1"          value={this.state.hobby1}          onChange={this.handleChange}/><br />
+      <input type="text" name="characteristic2" value={this.state.characteristic2} onChange={this.handleChange}/>
+      <input type="text" name="hobby2"          value={this.state.hobby2}          onChange={this.handleChange}/><br />
+      <input type="text" name="characteristic3" value={this.state.characteristic3} onChange={this.handleChange}/>
+      <input type="text" name="hobby3"          value={this.state.hobby3}          onChange={this.handleChange}/><br />
       <input type="submit" value="Generate" />
       </form>
+      <LowerButtonRow clearForm={this.clearForm} resetModel={this.resetModel}/>
+      </div>
+
     );
   }
 }
