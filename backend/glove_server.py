@@ -10,6 +10,7 @@ from flask import Flask, request, jsonify
 
 gloveExplorer = None
 mirror = None
+QUICK_LOOKUP_PATH = "Documents/Tangorithm_Tools/data"
 
 # ------------------ Server Functions ---------------------------
 app = Flask(__name__)
@@ -126,6 +127,7 @@ if __name__ == "__main__":
 
     if pos_args_valid:
         gloveExplorer = glove.GloveExplorer(glove_path, models_path)
+        gloveExplorer.setQuickLookUpPath(QUICK_LOOKUP_PATH)
         mirror = mirror_state.MirrorState()
         app.run()
     else:

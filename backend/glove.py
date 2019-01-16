@@ -3,12 +3,20 @@
 
 import csv
 import difflib
+import os
 
 import numpy as np
 import pandas as pd
+import pickle
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.neighbors import KDTree
 
+ALPHABET = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l",
+            "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w",
+            "x", "y", "z"]
+AVG_VECTORS_FILE_NAME = "averageVectors.pkl"
+MODEL_DESCR_FILE_NAME = "modelDescriptions.pkl"
+UNKNOWN_TAGS_FILE_NAME = "unknownTags.pkl"
 
 # ------------------ Helper functions ---------------------------
 def parseGloveFile(gloveFile):
@@ -59,6 +67,7 @@ class GloveModel():
     def __init__(self, glove_file_path):
         self.dataframe = parseGloveFile(glove_file_path)
         self.__words = self.dataframe.index.values
+        self.__quickLookUpPath = "."
 
     def wordExists(self, word):
         return (word in self.__words)
@@ -75,15 +84,37 @@ class GloveModel():
                 existing_words.append(word)
         return existing_words
 
+    def setQuickLookUpPath(self, path):
+        self.__quickLookUpPath = path
+
     def getMostSimilarKnownWords(self, wordList):
         wordList = [word.lower() for word in wordList]
         similar_words = []
         for word in wordList:
-            print("Current Word: ", word)
-            closest_match = difflib.get_close_matches(word, self.getWords(),
-                                                      1, 0.2)
+            if not word:
+                continue
+
+            closest_match = None
+            first_char = word[0]
+            # TODO: make this fail proof
+            if os.path.isdir(self.__quickLookUpPath) and first_char in ALPHABET:
+                lookup_file_name = first_char + ".txt"
+                lookup_path = os.path.join(self.__quickLookUpPath,
+                                           lookup_file_name)
+                compare_words = []
+                with open(lookup_path, "r", encoding="utf-8") as f:
+                    compare_words = f.read().split(" ")
+
+                closest_match = difflib.get_close_matches(word, compare_words,
+                                                          1, 0.2)
+                print("Quick look up on:", word)
+            else:
+                closest_match = difflib.get_close_matches(word, self.getWords(),
+                                                          1, 0.2)
+                print("Look up on:", word)
+
             if closest_match:
-                print(closest_match)
+                print("Look up on", word, "successful:", closest_match[0])
                 similar_words.append(closest_match[0])
         return similar_words
 
@@ -121,12 +152,40 @@ class GloveExplorer(GloveModel):
         self.currentInputAverageVector = None
 
     def __setModelDescriptions(self, models_path):
-        modelDescriptions = parseInputFile(models_path)
-        unknown_tags, modelDescriptions = removeUnknownTags(self.getWords(),
-                                                            modelDescriptions)
-        self.__modelDescriptions = modelDescriptions
-        print("Loaded model descriptions.")
-        print("Stored unknown tags. These were dropped during initilization.")
+        currentDir = os.getcwd()
+        model_descr_path = os.path.join(currentDir, MODEL_DESCR_FILE_NAME)
+        unknown_tags_path = os.path.join(currentDir, UNKNOWN_TAGS_FILE_NAME)
+        model_path_valid = os.path.isfile(model_descr_path)
+        tags_path_valid = os.path.isfile(unknown_tags_path)
+        modelDescriptions = None
+        unknown_tags = None
+        if model_path_valid and tags_path_valid:
+            infile1 = open(model_descr_path, "rb")
+            infile2 = open(unknown_tags_path, "rb")
+
+            modelDescriptions = pickle.load(infile1)
+            print("Loaded model descriptions from disk...")
+            unknown_tags = pickle.load(infile2)
+            print("Loaded unknown tags from disk...")
+
+            infile1.close()
+            infile2.close()
+        else:
+            modelDescriptions = parseInputFile(models_path)
+            unknown_tags, modelDescriptions = removeUnknownTags(self.getWords(),
+                                                                modelDescriptions)
+
+            outfile1 = open(model_descr_path, "wb")
+            pickle.dump(modelDescriptions, outfile1)
+            outfile1.close()
+
+            outfile2 = open(unknown_tags_path, "wb")
+            pickle.dump(unknown_tags, outfile2)
+            outfile2.close()
+
+            print("Read model descriptions and saved to disk...")
+            print("Filtered unknown tags and saved to disk...")
+
         return unknown_tags, modelDescriptions
 
     def __setModelAverageVectors(self):
@@ -134,16 +193,22 @@ class GloveExplorer(GloveModel):
             print("Average vector calculation failed. No models found.")
             return None
 
+        currentDir = os.getcwd()
+        avg_vectors_path = os.path.join(currentDir, AVG_VECTORS_FILE_NAME)
         avgVectors = None
-        for modelName, modelTags in self.__modelDescriptions.items():
-            vectors = self.getWordVectors(modelTags)
-            avg_vector = np.average(vectors, axis=0)
-            if avgVectors is None:
-                dims = len(avg_vector)
-                avgVectors = pd.DataFrame(columns=range(dims))
-            avgVectors.loc[modelName] = avg_vector
-        self.__modelAverageVectors = avgVectors
-        print("Calculated model average vectors.")
+        if os.path.isfile(avg_vectors_path):
+            avgVectors = pd.read_pickle(avg_vectors_path)
+            print("Loaded model average vectors from disk...")
+        else:
+            for modelName, modelTags in self.__modelDescriptions.items():
+                vectors = self.getWordVectors(modelTags)
+                avg_vector = np.average(vectors, axis=0)
+                if avgVectors is None:
+                    dims = len(avg_vector)
+                    avgVectors = pd.DataFrame(columns=range(dims))
+                avgVectors.loc[modelName] = avg_vector
+            avgVectors.to_pickle(AVG_VECTORS_FILE_NAME)
+            print("Calculated & saved model average vectors.")
         return avgVectors
 
     def getDroppedTags(self):

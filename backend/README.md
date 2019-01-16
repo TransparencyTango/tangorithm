@@ -1,3 +1,32 @@
+# Sever Speedup Tutorial:
+
+1. Bereinigung & Spaltung des glove word-embeddings Datensatzes
+
+  - Setze im Skript glove_cleaner.py die Variable PATH_TO_GLOVE_FILE
+  - Führe das glove_cleaner.py Skript aus
+    -> Output:
+        a. Es wird im derzeitigen directory für jeden Buchstaben des Alphabets
+           eine .txt Datei der Form buchstabe.txt erstellt, z.B. a.txt
+        b. Es wird im derzeitigen directory eine .txt Datei erstellt, die den
+           Namen der glove Datei trägt mit dem Prefix cleaned_, z.B.
+           cleaned_glove.6B.50d.txt
+  - Setze nun im glove_server die Variable QUICK_LOOKUP_PATH auf das directory
+    in welchem sich die Buchstaben.txt befinden
+
+2. Starte den Server mit dem bereinigten "cleaned_glove.6B.50d.txt" Datensatz
+  -> Output:
+      a. Es wird im derzeitigen directory eine Datei namens avgVectors.pkl
+         erstellt
+      b. Es wird im derzeitigen directory eine Datei namens modelDescriptions.pkl
+        erstellt
+      a. Es wird im derzeitigen directory eine Datei namens unknownTags.pkl
+         erstellt
+
+  Sollten sich diese Dateien bei nachfolgenden Server-Starts im Start-directory
+  des Servers befinden, so werden diese automatisch geladen und müssen nicht
+  länger neu berechnet werden
+
+
 # Dependencies glove server:
 
 - csv
@@ -8,6 +37,8 @@
 - argparse
 - os
 - glove
+- difflib
+- pickle
 
 # Nutzung glove server:
 1. (einmalig zu Beginn) Starte den Flask Server
