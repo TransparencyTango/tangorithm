@@ -55,6 +55,13 @@ def postAttributes():
     else:
         return "failed"
 
+@app.route("/resetModel", methods=['POST'])
+def resetModel():
+    global gloveExplorer
+    gloveExplorer.isReflection = False
+    gloveExplorer.currentMatch = "default"
+    return "ok"
+
 
 @app.route("/getModelName")
 def getModelName():
