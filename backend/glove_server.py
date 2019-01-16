@@ -5,10 +5,11 @@ import argparse
 import os
 
 import glove
-from flask import Flask, request
+import mirror_state
+from flask import Flask, request, jsonify
 
 gloveExplorer = None
-
+mirror = None
 
 # ------------------ Server Functions ---------------------------
 app = Flask(__name__)
@@ -44,22 +45,48 @@ def getKNN():
 
 @app.route("/postAttributes", methods=['POST'])
 def postAttributes():
-    global gloveExplorer
+    global gloveExplorer, mirror
     req = request.args.get("words", None)
 
     if gloveExplorer and req:
         wordList = req.split(" ")
         match = gloveExplorer.getMatch(wordList)
-        gloveExplorer.currentMatch = match
-        return "ok"
+        if match != None:
+            mirror.is_reflection = True
+            mirror.current_match = match
+            knns = gloveExplorer.getKNN(5, wordList)
+            if knns != None:
+                mirror.current_knn = list(knns.keys())
+            else:
+                mirror.current_knn = []
+            mirror.current_similarities = gloveExplorer.getSimilarities(["successful"])
+            return "ok"
+        else:
+            mirror.reset_mirror()
+            return "failed - no match found"
     else:
-        return "failed"
+        mirror.reset_mirror()
+        return "failed - gloveExplorer not initialized or no request arguments"
 
 
-@app.route("/getModelName")
-def getModelName():
+@app.route("/resetMirror", methods=['POST'])
+def resetModel():
+    global mirror
+    mirror.reset_mirror()
+    return "ok"
+
+
+@app.route("/toggleMirrorView", methods=['POST'])
+def toggleMirrorView():
     global gloveExplorer
-    return str(gloveExplorer.isReflection) + ' ' + gloveExplorer.currentMatch
+    view = request.args.get("view", None)
+    if view == "neighbours":
+        mirror.show_knn = not mirror.show_knn
+    elif view == "similarities":
+        mirror.show_similarities = not mirror.show_similarities
+    else:
+        return "unknown view"
+    return "ok"
 
 
 @app.route("/getSimilarities")
@@ -74,6 +101,13 @@ def getSimilarities():
         return msg
     else:
         return None
+
+
+@app.route("/getMirrorState")
+def getModelName():
+    global mirror
+    return jsonify(mirror.get_state())
+
 
 
 if __name__ == "__main__":
@@ -92,6 +126,7 @@ if __name__ == "__main__":
 
     if pos_args_valid:
         gloveExplorer = glove.GloveExplorer(glove_path, models_path)
+        mirror = mirror_state.MirrorState()
         app.run()
     else:
         if not os.path.exists(glove_path):
