@@ -14,23 +14,31 @@ class Mirror extends Component {
     this.state = {
       "isReflection": false,
       "name" : null,
-      "reflectionPic": "default"
+      "reflectionPic": "default",
+      "showKNN": false,
+      "showSimilarities": false,
+      "knns": null,
+      "similarities": null
     };
     this.timer = null;
     this.fetchStatus = this.fetchStatus.bind(this);
     this.updateReflection = this.updateReflection.bind(this);
   }
-  
+
   updateReflection = (result) => {
     const reflectionName = result[1];
-    let reflectionPic = "default";   
+    let reflectionPic = "default";
     if (pics.hasOwnProperty(reflectionName)) {
       reflectionPic = reflectionName
     }
 
-    return this.setState({isReflection: result[0] === "True", 
-                          name: reflectionName, 
-                          reflectionPic: reflectionPic
+    return this.setState({isReflection: result[0] === "True",
+                          name: reflectionName,
+                          reflectionPic: reflectionPic,
+                          showSimilarities: result[2] === "True",
+                          showKNN: result[3] === "True",
+                          knns: result[4],
+                          similarities: result[5]
                         });
   }
 
@@ -48,7 +56,7 @@ class Mirror extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return this.state.name !== nextState.name;
+    return this.state.name !== nextState.name || this.showKNN !== nextState.showKNN;
   }
 
   componentDidMount() {
@@ -65,9 +73,15 @@ class Mirror extends Component {
       <div>
         <h2>That is you</h2>
         <p>
-          <img height="250" src={pics[this.state.reflectionPic]} alt="" />        
+          <img height="250" src={pics[this.state.reflectionPic]} alt="" />
           {this.state.name}
         </p>
+        {this.state.showKNN &&
+          <p> 5 nearest Neighbours: {this.state.knns} </p>
+        }
+        {this.state.showSimilarities &&
+          <p> Similarity to "successful": {this.state.similarities} </p>
+        }
       </div>
     );
   }

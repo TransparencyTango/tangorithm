@@ -1,10 +1,16 @@
 import React from 'react';
 
 const UpperButtonRow = () => {
+  const toggleMirrorView = event => {
+    fetch('toggleMirrorView?view=' + event.target.value,{
+        method: "POST",
+      }).catch((error) => console.error(error));
+  };
+
   return(
     <React.Fragment>
-    <input type="button" value="neighbours" />
-    <input type="button" value="similarities" />
+    <input type="button" value="neighbours" onClick={toggleMirrorView}/>
+    <input type="button" value="similarities" onClick={toggleMirrorView}/>
     </React.Fragment>
   );
 }

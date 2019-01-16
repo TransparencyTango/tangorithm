@@ -50,7 +50,10 @@ def postAttributes():
     if gloveExplorer and req:
         wordList = req.split(" ")
         match = gloveExplorer.getMatch(wordList)
+        gloveExplorer.isReflection = True
         gloveExplorer.currentMatch = match
+        gloveExplorer.current_knn = list(gloveExplorer.getKNN(5, wordList).keys())
+        gloveExplorer.current_similarities = gloveExplorer.getSimilarities(["successful"])
         return "ok"
     else:
         return "failed"
@@ -60,13 +63,29 @@ def resetModel():
     global gloveExplorer
     gloveExplorer.isReflection = False
     gloveExplorer.currentMatch = "default"
+    gloveExplorer.showKNN, gloveExplorer.showSimilarities = False, False
+    gloveExplorer.current_knn, gloveExplorer.current_similarities = [], []
     return "ok"
 
+@app.route("/toggleMirrorView", methods=['POST'])
+def toggleMirrorView():
+    global gloveExplorer
+    view = request.args.get("view", None)
+    if view == "neighbours":
+        gloveExplorer.showKNN = not gloveExplorer.showKNN
+    elif view == "similarities":
+        gloveExplorer.showSimilarities = not gloveExplorer.showSimilarities
+    else:
+        return "unknown view"
+    return "ok"
 
 @app.route("/getModelName")
 def getModelName():
     global gloveExplorer
-    return str(gloveExplorer.isReflection) + ' ' + gloveExplorer.currentMatch
+    response = [str(gloveExplorer.isReflection), gloveExplorer.currentMatch, str(gloveExplorer.showSimilarities), str(gloveExplorer.showKNN)]
+    response.append(",".join(gloveExplorer.current_knn))
+    response.append(",".join(list(map(str, gloveExplorer.current_similarities))))
+    return " ".join(response)
 
 
 @app.route("/getSimilarities")

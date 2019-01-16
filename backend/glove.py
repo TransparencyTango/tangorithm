@@ -119,6 +119,8 @@ class GloveExplorer(GloveModel):
             self.__setModelDescriptions(models_path)
         self.__modelAverageVectors = self.__setModelAverageVectors()
         self.isReflection, self.currentMatch = False, "default"
+        self.showKNN, self.showSimilarities = False, False
+        self.current_knn, self.current_similarities = [], []
         self.currentInputAverageVector = None
 
     def __setModelDescriptions(self, models_path):
@@ -185,7 +187,6 @@ class GloveExplorer(GloveModel):
         cosine_similarities = cosine_similarity(all_avg_vectors)[0][1:]
         max_sim_index = np.argmax(cosine_similarities)
         match = self.__modelAverageVectors.index[max_sim_index]
-        self.isReflection = True
         return match
 
     def bulk_match(self, test_dict):
