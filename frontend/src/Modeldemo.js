@@ -12,43 +12,70 @@ class PageWithScene extends React.Component<{}, {}> {
     super();
     switch (importCase) {
       case "NurseFromDae":
-        this.showImportTest = this.showImportTest.bind(this);
+        this.showImportTestFromDae = this.showImportTestFromDae.bind(this);
         break;
       default:
-        this.showReflection = this.showReflection.bind(this);
+        this.showDude = this.showDude.bind(this);
     }
   }
   
   prepareCamera(){
     switch (importCase) {
       case "NurseFromDae":
-        this.camera = new BABYLON.FollowCamera("FollowCam", new BABYLON.Vector3(0, 0, 0), this.scene);
-        this.camera.radius = 3;
-        this.camera.heightOffset = 2;
-        this.camera.rotationOffset = 180;
-        this.camera.cameraAcceleration = 0.05
-        this.camera.maxCameraSpeed = 10
-        this.camera.attachControl(this.canvas, true);
+        this.prepareCameraForFromDae();
         break;
       default:
-        this.camera = new BABYLON.FollowCamera("FollowCam", new BABYLON.Vector3(0, 0, 0), this.scene);
-        this.camera.radius = 160;
-        this.camera.heightOffset = 100;
-        this.camera.rotationOffset = 0;
-        this.camera.cameraAcceleration = 0.05
-        this.camera.maxCameraSpeed = 10
-        this.camera.attachControl(this.canvas, true);
-        
-        //the sphere will be at the dude's head position
-        this.sphere = BABYLON.Mesh.CreateSphere("sphere1", 16, 2, this.scene);
+        this.prepareCameraForDude();        
     }    
   }
   
-  showImportTest = (newMeshes, particleSystems, skeletons) => {
+  prepareCameraForFromDae() {
+    this.camera = new BABYLON.FollowCamera("FollowCam", new BABYLON.Vector3(0, 0, 0), this.scene);
+    this.camera.radius = 3;
+    this.camera.heightOffset = 2;
+    this.camera.rotationOffset = 180;
+    this.camera.cameraAcceleration = 0.05
+    this.camera.maxCameraSpeed = 10
+    this.camera.attachControl(this.canvas, true);    
+  }
+  
+  prepareCameraForDude() {
+    this.camera = new BABYLON.FollowCamera("FollowCam", new BABYLON.Vector3(0, 0, 0), this.scene);
+    this.camera.radius = 160;
+    this.camera.heightOffset = 100;
+    this.camera.rotationOffset = 0;
+    this.camera.cameraAcceleration = 0.05
+    this.camera.maxCameraSpeed = 10
+    this.camera.attachControl(this.canvas, true);
+    
+    //the sphere will be at the dude's head position
+    this.sphere = BABYLON.Mesh.CreateSphere("sphere1", 16, 2, this.scene);  
+  }
+  
+  showImportTestFromDae = (newMeshes, particleSystems, skeletons) => {
+    
+    const path = "/models/nurse2/asiatisch_krankenschwester_bob_schwarzhaarig_schlank_";
+
+    const meshNames = ["Bottom", "Top", "Hair", "Shoes", "Body"];
+    for (let meshIndex in meshNames) {        
+      let texturePath = path + meshNames[meshIndex];
+      newMeshes[meshIndex].material.diffuseTexture = new BABYLON.Texture(texturePath+"_Diffuse.png", this.scene);    
+      newMeshes[meshIndex].material.specularTexture = new BABYLON.Texture(texturePath+"_Specular.png", this.scene);          
+      newMeshes[meshIndex].material.bumpTexture = new BABYLON.Texture(texturePath+"_Normal.png", this.scene);    
+    }
+    // Meshes
+    // 0: Bottoms
+    // 1: Tops
+    // 2: Hair
+    // 3: Shoes
+    // 4: Body
+    // 5: Eyelashes
+    // 6: default
+
     this.camera.lockedTarget = newMeshes[2];
   }
   
-  showReflection = (newMeshes, particleSystems, skeletons) => {
+  showDude = (newMeshes, particleSystems, skeletons) => {
     const dude = newMeshes[0];
     const skeleton = skeletons[0];
     this.sphere.attachToBone(skeleton.bones[34], dude);
@@ -66,12 +93,11 @@ class PageWithScene extends React.Component<{}, {}> {
     switch (importCase) {
       case "NurseFromDae":
         this.light = new BABYLON.PointLight("Omni", new BABYLON.Vector3(20, 20, -100), this.scene);
-        BABYLON.SceneLoader.ImportMesh("", "/models/nurseFromDae/", "nurse.babylon", this.scene, this.showImportTest);
+        BABYLON.SceneLoader.ImportMesh("", "/models/nurseFromDae/", "nurse.babylon", this.scene, this.showImportTestFromDae);
         break;
       default:
         this.light = new BABYLON.PointLight("Omni", new BABYLON.Vector3(20, 20, 100), this.scene);
-        BABYLON.SceneLoader.ImportMesh("", "/models/dude/", "dude.babylon", this.scene, this.showReflection);
-    
+        BABYLON.SceneLoader.ImportMesh("", "/models/dude/", "dude.babylon", this.scene, this.showDude);    
     }
 
     engine.runRenderLoop(() => {
