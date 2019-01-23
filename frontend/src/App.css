@@ -30,3 +30,7 @@
     transform: rotate(360deg);
   }
 }
+
+# modelview {
+  width:100vh;
+}
