@@ -3,9 +3,8 @@ import * as BABYLON from 'babylonjs';
 import BabylonScene from './SceneComponent.js';
 import 'babylonjs-loaders';
 
-//const importCase = "NurseFromDae";
-//else we will see the dude
 const importCase = "NurseFromDae";
+//else we will see the dude
 
 class PageWithScene extends React.Component<{}, {}> {
   constructor() {
@@ -30,13 +29,14 @@ class PageWithScene extends React.Component<{}, {}> {
   }
   
   prepareCameraForFromDae() {
-    this.camera = new BABYLON.FollowCamera("FollowCam", new BABYLON.Vector3(0, 0, 0), this.scene);
-    this.camera.radius = 3;
-    this.camera.heightOffset = 2;
-    this.camera.rotationOffset = 180;
-    this.camera.cameraAcceleration = 0.05
-    this.camera.maxCameraSpeed = 10
-    this.camera.attachControl(this.canvas, true);    
+    const light2 = new BABYLON.PointLight("light2", new BABYLON.Vector3(0, +10, 0), this.scene);
+    this.camera = new BABYLON.ArcRotateCamera("Camera", -Math.PI/2, Math.PI/2, 2.6, new BABYLON.Vector3(0, 0, 0), this.scene);
+    this.camera.setTarget(new BABYLON.Vector3(0, 1.5, 0)); 
+
+    const ground = BABYLON.MeshBuilder.CreatePlane("ground", {height: 20.5, width: 20.5, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, this.scene);
+    ground.rotate(BABYLON.Axis.X,Math.PI/2 , BABYLON.Space.LOCAL);
+    ground.position.y  =  -1;
+    //this.camera.attachControl(this.canvas, true);    
   }
   
   prepareCameraForDude() {
@@ -71,8 +71,7 @@ class PageWithScene extends React.Component<{}, {}> {
     // 4: Body
     // 5: Eyelashes
     // 6: default
-
-    this.camera.lockedTarget = newMeshes[2];
+    //this.camera.lockedTarget = newMeshes[2];
   }
   
   showDude = (newMeshes, particleSystems, skeletons) => {
@@ -110,7 +109,7 @@ class PageWithScene extends React.Component<{}, {}> {
   render() {               
       return (
           <div>
-              <BabylonScene width="250" height="250" onSceneMount={this.onSceneMount} />
+              <BabylonScene width="1000" height="1000" onSceneMount={this.onSceneMount} />
           </div>
       )
   }
@@ -121,7 +120,7 @@ class Modeldemo extends Component {
   render() {
     return (
       <div>
-        <PageWithScene />
+        <PageWithScene id="modelview" />
       </div>
     );
   }
