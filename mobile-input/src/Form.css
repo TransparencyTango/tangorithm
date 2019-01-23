@@ -1,0 +1,29 @@
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+.FormBox {
+  margin: 20% 5% 5% 5%;
+  width: 90%;
+  //border: 3px solid green;
+}
+
+.FormBox input[type="submit"] {
+  width: 90%;
+  height: 50px;
+  margin: 3% 5%;
+}
+
+.FormBox input[type=text] {
+  width: 38%;
+  height: 40px;
+  margin: 1% 5%;
+  font-size: 16px;
+}
+
+.FormBox input[type="button"] {
+  height: 50px;
+  width: 100px;
+  margin: 2% 20% 0% 20%;
+}

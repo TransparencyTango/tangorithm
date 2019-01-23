@@ -1,0 +1,22 @@
+.InfoButtons {
+  margin: 35% 0% 0% 60%;
+}
+.InfoButtons input[type="button"] {
+  margin: 3%;
+  height: 50px;
+}
+
+.LowerButtonBar {
+  margin: 7% 0% 0% 15%;
+}
+
+#back {
+  margin: 0% 70% 0% 0%;
+  height: 50px;
+  width: 100px;
+}
+
+#reset {
+  height:50px;
+  width: 100px;
+}
