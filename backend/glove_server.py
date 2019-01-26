@@ -4,13 +4,15 @@
 import argparse
 import os
 
+from flask import Flask, jsonify, request
+
 import glove
 import mirror_state
-from flask import Flask, request, jsonify
 
 gloveExplorer = None
 mirror = None
-QUICK_LOOKUP_PATH = "Documents/Tangorithm_Tools/data"
+# "Documents/Tangorithm_Tools/data"
+QUICK_LOOKUP_PATH = "C:/Users/Eduard Gette/Documents/Data/GloveAlphabetisiert"
 
 # ------------------ Server Functions ---------------------------
 app = Flask(__name__)
@@ -52,15 +54,16 @@ def postAttributes():
     if gloveExplorer and req:
         wordList = req.split(" ")
         match = gloveExplorer.getMatch(wordList)
-        if match != None:
+        if match is not None:
             mirror.is_reflection = True
             mirror.current_match = match
             knns = gloveExplorer.getKNN(5, wordList)
-            if knns != None:
+            if knns is not None:
                 mirror.current_knn = list(knns.keys())
             else:
                 mirror.current_knn = []
-            mirror.current_similarities = gloveExplorer.getSimilarities(["successful"])
+            mirror.current_similarities = \
+                gloveExplorer.getSimilarities(["successful"])
             return "ok"
         else:
             mirror.reset_mirror()
@@ -108,7 +111,6 @@ def getSimilarities():
 def getModelName():
     global mirror
     return jsonify(mirror.get_state())
-
 
 
 if __name__ == "__main__":

@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import glove
-import re
 import os
+import re
 
-PATH_TO_GLOVE_FILE = "Documents/Data/glove.6B/glove.6B.50d.txt"
+import glove
+
+PATH_TO_GLOVE_FILE = \
+    "C:/Users/Eduard Gette/Downloads/glove.6B/glove.6B.50d.txt"
+
 
 # --------------- Helper functions -------------------------------
 def containsNoNumber(word):
@@ -27,6 +30,7 @@ def filterData(conditionFunctions, data):
     for conditionFunction in conditionFunctions:
         data = filter(conditionFunction, data)
     return data
+
 
 def splitWordsByFirstChar(words, saveToDisk=False):
     splitDict = {}
@@ -51,6 +55,7 @@ def splitWordsByFirstChar(words, saveToDisk=False):
                 f.write(words)
 
     return splitDict
+
 
 def cleanWordEmbeddingData(path):
     file_name = os.path.basename(path)
@@ -77,7 +82,6 @@ def cleanWordEmbeddingData(path):
                 if noNumbers and startsWithLetter:
                     new_f.write(line)
     print("Glove file succesfully cleaned.")
-
 
 
 if __name__ == "__main__":
