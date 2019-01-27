@@ -3,27 +3,81 @@ code {
     monospace;
 }
 
-.FormBox {
-  margin: 20% 5% 5% 5%;
-  width: 90%;
-  //border: 3px solid green;
+#title {
+  width: 100%;
 }
 
-.FormBox input[type="submit"] {
-  width: 90%;
-  height: 50px;
-  margin: 3% 5%;
+#reset_arrow {
+  background: url(/css_img/screen1/reset_active.png);
+  background-position: center center;
+  background-size: 100% 100%;
+  float: left;
+  margin-right: 0px;
+  margin-bottom: 0px;
+  height: 3vh;
+  width: 8%;
+  border:none;
+  padding:0;
 }
 
-.FormBox input[type=text] {
-  width: 38%;
-  height: 40px;
-  margin: 1% 5%;
-  font-size: 16px;
+#more {
+  background: url(/css_img/screen1/more_active.png);
+  background-position: center center;
+  background-size: 100% 100%;
+  float: right;
+  margin-right: 0px;
+  margin-bottom: 0px;
+  height: 3vh;
+  width: 8%;
 }
 
-.FormBox input[type="button"] {
-  height: 50px;
-  width: 100px;
-  margin: 2% 20% 0% 20%;
+#more:disabled {
+  background: url(/css_img/screen1/more_inactive.png);
+  background-position: center center;
+  background-size: 100% 100%;
+}
+
+#generate {
+  background: url(/css_img/screen1/generate_active.png);
+  background-position: center center;
+  background-size: 100% 100%;
+  margin: 8% 0% 5% 0%;
+  width: 100%;
+  height: 9vh;
+}
+
+#generate:disabled {
+  background: url(/css_img/screen1/generate_inactive.png);
+  background-position: center center;
+  background-size: 100% 100%;
+}
+
+.left {
+  margin: 2.5% 2.5% 2.5% 0%;
+  width: 40%;
+  height: 4vh;
+}
+
+.right {
+  margin: 2.5% 0% 2.5% 2.5%;
+  width: 40%;
+  height: 4vh;
+}
+
+#c1 {
+  background: url(/css_img/screen1/characteristic1.png);
+  background-position: left center;
+  background-size: 55% 75%;
+  background-repeat: no-repeat;
+}
+
+
+input.left, img.left {
+  margin: 2.5% 2.5% 2.5% 0%;
+  width: 45%;
+}
+
+input.right, img.right {
+  margin: 2.5% 0% 2.5% 2.5%;
+  width: 45%;
 }

@@ -21,6 +21,7 @@ class App extends Component {
     this.toggleScreen = this.toggleScreen.bind(this);
     this.resetMirror = this.resetMirror.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleFocus = this.handleFocus.bind(this);
   }
 
   toggleScreen() {
@@ -40,7 +41,7 @@ class App extends Component {
     let updatedValues = Object.assign({}, this.state.formValues, {[name]: value});
     this.setState({formValues: updatedValues});
 
-    let active = Object.values(this.state.formValues).filter(value => value !== '').length >= 4;
+    let active = Object.values(this.state.formValues).filter(value => value !== '').length >= 0;
     this.setState({canSend: active});
   }
 
@@ -53,11 +54,15 @@ class App extends Component {
     this.setState({hasSent: true});
   }
 
+  handleFocus(event) {
+    document.getElementById("c1").style.background = "none";
+  }
+
   render() {
     if (this.state.showStart) {
       return (
         <div className="Form">
-          <Form formState={this.state} handleChange={this.handleChange} handleMore={this.toggleScreen} handleReset={this.resetMirror} handleSubmit={this.handleSubmit}/>
+          <Form formState={this.state} handleChange={this.handleChange} handleMore={this.toggleScreen} handleReset={this.resetMirror} handleSubmit={this.handleSubmit} removeBackground={this.handleFocus}/>
         </div>
       );
     }
