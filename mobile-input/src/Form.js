@@ -35,7 +35,7 @@ class Form extends React.Component {
       hobby1: '',
       hobby2: '',
       hobby3: '',
-      suggestions: ["abc", "def"]
+      suggestions: []
     };
 
     this.state = this.initialState;
@@ -51,12 +51,21 @@ class Form extends React.Component {
   updateSuggestions(response){
     this.setState({
       suggestions: response
-    })
+    });
   }
   
   saveNewInput(inputValue) {
     this.inputLetters = inputValue;
-    fetch('/getAutocompletionList/'+ inputValue +'/5', {
+    let saneInputValue = inputValue;
+    saneInputValue = saneInputValue.replace('?', '');
+    saneInputValue = saneInputValue.replace('/', '');
+    saneInputValue = saneInputValue.replace('%', '');
+    saneInputValue = saneInputValue.replace('#', '');
+    saneInputValue = saneInputValue.replace('.', '');
+    if (!saneInputValue) {
+      return [];
+    }
+    fetch('/getAutocompletionList/'+ saneInputValue +'/5', {
       method: "GET",
       header: {
         accept: "application/json"
