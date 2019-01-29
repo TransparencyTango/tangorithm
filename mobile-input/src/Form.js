@@ -1,5 +1,4 @@
 import React from 'react';
-import {possibleInputs} from './possibleInputs';
 import Downshift from 'downshift';
 
 const UpperButtonRow = () => {
@@ -36,19 +35,38 @@ class Form extends React.Component {
       hobby1: '',
       hobby2: '',
       hobby3: '',
+      suggestions: ["abc", "def"]
     };
 
     this.state = this.initialState;
-
+    this.inputLetters = "";
+    
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.clearForm    = this.clearForm.bind(this);
     this.resetMirror   = this.resetMirror.bind(this);
-    this.onInputChoice = this.onInputChoice.bind(this);
+    this.updateSuggestions   = this.updateSuggestions.bind(this);
   }
   
-  onInputChoice() {
-    //debugger;
+  updateSuggestions(response){
+    this.setState({
+      suggestions: response
+    })
+  }
+  
+  saveNewInput(inputValue) {
+    this.inputLetters = inputValue;
+    fetch('/getAutocompletionList/'+ inputValue +'/5', {
+      method: "GET",
+      header: {
+        accept: "application/json"
+      }
+    })
+      .then(response => response.json())
+      .then(this.updateSuggestions)
+      .catch(e => {console.log(e)});
+    
+    return this.state.suggestions;
   }
   
   handleChange(event) {
@@ -63,7 +81,7 @@ class Form extends React.Component {
         method: "POST",
       }).catch((error) => console.error(error));
   }
-
+  
   clearForm() {
     this.setState(this.initialState);
   }
@@ -78,7 +96,9 @@ class Form extends React.Component {
     return (
       <div>
            
-        <Downshift id="downshift-simple" itemToString={item => {return item.value;}}>
+        <Downshift 
+          id="downshift-simple" 
+          onChange={this.onInputChoice}>
           {({
             getInputProps,
             getItemProps,
@@ -90,16 +110,13 @@ class Form extends React.Component {
           }) => (
              <div>
               <input {...getInputProps({ placeholder: 'Search a country (start with a)'})} />
-           <div {...getMenuProps(
-                  {onChange: this.onInputChoice}
-                  )}>
+           <div {...getMenuProps()}>
           {isOpen
-            ? possibleInputs
-                .filter(item => !inputValue || item.value.includes(inputValue))
+            ? this.saveNewInput(inputValue)
                 .map((item, index) => (
                   <div
                     {...getItemProps({
-                      key: item.value,
+                      key: item,
                       index,
                       item,
                       style: {
@@ -109,7 +126,7 @@ class Form extends React.Component {
                       },
                     })}
                   >
-                    {item.value}
+                    {item}
                   </div>
                 ))
             : null}

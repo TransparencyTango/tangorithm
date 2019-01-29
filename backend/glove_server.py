@@ -7,10 +7,15 @@ import os
 import glove
 import mirror_state
 from flask import Flask, request, jsonify
+import json
 
 gloveExplorer = None
 mirror = None
-QUICK_LOOKUP_PATH = "Documents/Tangorithm_Tools/data"
+#QUICK_LOOKUP_PATH = "Documents/Tangorithm_Tools/data"
+QUICK_LOOKUP_PATH = "."
+possible_words = []
+with open("possible_inputs/possibleInputsList") as f:
+    possible_words = json.loads(f.read())
 
 # ------------------ Server Functions ---------------------------
 app = Flask(__name__)
@@ -108,6 +113,18 @@ def getSimilarities():
 def getModelName():
     global mirror
     return jsonify(mirror.get_state())
+    
+@app.route("/getAutocompletionList/<string:substring>/<int:count>")
+def getAutocompletionList(substring, count):
+    result_count = 1
+    result = []
+    for word in possible_words:
+        if word.startswith(substring):
+            result.append(word)
+            result_count = result_count+1
+        if result_count > count:
+            break
+    return jsonify(result)
 
 
 
