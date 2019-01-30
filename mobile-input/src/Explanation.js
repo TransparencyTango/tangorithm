@@ -1,6 +1,6 @@
 import React from 'react';
 import './Explanation.css';
-import './App.css';
+import './Screens.css';
 
 class InfoButtonBar extends React.Component {
 
@@ -48,20 +48,28 @@ class InfoButtonBar extends React.Component {
 const LowerButtonBar = props => {
   return(
     <React.Fragment>
-    <input id="back" type="button" onClick={props.handleBack}/>
-    <input id="reset" type="button" onClick={props.resetMirror}/>
+    <input id="back" value="back" type="button" onClick={props.handleBack}/>
+    <input id="reset" value="reset" type="button" onClick={props.resetMirror}/>
     </React.Fragment>
   );
 }
 
 const Explanation = props => {
     return (
-      <div className="Container">
+      <div className="Container2">
         <div>
           <img id="arrow" src="css_img/screen2/arrow.png" alt="Arrow"/>
         </div>
         <div>
-          <img id="text" src="css_img/screen2/text.png" alt="Text"/>
+          <h2> Now you can see what the algorithm thinks is the most fitting visual
+          representation of you, based on your input.</h2>
+          <p> Our algorithm consists of a "wordcloud" and if words have similar
+          meaning, they are closer to eachother. To create this "wordcloud" the
+          algorithm was trained on thousands of news articles. </p>
+          <p> By pressing "neighbours" you can see which words are closest to your
+          input in this "wordcloud". By pressing "similarities" you can see how
+          similar the algorithm thinks your input is to the displayed words.
+          </p>
         </div>
         <div className="InfoButtonBar">
           <InfoButtonBar />

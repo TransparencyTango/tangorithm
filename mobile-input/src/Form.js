@@ -1,13 +1,13 @@
 import React from 'react';
 import './Form.css';
-import './App.css';
+import './Screens.css';
 
 
 const LowerButtonBar = props => {
   return(
     <React.Fragment>
-    <input type="button" id="reset_arrow" onClick={props.resetMirror}/>
-    <input type="button" id="more" disabled={!props.isActive} onClick={props.handleMore}/>
+    <input type="button" value="reset" id="reset_1" disabled={!props.isActive} onClick={props.resetMirror}/>
+    <input type="button" value="more" id="more" disabled={!props.isActive} onClick={props.handleMore}/>
     </React.Fragment>
   );
 }
@@ -25,19 +25,25 @@ const Form = props => {
     return (
       <div className="Container">
         <div>
-          <img id="title" src="css_img/screen1/title.png" alt="title"/>
+          <h1> Please tell me a few things about yourself </h1>
         </div>
-        <div>
-          <img  className="left" src="css_img/screen1/characteristics.png" alt="characteristics"/>
-          <img  className="right" src="css_img/screen1/hobbys.png" alt="hobbys"/>
+        <div className="column">
+          <p> Which characteristics describe you the best? </p>
+        </div>
+        <div className="column">
+          <p> What kind of interests do you have? </p>
         </div>
         <form id="form0" onSubmit={props.handleSubmit}>
-          <input className="left" id="c1" type="text" name="0" value={props.formState.formValues[0]} onChange={props.handleChange} onFocus={props.removeBackground}/>
-          <input className="right" id="h1" type="text" name="1" value={props.formState.formValues[1]} onChange={props.handleChange}/>
-          <input className="left" id="c2" type="text" name="2" value={props.formState.formValues[2]} onChange={props.handleChange}/>
-          <input className="right" id="h2" type="text" name="3" value={props.formState.formValues[3]} onChange={props.handleChange}/>
-          <input className="left" id="c3" type="text" name="4" value={props.formState.formValues[4]} onChange={props.handleChange}/>
-          <input className="right" id="h3" type="text" name="5" value={props.formState.formValues[5]} onChange={props.handleChange}/>
+        <div className="column">
+          <input id="c1" type="text" name="0" value={props.formState.formValues[0]} onChange={props.handleChange} onFocus={props.removeBackground}/>
+          <input id="h1" type="text" name="1" value={props.formState.formValues[1]} onChange={props.handleChange}/>
+          <input  id="c2" type="text" name="2" value={props.formState.formValues[2]} onChange={props.handleChange}/>
+        </div>
+        <div className="column">
+          <input  id="h2" type="text" name="3" value={props.formState.formValues[3]} onChange={props.handleChange}/>
+          <input  id="c3" type="text" name="4" value={props.formState.formValues[4]} onChange={props.handleChange}/>
+          <input  id="h3" type="text" name="5" value={props.formState.formValues[5]} onChange={props.handleChange}/>
+        </div>
         </form>
         <GenerateButton isActive={props.formState.canSend}/>
         <div className="LowerButtonBar">

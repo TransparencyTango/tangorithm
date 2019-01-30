@@ -41,7 +41,7 @@ class App extends Component {
     let updatedValues = Object.assign({}, this.state.formValues, {[name]: value});
     this.setState({formValues: updatedValues});
 
-    let active = Object.values(this.state.formValues).filter(value => value !== '').length >= 0;
+    let active = Object.values(this.state.formValues).filter(value => value !== '').length >= 4;
     this.setState({canSend: active});
   }
 

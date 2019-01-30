@@ -1,7 +1,7 @@
 #arrow {
   display: block;
   margin-left: auto;
-  margin-right: auto;z
+  margin-right: auto;
   width: 6%;
 }
 
@@ -14,19 +14,18 @@
 }
 
 .InfoButtonBar {
-    margin-left: 35%;
+    margin-left: 55%;
+    margin-top: 8%;
+    height: 10vh;
 }
 
 #back {
-  background: url(/css_img/screen2/back_active.png);
-  background-position: center center;
-  background-size: 100% 100%;
   float: left;
   margin-left: 0px;
   margin-bottom: 0px;
   height: 3vh;
   width: 8%;
-  border:none;
+  border: none;
   padding:0;
 }
 
@@ -34,9 +33,9 @@
     background: url(/css_img/screen2/similarities_active.png);
     background-position: center center;
     background-size: 100% 100%;
-    float: right;
+    float: left;
     height: 7vh;
-    width: 30%;
+    width: 35%;
     border: none;
     padding: 0;
 }
@@ -47,15 +46,15 @@
     background-size: 100% 100%;
     float: right;
     height: 7vh;
-    width: 30%;
+    width: 40%;
     /* border: none;
     padding: 0; */
 }
 
 #reset {
-  background: url(/css_img/screen2/reset_active.png);
+  /* background: url(/css_img/screen2/reset_active.png);
   background-position: center center;
-  background-size: 100% 100%;
+  background-size: 100% 100%; */
   float: right;
   margin-right: 0px;
   margin-bottom: 0px;
@@ -63,4 +62,20 @@
   width: 8%;
   /* border:none;
   padding:0; */
+}
+
+
+.Container2 {
+  position: absolute;
+  height: 100%;
+  width: 71%;
+  margin: 6% 15% 0% 14%;;
+}
+
+.Container2 h2 {
+  margin: 11vh 0vh 1vh;
+}
+
+.Container2 p {
+  margin: 4vh 0vh 0vh 0vh;
 }
