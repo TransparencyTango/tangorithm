@@ -25,27 +25,30 @@ const LowerButtonRow = props => {
   );
 }
 
-class Form extends React.Component {
+class CharacteristicsInputField extends React.Component {
   constructor(props) {
-    super(props);
-    this.initialState = {
-      characteristic1: '',
-      characteristic2: '',
-      characteristic3: '',
-      hobby1: '',
-      hobby2: '',
-      hobby3: '',
-      suggestions: []
-    };
-
-    this.state = this.initialState;
-    this.inputLetters = "";
-    
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.clearForm    = this.clearForm.bind(this);
-    this.resetMirror   = this.resetMirror.bind(this);
-    this.updateSuggestions   = this.updateSuggestions.bind(this);
+      super(props);
+      
+      this.state = {
+        suggestions: [],
+        content: ""
+      };    
+      this.updateSuggestions = this.updateSuggestions.bind(this);  
+      this.onInputChoice = this.onInputChoice.bind(this);  
+      this.handleChange = this.handleChange.bind(this);  
+  }
+  
+  onInputChoice(event){
+    this.setState({
+      content: event
+    });
+  }
+  
+  handleChange(event) {
+    this.setState({
+      content: event.target.value
+    });
+    this.props.onChange(event);
   }
   
   updateSuggestions(response){
@@ -54,8 +57,7 @@ class Form extends React.Component {
     });
   }
   
-  saveNewInput(inputValue) {
-    this.inputLetters = inputValue;
+  suggestForNewInput(inputValue) {
     let saneInputValue = inputValue;
     saneInputValue = saneInputValue.replace('?', '');
     saneInputValue = saneInputValue.replace('/', '');
@@ -76,6 +78,72 @@ class Form extends React.Component {
       .catch(e => {console.log(e)});
     
     return this.state.suggestions;
+  }
+      
+  render() {
+    return (           
+      <Downshift onChange={this.onInputChoice}>
+          {  
+            ({
+              getInputProps,
+              getItemProps,
+              getMenuProps,
+              highlightedIndex,
+              inputValue,
+              isOpen,
+              selectedItem,
+            }) => (
+               <span>
+                <input {...getInputProps({
+                              type: "text",
+                              name: this.props.name,
+                              value: this.state.content,
+                              onChange: this.handleChange})
+                        } />
+            {isOpen
+              ? this.suggestForNewInput(inputValue)
+                  .map((item, index) => (
+                    <div
+                      {...getItemProps({
+                        key: item,
+                        index,
+                        item,
+                        style: {
+                          backgroundColor:
+                            highlightedIndex === index ? 'lightgray' : 'white',
+                          fontWeight: selectedItem === item ? 'bold' : 'normal',
+                        },
+                      })}
+                    >
+                      {item}
+                    </div>
+                  ))
+              : null}
+            </span> )
+          }
+        </Downshift>    
+    );  
+  }
+}
+  
+class Form extends React.Component {
+  constructor(props) {
+    super(props);
+    this.initialState = {
+      characteristic1: '',
+      characteristic2: '',
+      characteristic3: '',
+      hobby1: '',
+      hobby2: '',
+      hobby3: '',
+    };
+
+    this.state = this.initialState;
+    
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.clearForm    = this.clearForm.bind(this);
+    this.resetMirror   = this.resetMirror.bind(this);
   }
   
   handleChange(event) {
@@ -104,60 +172,22 @@ class Form extends React.Component {
   render() {
     return (
       <div>
-           
-        <Downshift 
-          id="downshift-simple" 
-          onChange={this.onInputChoice}>
-          {({
-            getInputProps,
-            getItemProps,
-            getMenuProps,
-            highlightedIndex,
-            inputValue,
-            isOpen,
-            selectedItem,
-          }) => (
-             <div>
-              <input {...getInputProps({ placeholder: 'Search a country (start with a)'})} />
-           <div {...getMenuProps()}>
-          {isOpen
-            ? this.saveNewInput(inputValue)
-                .map((item, index) => (
-                  <div
-                    {...getItemProps({
-                      key: item,
-                      index,
-                      item,
-                      style: {
-                        backgroundColor:
-                          highlightedIndex === index ? 'lightgray' : 'white',
-                        fontWeight: selectedItem === item ? 'bold' : 'normal',
-                      },
-                    })}
-                  >
-                    {item}
-                  </div>
-                ))
-            : null}
-        </div>
-          </div>
-            
-            
-          )}
-        </Downshift>    
-      
-      <UpperButtonRow />
-      <form onSubmit={this.handleSubmit}>
-      <label> Characteristics </label> <label> Hobbies </label> <br />
-      <input type="text" name="characteristic1" value={this.state.characteristic1} onChange={this.handleChange}/>
-      <input type="text" name="hobby1"          value={this.state.hobby1}          onChange={this.handleChange}/><br />
-      <input type="text" name="characteristic2" value={this.state.characteristic2} onChange={this.handleChange}/>
-      <input type="text" name="hobby2"          value={this.state.hobby2}          onChange={this.handleChange}/><br />
-      <input type="text" name="characteristic3" value={this.state.characteristic3} onChange={this.handleChange}/>
-      <input type="text" name="hobby3"          value={this.state.hobby3}          onChange={this.handleChange}/><br />
-      <input type="submit" value="Generate" />
-      </form>
-      <LowerButtonRow clearForm={this.clearForm} resetMirror={this.resetMirror}/>
+        <UpperButtonRow />
+        <form onSubmit={this.handleSubmit}>
+        <label> Characteristics </label> <label> Hobbies </label> <br />
+        
+        <CharacteristicsInputField onChange={this.handleChange} name="characteristic1" />
+        {//<input type="text" name="characteristic1" value={this.state.characteristic1} onChange={this.handleChange}/>
+        }
+        
+        <input type="text" name="hobby1"          value={this.state.hobby1}          onChange={this.handleChange}/><br />
+        <input type="text" name="characteristic2" value={this.state.characteristic2} onChange={this.handleChange}/>
+        <input type="text" name="hobby2"          value={this.state.hobby2}          onChange={this.handleChange}/><br />
+        <input type="text" name="characteristic3" value={this.state.characteristic3} onChange={this.handleChange}/>
+        <input type="text" name="hobby3"          value={this.state.hobby3}          onChange={this.handleChange}/><br />
+        <input type="submit" value="Generate" />
+        </form>
+        <LowerButtonRow clearForm={this.clearForm} resetMirror={this.resetMirror}/>
       </div>
 
     );
