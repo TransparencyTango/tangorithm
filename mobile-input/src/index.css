@@ -5,9 +5,15 @@ body {
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif; */
   font-family: 'Roboto', sans-serif;
+  font-size: 100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
 }
+
+bodyl::-webkit-scrollbar {
+             display: none;
+         }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
@@ -15,20 +21,20 @@ code {
 }
 
 h1 {
-  font-size: 4vh;
+  font-size: 5em;
   color: #005321;
-  font-weight: 700;
+  font-weight: 900;
   font-style: italic;
 }
 
 h2 {
-  font-size: 3vh;
+  font-size: 4em;
   color: #005321;
-  font-weight: 700;
+  font-weight: 9s00;
   font-style: italic;
 }
 
 p {
-  font-size: 3vh;
+  font-size: 3.6em;
   color: #005321;
 }

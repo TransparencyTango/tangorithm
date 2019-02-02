@@ -14,54 +14,52 @@
 }
 
 .InfoButtonBar {
-    margin-left: 55%;
-    margin-top: 8%;
-    height: 10vh;
+    margin: 8% 0% 8% 53%;
+    height: 10%;
 }
 
 #back {
   float: left;
   margin-left: 0px;
   margin-bottom: 0px;
-  height: 3vh;
+  height: 1em;
+  font-size: 4em;
   width: 8%;
   border: none;
   padding:0;
 }
 
+.InfoButtonBar input[type="button"] {
+  background: url(/css_img/screen2/button_inactive.png);
+  background-position: center center;
+  background-size: 100% 100%;
+  border: none;
+  padding-bottom: 5%;
+  padding-left: 5%;
+  color: black;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 4em;
+  align-content: center;
+  height: 2.5em;
+  width: 43%;
+}
+
 #similarities {
-    background: url(/css_img/screen2/similarities_active.png);
-    background-position: center center;
-    background-size: 100% 100%;
     float: left;
-    height: 7vh;
-    width: 35%;
-    border: none;
-    padding: 0;
 }
 
 #neighbours {
-    background: url(/css_img/screen2/neighbours_active.png);
-    background-position: center center;
-    background-size: 100% 100%;
     float: right;
-    height: 7vh;
-    width: 40%;
-    /* border: none;
-    padding: 0; */
 }
 
 #reset {
-  /* background: url(/css_img/screen2/reset_active.png);
-  background-position: center center;
-  background-size: 100% 100%; */
   float: right;
   margin-right: 0px;
   margin-bottom: 0px;
-  height: 3vh;
+  height: 1em;
+  font-size: 4em;
   width: 8%;
-  /* border:none;
-  padding:0; */
 }
 
 
@@ -73,9 +71,9 @@
 }
 
 .Container2 h2 {
-  margin: 11vh 0vh 1vh;
+  margin: 11% 0 1%;
 }
 
 .Container2 p {
-  margin: 4vh 0vh 0vh 0vh;
+  margin: 4% 0 0 0;
 }
