@@ -7,12 +7,13 @@ import {Explanation} from './Explanation';
 const LoadingScreen = props => {
   if (props.showImage) {
     return (
-        <img className="fullscreen" src="css_img/screen3.jpg" alt="Now you can see yourself in the mirror"/>
+        <img className="fullscreen" src="/img/screen3.jpg" alt="Now you can see yourself in the mirror"/>
     )
   } else {
     return(
         <video className="fullscreen" id="animation" controls autoPlay loop>
-          <source src="css_img/mirror_mirror.mp4" type="video/mp4"/>
+          <source src="/img/mirror_mirror.mp4" type="video/mp4"/>
+          <source src="/img/mirror_mirror.webm" type="video/webm"/>
         </video>
     );
   }
@@ -25,11 +26,12 @@ class App extends Component {
 
     this.initialState = {
       showStart: true,
-      canReset: false,
-      canSend: false,
-      hasSent: false,
-      loading: false,
-      finishLoading: false,
+      buttonsState: {
+        canReset: false,
+        canSend: false,
+        hasSent: false,
+      },
+      loadingState: "none",
       formValues: ['ex. intelligent', 'ex. arrogant', 'ex. open-minded', 'ex. golf', 'ex. cooking', 'ex. cinema'],
       additionalInformation: {
         showNeighbours: false,
@@ -45,6 +47,7 @@ class App extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleFocus = this.handleFocus.bind(this);
     this.toggleInformation = this.toggleInformation.bind(this);
+    this.setFontColor = this.setFontColor.bind(this);
   }
 
   toggleScreen() {
@@ -60,19 +63,15 @@ class App extends Component {
     fetch('resetMirror',{
         method: "POST",
       }).catch((error) => console.error(error));
-      let inputFields = document.getElementsByTagName('input');
-      for(let i=0; i<inputFields.length; i++){
-        if (inputFields[i].getAttribute('type') === 'text' && !/^ex. /.test(inputFields[i].value)){
-          inputFields[i].style.color = "#646361";
-        }
-      }
+    this.setFontColor();
   }
 
   handleChange(event) {
     const {name, value} = event.target;
-    let updatedValues = Object.assign({}, this.state.formValues, {[name]: value});
-    let numInputValues = Object.values(this.state.formValues).filter(value => !/^ex. /.test(value) && value !== '').length;
-    this.setState({formValues: updatedValues, canReset: (numInputValues > 0), canSend: (numInputValues >= 4)});
+    const updatedValues = Object.assign({}, this.state.formValues, {[name]: value});
+    const numInputValues = Object.values(this.state.formValues).filter(value => !/^ex. /.test(value) && value !== '').length;
+    const newButtonsState = Object.assign({}, this.state.buttonsState, {canReset: (numInputValues > 0), canSend: (numInputValues >= 4)});
+    this.setState({formValues: updatedValues, buttonsState: newButtonsState });
   }
 
   handleSubmit(event){
@@ -86,32 +85,44 @@ class App extends Component {
           alert(res.statusText);
         }
       })
-      .then(() => this.setState({loading: false, finishLoading: true}))
-      .then(() => setTimeout((() => this.setState({finishLoading: false})), 1500))
+      .then(() => this.setState({loadingState: "showHint"}))
+      .then(() => setTimeout((() => this.setState({loadingState: "none"})), 3000))
       .catch((error) =>  {
         this.setState({loading:false, finishLoading:false, hasSent:false});
         alert(error);
       });
-    this.setState({hasSent: true, loading: true});
+      const showMore = Object.assign({}, this.state.buttonsState, {hasSent: true});
+      this.setState({buttonsState: showMore, loadingState: "loading"});
   }
 
   handleFocus(event) {
     const {name} = event.target;
-    let updatedValues = Object.assign({}, this.state.formValues, {[name]: ''});
-    this.setState({formValues: updatedValues});
-    document.getElementsByName(name)[0].style.color="black";
+    if(/^ex. /.test(this.state.formValues[name])) {
+      let updatedValues = Object.assign({}, this.state.formValues, {[name]: ''});
+      this.setState({formValues: updatedValues});
+      document.getElementsByName(name)[0].style.color="black";
+    }
+  }
+
+  setFontColor() {
+    let inputFields = document.getElementsByTagName('input');
+    for(let i=0; i<inputFields.length; i++){
+      if (inputFields[i].getAttribute('type') === 'text' && !/^ex. /.test(inputFields[i].value)){
+        inputFields[i].style.color = "#646361";
+      }
+    }
   }
 
   render() {
-    if (this.state.loading || this.state.finishLoading) {
+    if (this.state.loadingState === "loading" || this.state.loadingState === "showHint") {
       return(
-        <LoadingScreen showImage={this.state.finishLoading} />
+        <LoadingScreen showImage={this.state.loadingState === "showHint"} />
       );
     }
     else if (this.state.showStart) {
       return (
         <div className="Form">
-          <Form formState={this.state} handleChange={this.handleChange} handleMore={this.toggleScreen} handleReset={this.resetMirror} handleSubmit={this.handleSubmit} removeBackground={this.handleFocus}/>
+          <Form values={this.state.formValues} buttonsState={this.state.buttonsState} updateAppState={this.updateState} handleChange={this.handleChange} handleMore={this.toggleScreen} handleReset={this.resetMirror} handleSubmit={this.handleSubmit} removeBackground={this.handleFocus}/>
         </div>
       );
     }

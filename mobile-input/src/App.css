@@ -1,4 +1,4 @@
-.App {
+.App {9
   text-align: left;
 }
 
@@ -20,6 +20,11 @@
 
 .App-link {
   color: #61dafb;
+}
+
+.fullscreen {
+  height: 91;
+  width: 100%;
 }
 
 @keyframes App-logo-spin {

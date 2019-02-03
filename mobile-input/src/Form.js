@@ -22,6 +22,10 @@ const GenerateButton = props => {
 
 class Form extends React.Component{
 
+  constructor(props) {
+    super(props);
+  }
+
   componentDidMount() {
     let inputFields = document.getElementsByTagName('input');
     for(let i=0; i<inputFields.length; i++){
@@ -47,20 +51,20 @@ class Form extends React.Component{
         <form id="form0" onSubmit={this.props.handleSubmit}>
         <div className="grid-container">
           <div className="grid-element">
-            <input type="text" name="0" value={this.props.formState.formValues[0]} onChange={this.props.handleChange} onFocus={this.props.removeBackground}/>
-            <input type="text" name="1" value={this.props.formState.formValues[1]} onChange={this.props.handleChange} onFocus={this.props.removeBackground}/>
-            <input type="text" name="2" value={this.props.formState.formValues[2]} onChange={this.props.handleChange} onFocus={this.props.removeBackground}/>
+            <input type="text" name="0" value={this.props.values[0]} onChange={this.props.handleChange} onFocus={this.props.removeBackground}/>
+            <input type="text" name="1" value={this.props.values[1]} onChange={this.props.handleChange} onFocus={this.props.removeBackground}/>
+            <input type="text" name="2" value={this.props.values[2]} onChange={this.props.handleChange} onFocus={this.props.removeBackground}/>
           </div>
           <div className="grid-element">
-            <input type="text" name="3" value={this.props.formState.formValues[3]} onChange={this.props.handleChange} onFocus={this.props.removeBackground}/>
-            <input type="text" name="4" value={this.props.formState.formValues[4]} onChange={this.props.handleChange} onFocus={this.props.removeBackground}/>
-            <input type="text" name="5" value={this.props.formState.formValues[5]} onChange={this.props.handleChange} onFocus={this.props.removeBackground}/>
+            <input type="text" name="3" value={this.props.values[3]} onChange={this.props.handleChange} onFocus={this.props.removeBackground}/>
+            <input type="text" name="4" value={this.props.values[4]} onChange={this.props.handleChange} onFocus={this.props.removeBackground}/>
+            <input type="text" name="5" value={this.props.values[5]} onChange={this.props.handleChange} onFocus={this.props.removeBackground}/>
           </div>
         </div>
         </form>
-        <GenerateButton isActive={this.props.formState.canSend}/>
+        <GenerateButton isActive={this.props.buttonsState.canSend}/>
         <div className="LowerButtonBar">
-          <LowerButtonBar isActive={this.props.formState.hasSent} canReset={this.props.formState.canReset} resetMirror={this.props.handleReset} handleMore={this.props.handleMore}/>
+          <LowerButtonBar isActive={this.props.buttonsState.hasSent} canReset={this.props.buttonsState.canReset} resetMirror={this.props.handleReset} handleMore={this.props.handleMore}/>
         </div>
       </div>
     );

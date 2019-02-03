@@ -13,7 +13,7 @@ class InfoButtonBar extends React.Component {
 
   setBackground(name, isActive) {
     let buttonState = isActive ? "active" : "inactive"
-    document.getElementById(name).style.background = "url('/css_img/screen2/button_" + buttonState + ".png')";
+    document.getElementById(name).style.background = "url('/img/screen2/button_" + buttonState + ".png')";
     document.getElementById(name).style.backgroundSize = "100% 100%";
     document.getElementById(name).style.backgroundPosition = "center center"
   }
@@ -83,7 +83,7 @@ const Explanation = props => {
     return (
       <div className="Container2">
         <div>
-          <img id="arrow" src="css_img/screen2/arrow.png" alt="Arrow"/>
+          <img id="arrow" src="img/screen2/arrow.png" alt="Arrow"/>
         </div>
         <div>
           <ExplanationText/>

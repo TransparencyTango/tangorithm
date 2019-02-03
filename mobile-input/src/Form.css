@@ -70,16 +70,16 @@ input[type="button"]:disabled {
 }
 
 #generate {
-  background: url(/css_img/screen1/generate_active.png);
+  background: url(/img/screen1/generate_active.png);
   background-position: center center;
   background-size: 100% 100%;
   margin: 5% 0% 5.4% -1.53%;
   width: 101.5%;
-  height: 9%;
+  height: 12em;
 }
 
 #generate:disabled {
-  background: url(/css_img/screen1/generate_inactive.png);
+  background: url(/img/screen1/generate_inactive.png);
   background-position: center center;
   background-size: 100% 100%;
 }
