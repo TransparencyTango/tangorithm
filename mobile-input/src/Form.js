@@ -93,33 +93,36 @@ class CharacteristicsInputField extends React.Component {
               isOpen,
               selectedItem,
             }) => (
-               <span>
+          <span className="tehest">
                 <input {...getInputProps({
                               type: "text",
                               name: this.props.name,
                               value: this.state.content,
-                              onChange: this.handleChange})
+                              onChange: this.handleChange,
+                              className: "test-input"})
                         } />
-            {isOpen
-              ? this.suggestForNewInput(inputValue)
-                  .map((item, index) => (
-                    <div
-                      {...getItemProps({
-                        key: item,
-                        index,
-                        item,
-                        style: {
-                          backgroundColor:
-                            highlightedIndex === index ? 'lightgray' : 'white',
-                          fontWeight: selectedItem === item ? 'bold' : 'normal',
-                        },
-                      })}
-                    >
-                      {item}
-                    </div>
-                  ))
-              : null}
-            </span> )
+                <span className="suggestion-span">
+                {isOpen
+                  ? this.suggestForNewInput(inputValue)
+                      .map((item, index) => (
+                        <div className={this.props.className}
+                          {...getItemProps({
+                            key: item,
+                            index,
+                            item,
+                            style: {
+                              backgroundColor:
+                                highlightedIndex === index ? 'lightgray' : 'white',
+                              fontWeight: selectedItem === item ? 'bold' : 'normal',
+                            },
+                          })}
+                        >
+                          {item}
+                        </div>
+                      ))
+                  : null}
+                </span>
+              </span> )
           }
         </Downshift>    
     );  
@@ -174,18 +177,17 @@ class Form extends React.Component {
       <div>
         <UpperButtonRow />
         <form onSubmit={this.handleSubmit}>
-        <label> Characteristics </label> <label> Hobbies </label> <br />
-        
-        <CharacteristicsInputField onChange={this.handleChange} name="characteristic1" />
-        {//<input type="text" name="characteristic1" value={this.state.characteristic1} onChange={this.handleChange}/>
-        }
-        
-        <input type="text" name="hobby1"          value={this.state.hobby1}          onChange={this.handleChange}/><br />
-        <input type="text" name="characteristic2" value={this.state.characteristic2} onChange={this.handleChange}/>
-        <input type="text" name="hobby2"          value={this.state.hobby2}          onChange={this.handleChange}/><br />
-        <input type="text" name="characteristic3" value={this.state.characteristic3} onChange={this.handleChange}/>
-        <input type="text" name="hobby3"          value={this.state.hobby3}          onChange={this.handleChange}/><br />
-        <input type="submit" value="Generate" />
+          <label> Characteristics </label> <label> Hobbies </label> <br />
+          <CharacteristicsInputField className="suggestion-left"  onChange={this.handleChange} name="characteristic1" />
+          {//<input type="text" name="characteristic1" value={this.state.characteristic1} onChange={this.handleChange}/>
+          }
+          <CharacteristicsInputField className="suggestion-left"  onChange={this.handleChange} name="characteristic2" />
+            {/*<input className="test-input" type="text" name="hobby1"          value={this.state.hobby1}          onChange={this.handleChange}/>*/}<br />
+          <input className="test-input-other" type="text" name="characteristic2" value={this.state.characteristic2} onChange={this.handleChange}/>
+          <input className="test-input-other" type="text" name="hobby2"          value={this.state.hobby2}          onChange={this.handleChange}/><br />
+          <input className="test-input-other" type="text" name="characteristic3" value={this.state.characteristic3} onChange={this.handleChange}/>
+          <input  className="test-input-other" type="text" name="hobby3"          value={this.state.hobby3}          onChange={this.handleChange}/><br />
+          <input type="submit" value="Generate" />
         </form>
         <LowerButtonRow clearForm={this.clearForm} resetMirror={this.resetMirror}/>
       </div>
