@@ -33,6 +33,7 @@ class CharacteristicsInputField extends React.Component {
         suggestions: [],
         content: ""
       };    
+      this.lastRequestedContent = "";
       this.updateSuggestions = this.updateSuggestions.bind(this);  
       this.onInputChoice = this.onInputChoice.bind(this);  
       this.handleChange = this.handleChange.bind(this);  
@@ -59,6 +60,9 @@ class CharacteristicsInputField extends React.Component {
   }
   
   suggestForNewInput(inputValue) {
+    if (this.lastRequestedContent === inputValue) {
+      return this.state.suggestions;
+    }
     let saneInputValue = inputValue;
     saneInputValue = saneInputValue.replace('?', '');
     saneInputValue = saneInputValue.replace('/', '');
@@ -78,6 +82,7 @@ class CharacteristicsInputField extends React.Component {
       .then(this.updateSuggestions)
       .catch(e => {console.log(e)});
     
+    this.lastRequestedContent = inputValue;
     return this.state.suggestions;
   }
       
