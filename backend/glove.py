@@ -4,19 +4,23 @@
 import csv
 import difflib
 import os
+import pickle
 
 import numpy as np
 import pandas as pd
-import pickle
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.neighbors import KDTree
 
-ALPHABET = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l",
+ALPHABET = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l",
             "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w",
-            "x", "y", "z"]
+            "x", "y", "z"}
+
 AVG_VECTORS_FILE_NAME = "averageVectors.pkl"
 MODEL_DESCR_FILE_NAME = "modelDescriptions.pkl"
 UNKNOWN_TAGS_FILE_NAME = "unknownTags.pkl"
+
+STRING_MATCHING_CUTOFF = 0.5
+
 
 # ------------------ Helper functions ---------------------------
 def parseGloveFile(gloveFile):
@@ -53,12 +57,35 @@ def removeUnknownTags(known_tags, input_dict):
             else:
                 unknown_words.append(tag)
         if known_words == []:
-            print("Removed all words for ", key, "tags: ", tags)
+            print("WARNING: Removed all words for ", key, "tags: ", tags)
         cleaned_dict[key] = known_words
         removed_dict[key] = unknown_words
         known_words = []
         unknown_words = []
     return removed_dict, cleaned_dict
+
+
+def allFilesExist(filePaths):
+    file_checks = [os.path.isfile(filePath) for filePath in filePaths]
+    return all(file_checks)
+
+
+def getFilePaths(path, fileNames, filesEnding):
+    filePaths = [os.path.join(path, fileName + filesEnding)
+                 for fileName in fileNames]
+    return filePaths
+
+
+def getWordsFromFile(filePath):
+    try:
+        f = open(filePath, "r", encoding="utf-8")
+    except (IOError, OSError) as e:
+        print("Couldn't open file:", filePath)
+        return None
+
+    words = f.read().split(" ")
+    f.close()
+    return words
 
 
 # ----------------- Basic glove model ----------------
@@ -67,10 +94,12 @@ class GloveModel():
     def __init__(self, glove_file_path):
         self.dataframe = parseGloveFile(glove_file_path)
         self.__words = self.dataframe.index.values
-        self.__quickLookUpPath = "."
+        self.__wordSet = set(self.__words)
+        self.__quickLookUpPath = None
+        self.similarWordsCache = []
 
     def wordExists(self, word):
-        return (word in self.__words)
+        return (word in self.__wordSet)
 
     def allWordsExist(self, wordList):
         existance_check = [self.wordExists(word) for word in wordList]
@@ -85,38 +114,65 @@ class GloveModel():
         return existing_words
 
     def setQuickLookUpPath(self, path):
-        self.__quickLookUpPath = path
+        lookupFilePaths = getFilePaths(path,
+                                       ALPHABET,
+                                       ".txt")
+        lookupPathIsValid = allFilesExist(lookupFilePaths)
+
+        if lookupPathIsValid:
+            self.__quickLookUpPath = path
+        else:
+            print("Not a valid lookup directory.")
+            print("Valid directories must contain the following files: ")
+            print("[a.txt, b.txt, ..., z.txt]")
+
+    def getMostSimilarKnownWord(self, word):
+        word = word.lower()
+
+        if not word:
+            return None
+
+        # Try find it in O(1) in the word data
+        if self.wordExists(word):
+            return word
+
+        # If couldn't be found in word data try finding something similar
+        first_char = word[0]
+        first_char_is_valid = first_char in ALPHABET
+        compare_words = None
+        # First try to find similar match in preselected data for speedup
+        if first_char_is_valid and self.__quickLookUpPath:
+            lookupPath = os.path.join(self.__quickLookUpPath,
+                                      first_char + ".txt")
+            compare_words = getWordsFromFile(lookupPath)
+            if not compare_words:
+                compare_words = self.getWords()
+        # If no preselected data found, look through entire data
+        else:
+            compare_words = self.getWords()
+
+        closest_match = difflib.get_close_matches(word, compare_words,
+                                                  1, STRING_MATCHING_CUTOFF)
+
+        if closest_match:
+            closest_match = closest_match[0]
+            print("Similarity look-up on >>", word, "<< successful:",
+                  closest_match)
+            return closest_match
+        else:
+            print("No match found for word:", word)
+            return None
 
     def getMostSimilarKnownWords(self, wordList):
-        wordList = [word.lower() for word in wordList]
-        similar_words = []
+        matches = []
+
         for word in wordList:
-            if not word:
-                continue
-
-            closest_match = None
-            first_char = word[0]
-            # TODO: make this fail proof
-            if os.path.isdir(self.__quickLookUpPath) and first_char in ALPHABET:
-                lookup_file_name = first_char + ".txt"
-                lookup_path = os.path.join(self.__quickLookUpPath,
-                                           lookup_file_name)
-                compare_words = []
-                with open(lookup_path, "r", encoding="utf-8") as f:
-                    compare_words = f.read().split(" ")
-
-                closest_match = difflib.get_close_matches(word, compare_words,
-                                                          1, 0.2)
-                print("Quick look up on:", word)
-            else:
-                closest_match = difflib.get_close_matches(word, self.getWords(),
-                                                          1, 0.2)
-                print("Look up on:", word)
+            closest_match = self.getMostSimilarKnownWord(word)
 
             if closest_match:
-                print("Look up on", word, "successful:", closest_match[0])
-                similar_words.append(closest_match[0])
-        return similar_words
+                matches.append(closest_match)
+        self.similarWordsCache = matches
+        return matches
 
     def getWordVector(self, word):
         vector = None
@@ -172,8 +228,8 @@ class GloveExplorer(GloveModel):
             infile2.close()
         else:
             modelDescriptions = parseInputFile(models_path)
-            unknown_tags, modelDescriptions = removeUnknownTags(self.getWords(),
-                                                                modelDescriptions)
+            unknown_tags, modelDescriptions = \
+                removeUnknownTags(self.getWords(), modelDescriptions)
 
             outfile1 = open(model_descr_path, "wb")
             pickle.dump(modelDescriptions, outfile1)
@@ -215,7 +271,10 @@ class GloveExplorer(GloveModel):
         return self.__unknownTags
 
     def getKNN(self, k, wordList):
-        wordList = self.getMostSimilarKnownWords(wordList)
+        if self.similarWordsCache:
+            wordList = self.similarWordsCache
+        else:
+            wordList = self.getMostSimilarKnownWords(wordList)
         if wordList:
             word_vectors = self.getWordVectors(wordList)
             input_avg_vector = np.average(word_vectors, axis=0)
@@ -277,8 +336,9 @@ class GloveExplorer(GloveModel):
             return None
 
         similarities = []
+        currentInput = self.similarWordsCache
         for word in wordList:
-            word = self.getMostSimilarKnownWords([word])
+            word = self.getMostSimilarKnownWord(word)
             if word:
                 word_vector = self.getWordVector(word[0])
                 similarity = cosine_similarity(np.vstack([word_vector,
