@@ -32,7 +32,7 @@ def parseGloveFile(gloveFile):
 
 def parseInputFile(path):
     results = {}
-    with open(path, "r") as f:
+    with open(path, "r",encoding='utf-8-sig') as f:
         for line in f:
             if not line or line == "\n":
                 continue
