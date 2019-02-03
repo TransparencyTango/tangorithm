@@ -7,12 +7,15 @@ class InfoButtonBar extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      similaritiesPressed: false,
-      neighboursPressed: false
-    }
-
     this.toggleMirrorView = this.toggleMirrorView.bind(this);
+    this.setBackground = this.setBackground.bind(this);
+  }
+
+  setBackground(name, isActive) {
+    let buttonState = isActive ? "active" : "inactive"
+    document.getElementById(name).style.background = "url('/css_img/screen2/button_" + buttonState + ".png')";
+    document.getElementById(name).style.backgroundSize = "100% 100%";
+    document.getElementById(name).style.backgroundPosition = "center center"
   }
 
   toggleMirrorView(event) {
@@ -20,21 +23,28 @@ class InfoButtonBar extends React.Component {
     fetch('toggleMirrorView?view=' + value,{
         method: "POST",
       }).catch((error) => console.error(error));
-    let active = "active";
+
+    let active = false;
+    let newButtonsState = Object.assign({}, this.props.buttonsState);
     if (name === "similarities") {
-      active = this.state.similaritiesPressed ? "inactive" : "active";
-      this.setState({similaritiesPressed: !this.state.similaritiesPressed});
+      active = !this.props.buttonsState.showSimilarities;
+      newButtonsState.showSimilarities = active;
     }
     else {
-      active = this.state.neighboursPressed ? "inactive" : "active";
-      this.setState({neighboursPressed: !this.state.neighboursPressed});
+      active = !this.props.buttonsState.showNeighbours;
+      newButtonsState.showNeighbours = active;
     }
-    document.getElementById(name).style.background = "url('/css_img/screen2/button_" + active + ".png')";
-    document.getElementById(name).style.backgroundSize = "100% 100%";
-    document.getElementById(name).style.backgroundPosition = "center center"
+    this.props.toggleInfomation(newButtonsState);
+    this.setBackground(name, active);
+
   }
 
-    render() {
+  componentDidMount() {
+    this.setBackground("similarities", this.props.buttonsState.showSimilarities);
+    this.setBackground("neighbours", this.props.buttonsState.showNeighbours);
+  }
+
+  render() {
       return(
         <React.Fragment>
         <input type="button" id="similarities" name="similarities" value="similarities" onClick={this.toggleMirrorView}/>
@@ -53,20 +63,20 @@ const LowerButtonBar = props => {
   );
 }
 
-const ExplanationText = {
+const ExplanationText = () => {
   return (
     <React.Fragment>
-      <h2> Now you can see what the algorithm thinks is the most fitting visual
-      representation of you, based on your input.</h2>
-      <p> Our algorithm consists of a "wordcloud" and if words have similar
-      meaning, they are closer to eachother. To create this "wordcloud" the
-      algorithm was trained on thousands of news articles. </p>
-      <p> By pressing "neighbours" you can see which words are closest to your
-      input in this "wordcloud". By pressing "similarities" you can see how
-      similar the algorithm thinks your input is to the displayed words.
-      </p>
+        <h2> Now you can see what the algorithm thinks is the most fitting visual
+        representation of you, based on your input.</h2>
+        <p> Our algorithm consists of a "wordcloud" and if words have similar
+        meaning, they are closer to eachother. To create this "wordcloud" the
+        algorithm was trained on thousands of news articles. </p>
+        <p> By pressing "neighbours" you can see which words are closest to your
+        input in this "wordcloud". By pressing "similarities" you can see how
+        similar the algorithm thinks your input is to the displayed words.
+        </p>
     </React.Fragment>
-  )
+    );
 }
 
 const Explanation = props => {
@@ -79,10 +89,10 @@ const Explanation = props => {
           <ExplanationText/>
         </div>
         <div className="InfoButtonBar">
-          <InfoButtonBar/>
+          <InfoButtonBar buttonsState={props.buttonsState} toggleInfomation={props.toggleInformation}/>
         </div>
         <div className="LowerButtonBar">
-          <LowerButtonBar handleBack={props.handleBack} resetMirror={props.handleReset}/>
+          <LowerButtonBar handleBack={props.handleBack} resetMirror={props.handleReset} />
         </div>
       </div>
     );

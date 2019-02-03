@@ -14,8 +14,8 @@
 }
 
 .InfoButtonBar {
-    margin: 8% 0% 8% 53%;
-    height: 10%;
+  margin: 8% 0% 8% 53%;
+  height: 10%;
 }
 
 #back {
@@ -30,10 +30,8 @@
 }
 
 .InfoButtonBar input[type="button"] {
-  background: url(/css_img/screen2/button_inactive.png);
-  background-position: center center;
-  background-size: 100% 100%;
   border: none;
+  outline:none;
   padding-bottom: 5%;
   padding-left: 5%;
   color: black;
@@ -46,11 +44,11 @@
 }
 
 #similarities {
-    float: left;
+  float: left;
 }
 
 #neighbours {
-    float: right;
+  float: right;
 }
 
 #reset {

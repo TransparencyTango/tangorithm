@@ -6,7 +6,7 @@ import './Screens.css';
 const LowerButtonBar = props => {
   return(
     <React.Fragment>
-    <input type="button" value="reset" id="reset_1" disabled={!props.isActive} onClick={props.resetMirror}/>
+    <input type="button" value="reset" id="reset_1" disabled={!props.canReset} onClick={props.resetMirror}/>
     <input type="button" value="more" id="more" disabled={!props.isActive} onClick={props.handleMore}/>
     </React.Fragment>
   );
@@ -20,8 +20,18 @@ const GenerateButton = props => {
   );
 }
 
-const Form = props => {
+class Form extends React.Component{
 
+  componentDidMount() {
+    let inputFields = document.getElementsByTagName('input');
+    for(let i=0; i<inputFields.length; i++){
+      if (inputFields[i].getAttribute('type') === 'text' && !/^ex. /.test(inputFields[i].value)){
+        inputFields[i].style.color = "black";
+      }
+    }
+  }
+
+  render() {
     return (
       <div className="Container">
         <div>
@@ -34,26 +44,27 @@ const Form = props => {
               <p> What kind of interests do you have? </p>
 
           </div>
-        <form id="form0" onSubmit={props.handleSubmit}>
+        <form id="form0" onSubmit={this.props.handleSubmit}>
         <div className="grid-container">
           <div className="grid-element">
-            <input id="c1" type="text" name="0" value={props.formState.formValues[0]} onChange={props.handleChange} onFocus={props.removeBackground}/>
-            <input id="h1" type="text" name="1" value={props.formState.formValues[1]} onChange={props.handleChange} onFocus={props.removeBackground}/>
-            <input  id="c2" type="text" name="2" value={props.formState.formValues[2]} onChange={props.handleChange} onFocus={props.removeBackground}/>
+            <input type="text" name="0" value={this.props.formState.formValues[0]} onChange={this.props.handleChange} onFocus={this.props.removeBackground}/>
+            <input type="text" name="1" value={this.props.formState.formValues[1]} onChange={this.props.handleChange} onFocus={this.props.removeBackground}/>
+            <input type="text" name="2" value={this.props.formState.formValues[2]} onChange={this.props.handleChange} onFocus={this.props.removeBackground}/>
           </div>
           <div className="grid-element">
-            <input  id="h2" type="text" name="3" value={props.formState.formValues[3]} onChange={props.handleChange} onFocus={props.removeBackground}/>
-            <input  id="c3" type="text" name="4" value={props.formState.formValues[4]} onChange={props.handleChange} onFocus={props.removeBackground}/>
-            <input  id="h3" type="text" name="5" value={props.formState.formValues[5]} onChange={props.handleChange} onFocus={props.removeBackground}/>
+            <input type="text" name="3" value={this.props.formState.formValues[3]} onChange={this.props.handleChange} onFocus={this.props.removeBackground}/>
+            <input type="text" name="4" value={this.props.formState.formValues[4]} onChange={this.props.handleChange} onFocus={this.props.removeBackground}/>
+            <input type="text" name="5" value={this.props.formState.formValues[5]} onChange={this.props.handleChange} onFocus={this.props.removeBackground}/>
           </div>
         </div>
         </form>
-        <GenerateButton isActive={props.formState.canSend}/>
+        <GenerateButton isActive={this.props.formState.canSend}/>
         <div className="LowerButtonBar">
-          <LowerButtonBar isActive={props.formState.hasSent} resetMirror={props.handleReset} handleMore={props.handleMore}/>
+          <LowerButtonBar isActive={this.props.formState.hasSent} canReset={this.props.formState.canReset} resetMirror={this.props.handleReset} handleMore={this.props.handleMore}/>
         </div>
       </div>
     );
+  }
 
 }
 export {Form};

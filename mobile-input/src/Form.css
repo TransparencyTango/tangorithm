@@ -22,11 +22,13 @@ h1 {
 }
 
 input[type="text"] {
+  padding-left: 3%;
+  color: #646361;
   width: 87%;
   height: 2.6em;
   margin: 2.5% 0%;
   font-size: 3em;
-  border: 1px solid #000000;
+  border: 0.03em solid #000000;
 }
 
 input[type="button"] {
@@ -42,7 +44,7 @@ input[type="button"] {
 }
 
 input[type="button"]:disabled {
-  color: #d8e5dd;
+  color: #d8e5dc;
 }
 
 #title {
