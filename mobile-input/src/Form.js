@@ -42,6 +42,7 @@ class CharacteristicsInputField extends React.Component {
     this.setState({
       content: event
     });
+    this.props.onInputChoice(this.props.name, event);
   }
   
   handleChange(event) {
@@ -93,19 +94,18 @@ class CharacteristicsInputField extends React.Component {
               isOpen,
               selectedItem,
             }) => (
-          <span className="tehest">
+          <span className="input-and-suggestion">
                 <input {...getInputProps({
                               type: "text",
                               name: this.props.name,
                               value: this.state.content,
-                              onChange: this.handleChange,
-                              className: "test-input"})
+                              onChange: this.handleChange})
                         } />
                 <span className="suggestion-span">
                 {isOpen
                   ? this.suggestForNewInput(inputValue)
                       .map((item, index) => (
-                        <div className={this.props.className}
+                        <div
                           {...getItemProps({
                             key: item,
                             index,
@@ -145,8 +145,15 @@ class Form extends React.Component {
     
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.onInputChoice = this.onInputChoice.bind(this);
     this.clearForm    = this.clearForm.bind(this);
     this.resetMirror   = this.resetMirror.bind(this);
+  }
+  
+  onInputChoice(name, value) {
+    this.setState({
+      [name]: value
+    });
   }
   
   handleChange(event) {
@@ -178,15 +185,12 @@ class Form extends React.Component {
         <UpperButtonRow />
         <form onSubmit={this.handleSubmit}>
           <label> Characteristics </label> <label> Hobbies </label> <br />
-          <CharacteristicsInputField className="suggestion-left"  onChange={this.handleChange} name="characteristic1" />
-          {//<input type="text" name="characteristic1" value={this.state.characteristic1} onChange={this.handleChange}/>
-          }
-          <CharacteristicsInputField className="suggestion-left"  onChange={this.handleChange} name="characteristic2" />
-            {/*<input className="test-input" type="text" name="hobby1"          value={this.state.hobby1}          onChange={this.handleChange}/>*/}<br />
-          <input className="test-input-other" type="text" name="characteristic2" value={this.state.characteristic2} onChange={this.handleChange}/>
-          <input className="test-input-other" type="text" name="hobby2"          value={this.state.hobby2}          onChange={this.handleChange}/><br />
-          <input className="test-input-other" type="text" name="characteristic3" value={this.state.characteristic3} onChange={this.handleChange}/>
-          <input  className="test-input-other" type="text" name="hobby3"          value={this.state.hobby3}          onChange={this.handleChange}/><br />
+          <CharacteristicsInputField onInputChoice={this.onInputChoice} onChange={this.handleChange} name="characteristic1" />
+          <CharacteristicsInputField onInputChoice={this.onInputChoice} onChange={this.handleChange} name="hobby1" />
+          <CharacteristicsInputField onInputChoice={this.onInputChoice} onChange={this.handleChange} name="characteristic2" />
+          <CharacteristicsInputField onInputChoice={this.onInputChoice} onChange={this.handleChange} name="hobby2" />
+          <CharacteristicsInputField onInputChoice={this.onInputChoice} onChange={this.handleChange} name="characteristic3" />
+          <CharacteristicsInputField onInputChoice={this.onInputChoice} onChange={this.handleChange} name="hobby3" /><br/>
           <input type="submit" value="Generate" />
         </form>
         <LowerButtonRow clearForm={this.clearForm} resetMirror={this.resetMirror}/>
