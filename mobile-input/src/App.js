@@ -66,8 +66,7 @@ class App extends Component {
     this.setFontColor();
   }
 
-  handleChange(event) {
-    const {name, value} = event.target;
+  handleChange(name, value) {
     const updatedValues = Object.assign({}, this.state.formValues, {[name]: value});
     const numInputValues = Object.values(this.state.formValues).filter(value => !/^ex. /.test(value) && value !== '').length;
     const newButtonsState = Object.assign({}, this.state.buttonsState, {canReset: (numInputValues > 0), canSend: (numInputValues >= 4)});
@@ -96,7 +95,7 @@ class App extends Component {
   }
 
   handleFocus(event) {
-    const {name} = event.target;
+    const name = event.target.name;
     if(/^ex. /.test(this.state.formValues[name])) {
       let updatedValues = Object.assign({}, this.state.formValues, {[name]: ''});
       this.setState({formValues: updatedValues});

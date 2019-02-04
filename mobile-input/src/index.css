@@ -42,6 +42,21 @@ h1 {
   font-style: italic;
 }
 
+.input-and-suggestion {
+  margin: 3%;
+  position: relative;
+}
+
+ .suggestion-span {
+  position: absolute;
+  top: 30px;
+  left: 0;
+  width: 100%;
+  height: 20px;
+  z-index: 10;
+  font-size: 3em;
+}
+
 h2 {
   font-size: 4em;
   color: #005321;
