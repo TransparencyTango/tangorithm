@@ -1,42 +1,71 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+
+@media screen and (min-width: 2501px) {
+  body {
+    font-size: 100%;
+  }
 }
 
-label{
-  display: inline-block;
-  line-height: 25px;
-  width: 40%;
+@media screen and (max-width: 2500px) {
+  body, #generate {
+    font-size: 70%;
+  }
+}
+
+@media screen and (max-width: 1500px) {
+  body, #generate {
+    font-size: 50%;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  body, #generate {
+    font-size: 30%;
+  }
+}
+
+bodyl::-webkit-scrollbar {
+             display: none;
+         }
+
+h1 {
+  font-size: 5em;
+  color: #005321;
+  font-weight: 900;
+  font-style: italic;
+}
+
+.input-and-suggestion {
+  margin: 3%;
+  position: relative;
+}
+
+ .suggestion-span {
+  position: absolute;
+  top: 1.5em;
+  left: 0;
+  width: 103.4%;
   height: 20px;
-  margin: 3%;
-  text-align: center;
+  z-index: 10;
+  font-size: 3em;
+  margin-left: -3.3%;
 }
 
-input[type=button] {
-  width: 40%;
-  height: 30px;
-  margin: 5% 3%;
+h2 {
+  font-size: 4em;
+  color: #005321;
+  font-weight: 9s00;
+  font-style: italic;
 }
 
-input[type=text] {
-  width: 40%;
-  height: 30px;
-  margin: 3%;
-  font-size: 16px;
-}
-
-input[type=submit] {
-  width: 89%;
-  height: 50px;
-  margin: 5% 3%;
+p {
+  font-size: 3.6em;
+  color: #005321;
 }

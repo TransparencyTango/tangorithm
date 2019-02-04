@@ -1,0 +1,59 @@
+#arrow {
+  display: block;
+  margin-top: 1%;
+  margin-left: 49.5%;
+  width: 4.5%;
+}
+
+#text {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10%;
+  width: 100%;
+}
+
+.InfoButtonBar {
+  margin: 7.5% 0% 8% 53.5%;
+  height: 10%;
+}
+
+.InfoButtonBar input[type="button"] {
+  padding-bottom: 5%;
+  padding-left: 2.5%;
+  color: black;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 4em;
+  align-content: center;
+  height: 2.8em;
+  width: 43%;
+}
+
+#similarities {
+  float: left;
+}
+
+#neighbours {
+  float: right;
+}
+
+.explanation-container {
+  position: absolute;
+  height: 91%;
+  width: auto;
+  margin: 6% 14.75% 0% 14%;;
+}
+
+.explanation-container h2 {
+  margin: 11% 0 1%;
+}
+
+.explanation-container p {
+  margin: 4% 0 0 0;
+  width: 100%;
+}
+
+.text-container {
+  margin-right: 5%;
+}
