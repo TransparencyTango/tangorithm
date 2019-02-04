@@ -8,6 +8,7 @@ import pickle
 
 import numpy as np
 import pandas as pd
+from sklearn.cluster import KMeans
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.neighbors import KDTree
 
@@ -20,6 +21,7 @@ MODEL_DESCR_FILE_NAME = "modelDescriptions.pkl"
 UNKNOWN_TAGS_FILE_NAME = "unknownTags.pkl"
 
 STRING_MATCHING_CUTOFF = 0.5
+NUM_CLUSTERS = 10
 
 
 # ------------------ Helper functions ---------------------------
@@ -205,6 +207,8 @@ class GloveExplorer(GloveModel):
         self.__unknownTags, self.__modelDescriptions = \
             self.__setModelDescriptions(models_path)
         self.__modelAverageVectors = self.__setModelAverageVectors()
+        self.__kMeans = KMeans(n_clusters=NUM_CLUSTERS, random_state=0).fit(
+            self.__modelAverageVectors)
         self.currentInputAverageVector = None
 
     def __setModelDescriptions(self, models_path):
@@ -304,11 +308,24 @@ class GloveExplorer(GloveModel):
         vectors = self.getWordVectors(wordList)
         avg_vector = np.average(vectors, axis=0)
         self.currentInputAverageVector = avg_vector
-        all_avg_vectors = np.vstack([avg_vector, modelAverageVectors])
+        closest_cluster = self.__kMeans.predict([avg_vector])[0]
+        cluster_mask = self.__kMeans.labels_ == closest_cluster
+        non_zero_idx = np.nonzero(cluster_mask)
+        cluster_modelVectors = modelAverageVectors[cluster_mask]
+        all_avg_vectors = np.vstack([avg_vector, cluster_modelVectors])
         cosine_similarities = cosine_similarity(all_avg_vectors)[0][1:]
-        max_sim_index = np.argmax(cosine_similarities)
+        max_sim_index = non_zero_idx[0][np.argmax(cosine_similarities)]
         match = self.__modelAverageVectors.index[max_sim_index]
         return match
+        # modelAverageVectors = self.__modelAverageVectors.values
+        # vectors = self.getWordVectors(wordList)
+        # avg_vector = np.average(vectors, axis=0)
+        # self.currentInputAverageVector = avg_vector
+        # all_avg_vectors = np.vstack([avg_vector, modelAverageVectors])
+        # cosine_similarities = cosine_similarity(all_avg_vectors)[0][1:]
+        # max_sim_index = np.argmax(cosine_similarities)
+        # match = self.__modelAverageVectors.index[max_sim_index]
+        # return match
 
     def bulk_match(self, test_dict):
         if not self.__modelDescriptions:
