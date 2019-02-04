@@ -2,9 +2,7 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -34,12 +32,12 @@ code {
   width: 18%;
   height: 10em;
   float: left;
-  background-color: #bcf442;
+  box-shadow: 0.5em 0.5em 5px grey;
 }
 
 #knn {
   width: 18%;
   height: 10em;
   float: right;
-  background-color: #bcf442;
+  box-shadow: -0.5em 0.5em 5px grey;
 }

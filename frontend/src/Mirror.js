@@ -68,6 +68,14 @@ class Mirror extends Component {
     clearInterval(this.timer);
     this.timer = null;
   }
+  
+  parseSimilarities() {
+    let similarities = [];
+    this.state.similarities.forEach((element) => {
+      similarities.push(element.toFixed(2));
+    }); 
+    return similarities.join(', ');
+  }
 
   render() {
     return (
@@ -81,7 +89,8 @@ class Mirror extends Component {
         </div>
         <div id="similarities">
           {this.state.showSimilarities &&
-          <p> Similarity to "successful", [...]: {this.state.similarities.join(', ')} </p>
+          <p> Similarity to "successful":  <br/>
+          {this.parseSimilarities()} from 1.00 </p>
         }
         </div>
       </div>
