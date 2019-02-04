@@ -1,8 +1,8 @@
 #arrow {
   display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 6%;
+  margin-top: 1%;
+  margin-left: 49.5%;
+  width: 4.5%;
 }
 
 #text {
@@ -14,32 +14,19 @@
 }
 
 .InfoButtonBar {
-  margin: 8% 0% 8% 53%;
+  margin: 7.5% 0% 8% 53.5%;
   height: 10%;
 }
 
-#back {
-  float: left;
-  margin-left: 0px;
-  margin-bottom: 0px;
-  height: 1em;
-  font-size: 4em;
-  width: 8%;
-  border: none;
-  padding:0;
-}
-
 .InfoButtonBar input[type="button"] {
-  border: none;
-  outline:none;
   padding-bottom: 5%;
-  padding-left: 5%;
+  padding-left: 2.5%;
   color: black;
   font-style: normal;
   font-weight: 400;
   font-size: 4em;
   align-content: center;
-  height: 2.5em;
+  height: 2.8em;
   width: 43%;
 }
 
@@ -51,27 +38,22 @@
   float: right;
 }
 
-#reset {
-  float: right;
-  margin-right: 0px;
-  margin-bottom: 0px;
-  height: 1em;
-  font-size: 4em;
-  width: 8%;
-}
-
-
-.Container2 {
+.explanation-container {
   position: absolute;
-  height: 100%;
-  width: 71%;
-  margin: 6% 15% 0% 14%;;
+  height: 91%;
+  width: auto;
+  margin: 6% 14.75% 0% 14%;;
 }
 
-.Container2 h2 {
+.explanation-container h2 {
   margin: 11% 0 1%;
 }
 
-.Container2 p {
+.explanation-container p {
   margin: 4% 0 0 0;
+  width: 100%;
+}
+
+.text-container {
+  margin-right: 5%;
 }

@@ -121,7 +121,7 @@ class App extends Component {
     else if (this.state.showStart) {
       return (
         <div className="Form">
-          <Form values={this.state.formValues} buttonsState={this.state.buttonsState} updateAppState={this.updateState} handleChange={this.handleChange} handleMore={this.toggleScreen} handleReset={this.resetMirror} handleSubmit={this.handleSubmit} removeBackground={this.handleFocus}/>
+          <Form values={this.state.formValues} buttonsState={this.state.buttonsState} handleChange={this.handleChange} handleMore={this.toggleScreen} handleReset={this.resetMirror} handleSubmit={this.handleSubmit} removeBackground={this.handleFocus}/>
         </div>
       );
     }

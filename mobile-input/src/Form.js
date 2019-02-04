@@ -7,8 +7,8 @@ import Downshift from 'downshift';
 const LowerButtonBar = props => {
   return(
     <React.Fragment>
-    <input type="button" value="reset" id="reset_1" disabled={!props.canReset} onClick={props.resetMirror}/>
-    <input type="button" value="more" id="more" disabled={!props.isActive} onClick={props.handleMore}/>
+    <input type="button" value="reset" id="left" disabled={!props.canReset} onClick={props.resetMirror}/>
+    <input type="button" value="more" id="right" disabled={!props.isActive} onClick={props.handleMore}/>
     </React.Fragment>
   );
 }
@@ -27,20 +27,14 @@ class CharacteristicsInputField extends React.Component {
 
       this.state = {
         suggestions: [],
-        //content: this.props.value
       };
       this.lastRequestedContent = "";
       this.updateSuggestions = this.updateSuggestions.bind(this);
       this.onInputChoice = this.onInputChoice.bind(this);
-      this.handleChange = this.handleChange.bind(this);
   }
 
   onInputChoice(event){
     this.props.onInputChoice(this.props.name, event);
-  }
-
-  handleChange(event) {
-    this.props.onChange(event);
   }
 
   updateSuggestions(response){
@@ -94,7 +88,7 @@ class CharacteristicsInputField extends React.Component {
                               type: "text",
                               name: this.props.name,
                               value: this.props.value,
-                              onChange: this.handleChange})
+                              onChange: this.props.onChange})
                         }
                         onFocus={this.props.onFocus}
                         />
@@ -131,18 +125,16 @@ class Form extends React.Component {
     super(props);
 
     this.handleChange = this.handleChange.bind(this);
-    // this.handleSubmit = this.handleSubmit.bind(this);
     this.onInputChoice = this.onInputChoice.bind(this);
-    // this.clearForm    = this.clearForm.bind(this);
   }
 
   componentDidMount() {
-  let inputFields = document.getElementsByTagName('input');
-  for(let i=0; i<inputFields.length; i++){
-    if (inputFields[i].getAttribute('type') === 'text' && !/^ex. /.test(inputFields[i].value)){
-      inputFields[i].style.color = "black";
+    let inputFields = document.getElementsByTagName('input');
+    for(let i=0; i<inputFields.length; i++){
+      if (inputFields[i].getAttribute('type') === 'text' && !/^ex. /.test(inputFields[i].value)){
+        inputFields[i].style.color = "black";
+      }
     }
-  }
 }
 
   onInputChoice(name, value) {
@@ -153,20 +145,9 @@ class Form extends React.Component {
     this.props.handleChange(event.target.name, event.target.value);
   }
 
-  // handleSubmit(event){
-  //   event.preventDefault();
-  //   fetch('postAttributes?words=' + Object.values(this.state).join(' '),{
-  //       method: "POST",
-  //     }).catch((error) => console.error(error));
-  // }
-
-  // clearForm() {
-  //   this.setState(this.initialState);
-  // }
-
   render() {
     return (
-      <div className="Container">
+      <div className="container">
         <div>
           <h1> Please tell me a few things about yourself </h1>
         </div>
