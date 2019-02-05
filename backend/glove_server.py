@@ -12,7 +12,7 @@ import mirror_state
 gloveExplorer = None
 mirror = None
 # "Documents/Tangorithm_Tools/data"
-QUICK_LOOKUP_PATH = "C:/Users/Eduard Gette/Documents/Data/GloveAlphabetisiert"
+QUICK_LOOKUP_PATH = "./letterCache"
 
 # ------------------ Server Functions ---------------------------
 app = Flask(__name__)
@@ -63,7 +63,7 @@ def postAttributes():
             else:
                 mirror.current_knn = []
             mirror.current_similarities = \
-                gloveExplorer.getSimilarities(["successful"])
+                gloveExplorer.getSimilarities(["successful", "engaged", "happy"])
             return "ok"
         else:
             mirror.reset_mirror()

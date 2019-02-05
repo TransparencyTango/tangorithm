@@ -74,7 +74,13 @@ class Mirror extends Component {
     this.state.similarities.forEach((element) => {
       similarities.push(element.toFixed(2));
     }); 
-    return similarities.join(', ');
+    return <p> Similarity to "successful":  <br/>
+          {similarities[0]} from 1.00 <br/>
+          Similarity to "engaged":  <br/>
+          {similarities[1]} from 1.00 <br/>
+          Similarity to "happy":  <br/>
+          {similarities[2]} from 1.00          
+          </p>
   }
 
   render() {
@@ -84,14 +90,12 @@ class Mirror extends Component {
           {/*this.state.name*/}
         <div id="knn">
           {this.state.showKNN &&
-            <p> 5 nearest Neighbours: {this.state.knns.join(', ')} </p>
+            <p> Nearest Neighbours: {this.state.knns.join(', ')} </p>
           }
         </div>
         <div id="similarities">
           {this.state.showSimilarities &&
-          <p> Similarity to "successful":  <br/>
-          {this.parseSimilarities()} from 1.00 </p>
-        }
+            this.parseSimilarities()}
         </div>
       </div>
     );
