@@ -43,6 +43,7 @@ class App extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.toggleScreen = this.toggleScreen.bind(this);
+    this.toggleInformation = this.toggleInformation.bind(this);
     this.resetMirror = this.resetMirror.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -52,7 +53,7 @@ class App extends Component {
   }
 
   toggleInformation(buttonsStatus) {
-    this.setState({additionalInformation: buttonsStatus})
+    this.setState({additionalInformation: buttonsStatus});
   }
 
   resetMirror() {
@@ -80,8 +81,8 @@ class App extends Component {
           alert(res.statusText);
         }
       })
-      .then(() => this.setState({loadingState: "showHint"}))
-      .then(() => setTimeout((() => this.setState({loadingState: "none"})), 3000))
+      .then(() => setTimeout((() => this.setState({loadingState: "showHint"})), 3000))
+      .then(() => setTimeout((() => this.setState({loadingState: "none"})), 5000))
       .catch((error) =>  {
         this.setState({loading:false, finishLoading:false, hasSent:false});
         alert(error);
