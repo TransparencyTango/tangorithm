@@ -6,7 +6,7 @@ import os
 
 from flask import Flask, jsonify, request
 
-import gloveS
+import glove
 import mirror_state
 from flask import Flask, request, jsonify
 import json
