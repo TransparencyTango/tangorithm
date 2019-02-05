@@ -11,7 +11,7 @@ const LoadingScreen = props => {
     )
   } else {
     return(
-        <video className="fullscreen" id="animation" controls autoPlay loop>
+        <video className="fullscreen" id="animation" autoPlay loop>
           <source src="/img/mirror_mirror.mp4" type="video/mp4"/>
           <source src="/img/mirror_mirror.webm" type="video/webm"/>
         </video>
@@ -32,7 +32,7 @@ class App extends Component {
         hasSent: false,
       },
       loadingState: "none",
-      formValues: ['ex. intelligent', 'ex. arrogant', 'ex. open-minded', 'ex. golf', 'ex. cooking', 'ex. cinema'],
+      formValues: ['', '', '', '', '', ''],
       additionalInformation: {
         showNeighbours: false,
         showSimilarities: false
@@ -43,11 +43,9 @@ class App extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.toggleScreen = this.toggleScreen.bind(this);
+    this.toggleInformation = this.toggleInformation.bind(this);
     this.resetMirror = this.resetMirror.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleFocus = this.handleFocus.bind(this);
-    this.toggleInformation = this.toggleInformation.bind(this);
-    this.setFontColor = this.setFontColor.bind(this);
   }
 
   toggleScreen() {
@@ -55,7 +53,7 @@ class App extends Component {
   }
 
   toggleInformation(buttonsStatus) {
-    this.setState({additionalInformation: buttonsStatus})
+    this.setState({additionalInformation: buttonsStatus});
   }
 
   resetMirror() {
@@ -63,19 +61,18 @@ class App extends Component {
     fetch('resetMirror',{
         method: "POST",
       }).catch((error) => console.error(error));
-    this.setFontColor();
   }
 
   handleChange(name, value) {
     const updatedValues = Object.assign({}, this.state.formValues, {[name]: value});
-    const numInputValues = Object.values(this.state.formValues).filter(value => !/^ex. /.test(value) && value !== '').length;
+    const numInputValues = Object.values(this.state.formValues).filter(value => !value.match(/^ *$/)).length;
     const newButtonsState = Object.assign({}, this.state.buttonsState, {canReset: (numInputValues > 0), canSend: (numInputValues >= 4)});
     this.setState({formValues: updatedValues, buttonsState: newButtonsState });
   }
 
   handleSubmit(event){
     event.preventDefault();
-    const input =  Object.values(this.state.formValues).filter(value => !/^ex. /.test(value)).map(value => value.trim().split(/\s+/)[0]).join(' ');
+    const input =  Object.values(this.state.formValues).filter(value => !value.match(/^ *$/)).map(value => value.trim().split(/\s+/)[0]).join(' ');
     fetch('postAttributes?words=' + input,{
         method: "POST",
       })
@@ -84,32 +81,14 @@ class App extends Component {
           alert(res.statusText);
         }
       })
-      .then(() => this.setState({loadingState: "showHint"}))
-      .then(() => setTimeout((() => this.setState({loadingState: "none"})), 3000))
+      .then(() => setTimeout((() => this.setState({loadingState: "showHint"})), 3000))
+      .then(() => setTimeout((() => this.setState({loadingState: "none"})), 5000))
       .catch((error) =>  {
         this.setState({loading:false, finishLoading:false, hasSent:false});
         alert(error);
       });
       const showMore = Object.assign({}, this.state.buttonsState, {hasSent: true});
       this.setState({buttonsState: showMore, loadingState: "loading"});
-  }
-
-  handleFocus(event) {
-    const name = event.target.name;
-    if(/^ex. /.test(this.state.formValues[name])) {
-      let updatedValues = Object.assign({}, this.state.formValues, {[name]: ''});
-      this.setState({formValues: updatedValues});
-      document.getElementsByName(name)[0].style.color="black";
-    }
-  }
-
-  setFontColor() {
-    let inputFields = document.getElementsByTagName('input');
-    for(let i=0; i<inputFields.length; i++){
-      if (inputFields[i].getAttribute('type') === 'text' && !/^ex. /.test(inputFields[i].value)){
-        inputFields[i].style.color = "#646361";
-      }
-    }
   }
 
   render() {
@@ -121,7 +100,7 @@ class App extends Component {
     else if (this.state.showStart) {
       return (
         <div className="Form">
-          <Form values={this.state.formValues} buttonsState={this.state.buttonsState} handleChange={this.handleChange} handleMore={this.toggleScreen} handleReset={this.resetMirror} handleSubmit={this.handleSubmit} removeBackground={this.handleFocus}/>
+          <Form values={this.state.formValues} buttonsState={this.state.buttonsState} handleChange={this.handleChange} handleMore={this.toggleScreen} handleReset={this.resetMirror} handleSubmit={this.handleSubmit}/>
         </div>
       );
     }
