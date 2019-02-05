@@ -13,6 +13,7 @@ import json
 
 gloveExplorer = None
 mirror = None
+
 #QUICK_LOOKUP_PATH = "Documents/Tangorithm_Tools/data"
 QUICK_LOOKUP_PATH = "."
 possible_words = []
@@ -68,7 +69,7 @@ def postAttributes():
             else:
                 mirror.current_knn = []
             mirror.current_similarities = \
-                gloveExplorer.getSimilarities(["successful"])
+                gloveExplorer.getSimilarities(["successful", "engaged", "happy"])
             return "ok"
         else:
             mirror.reset_mirror()

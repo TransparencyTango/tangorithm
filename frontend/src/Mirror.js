@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 var pics = {
-  "default":  require('./img/unknown_person.jpg'),
+  "default":  require('./img/default.jpg'),
   "pink":     require('./img/pink_hair.jpg'),
   "green":    require('./img/green_hair.jpg'),
   "punk1":    require('./img/green_hair.jpg')
@@ -68,21 +68,35 @@ class Mirror extends Component {
     clearInterval(this.timer);
     this.timer = null;
   }
+  
+  parseSimilarities() {
+    let similarities = [];
+    this.state.similarities.forEach((element) => {
+      similarities.push(element.toFixed(2));
+    }); 
+    return <p> Similarity to "successful":  <br/>
+          {similarities[0]} from 1.00 <br/>
+          Similarity to "engaged":  <br/>
+          {similarities[1]} from 1.00 <br/>
+          Similarity to "happy":  <br/>
+          {similarities[2]} from 1.00          
+          </p>
+  }
 
   render() {
     return (
-      <div>
-        <h2>That is you</h2>
-        <p>
-          <img height="250" src={pics[this.state.reflectionPic]} alt="" />
-          {this.state.name}
-        </p>
-        {this.state.showKNN &&
-          <p> 5 nearest Neighbours: {this.state.knns.join(', ')} </p>
-        }
-        {this.state.showSimilarities &&
-          <p> Similarity to "successful", [...]: {this.state.similarities.join(', ')} </p>
-        }
+      <div id="mirror-complete">
+        <img id="reflection-img" src={pics[this.state.reflectionPic]} alt={this.state.name} />
+          {/*this.state.name*/}
+        <div id="knn">
+          {this.state.showKNN &&
+            <p> Nearest Neighbours: {this.state.knns.join(', ')} </p>
+          }
+        </div>
+        <div id="similarities">
+          {this.state.showSimilarities &&
+            this.parseSimilarities()}
+        </div>
       </div>
     );
   }
