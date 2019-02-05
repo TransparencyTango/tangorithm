@@ -11,7 +11,7 @@ const LoadingScreen = props => {
     )
   } else {
     return(
-        <video className="fullscreen" id="animation" controls autoPlay loop>
+        <video className="fullscreen" id="animation" autoPlay loop>
           <source src="/img/mirror_mirror.mp4" type="video/mp4"/>
           <source src="/img/mirror_mirror.webm" type="video/webm"/>
         </video>
