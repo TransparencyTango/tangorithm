@@ -88,6 +88,7 @@ class CharacteristicsInputField extends React.Component {
                               type: "text",
                               name: this.props.name,
                               value: this.props.value,
+                              placeholder: this.props.placeholder,
                               onChange: this.props.onChange})
                         }
                         onFocus={this.props.onFocus}
@@ -128,15 +129,6 @@ class Form extends React.Component {
     this.onInputChoice = this.onInputChoice.bind(this);
   }
 
-  componentDidMount() {
-    let inputFields = document.getElementsByTagName('input');
-    for(let i=0; i<inputFields.length; i++){
-      if (inputFields[i].getAttribute('type') === 'text' && !/^ex. /.test(inputFields[i].value)){
-        inputFields[i].style.color = "black";
-      }
-    }
-}
-
   onInputChoice(name, value) {
     this.props.handleChange(name, value);
   }
@@ -158,14 +150,14 @@ class Form extends React.Component {
         <form id="form0" onSubmit={this.props.handleSubmit}>
           <div className="grid-container">
             <div className="grid-element">
-              <CharacteristicsInputField onInputChoice={this.onInputChoice} onChange={this.handleChange} name="0" value={this.props.values[0]} onFocus={this.props.removeBackground}/>
-              <CharacteristicsInputField onInputChoice={this.onInputChoice} onChange={this.handleChange} name="1" value={this.props.values[1]} onFocus={this.props.removeBackground}/>
-              <CharacteristicsInputField onInputChoice={this.onInputChoice} onChange={this.handleChange} name="2" value={this.props.values[2]} onFocus={this.props.removeBackground}/>
+              <CharacteristicsInputField onInputChoice={this.onInputChoice} onChange={this.handleChange} name="0" value={this.props.values[0]} placeholder="ex. intelligent"/>
+              <CharacteristicsInputField onInputChoice={this.onInputChoice} onChange={this.handleChange} name="1" value={this.props.values[1]} placeholder="ex. arrogant"/>
+              <CharacteristicsInputField onInputChoice={this.onInputChoice} onChange={this.handleChange} name="2" value={this.props.values[2]} placeholder="ex. open-minded"/>
             </div>
             <div className="grid-element">
-              <CharacteristicsInputField onInputChoice={this.onInputChoice} onChange={this.handleChange} name="3" value={this.props.values[3]} onFocus={this.props.removeBackground}/>
-              <CharacteristicsInputField onInputChoice={this.onInputChoice} onChange={this.handleChange} name="4" value={this.props.values[4]} onFocus={this.props.removeBackground}/>
-              <CharacteristicsInputField onInputChoice={this.onInputChoice} onChange={this.handleChange} name="5" value={this.props.values[5]} onFocus={this.props.removeBackground}/>
+              <CharacteristicsInputField onInputChoice={this.onInputChoice} onChange={this.handleChange} name="3" value={this.props.values[3]} placeholder="ex. golf"/>
+              <CharacteristicsInputField onInputChoice={this.onInputChoice} onChange={this.handleChange} name="4" value={this.props.values[4]} placeholder="ex. cooking"/>
+              <CharacteristicsInputField onInputChoice={this.onInputChoice} onChange={this.handleChange} name="5" value={this.props.values[5]} placeholder="ex. cinema"/>
             </div>
           </div>
         </form>
