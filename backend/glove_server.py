@@ -15,7 +15,7 @@ gloveExplorer = None
 mirror = None
 
 #QUICK_LOOKUP_PATH = "Documents/Tangorithm_Tools/data"
-QUICK_LOOKUP_PATH = "."
+QUICK_LOOKUP_PATH = "./letterCache"
 possible_words = []
 with open("possible_inputs/possibleInputsList") as f:
     possible_words = json.loads(f.read())
@@ -69,7 +69,7 @@ def postAttributes():
             else:
                 mirror.current_knn = []
             mirror.current_similarities = \
-                gloveExplorer.getSimilarities(["successful", "engaged", "happy"])
+                gloveExplorer.getSimilarities(["successful", "old", "loved", "antisocial", "male", "good", "criminal", "sick"])
             return "ok"
         else:
             mirror.reset_mirror()
@@ -142,7 +142,6 @@ if __name__ == "__main__":
 
     glove_path = args.glove_file_path
     models_path = args.models_descriptions_path
-
     pos_args_valid = os.path.exists(glove_path) and os.path.exists(models_path)
 
     if pos_args_valid:
@@ -153,6 +152,6 @@ if __name__ == "__main__":
     else:
         if not os.path.exists(glove_path):
             print("Couldn't find path: \n" + glove_path)
-        if not os.path.exists(input_path):
-            print("Couldn't find path: #\n" + input_path)
+        if not os.path.exists(models_path):
+            print("Couldn't find path: #\n" + models_path)
         print("Aborted server launch.")

@@ -6,7 +6,7 @@ class MirrorState:
     def reset_mirror(self):
         self.is_reflection = False
         self.current_match = "default"
-        self.show_knn, self.show_similarities = False, False
+        self.show_knn, self.show_similarities = False, True
         self.current_knn, self.current_similarities = [], []
 
     def get_state(self):

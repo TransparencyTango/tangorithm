@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Webcam from 'react-webcam';
 
 var pics = {
   "default":  require('./img/default.jpg'),
@@ -16,7 +17,7 @@ class Mirror extends Component {
       "name" : null,
       "reflectionPic": "default",
       "showKNN": false,
-      "showSimilarities": false,
+      "showSimilarities": true,
       "knns": [],
       "similarities": []
     };
@@ -72,30 +73,45 @@ class Mirror extends Component {
   parseSimilarities() {
     let similarities = [];
     this.state.similarities.forEach((element) => {
-      similarities.push(element.toFixed(2));
+      similarities.push(((element+1)/2).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}));
     }); 
-    return <p> Similarity to "successful":  <br/>
-          {similarities[0]} from 1.00 <br/>
-          Similarity to "engaged":  <br/>
-          {similarities[1]} from 1.00 <br/>
-          Similarity to "happy":  <br/>
-          {similarities[2]} from 1.00          
-          </p>
+    /*return <p> You are "successful":  <br/>
+          {similarities[0]}%<br/>
+          You are "engaged":  <br/>
+          {similarities[1]}% <br/>
+          You are "happy":  <br/>
+          {similarities[2]}%          
+          </p> */  
+    return <React.Fragment> 
+            <div id="leftTopSimil" >
+              You will be successful: {similarities[0]} <br/>
+              You'll grow old: {similarities[1]} <br/>
+            </div>
+            <div id="leftSimil">
+              You will be loved: {similarities[2]} <br/>   
+            </div>
+            <div id="leftBottomSimil">
+              You become antisocial: <br/>
+              {similarities[3]} <br/>        
+              You become male:<br/>
+              {similarities[4]} <br/>          
+              You're gonna do something good: <br/>
+              {similarities[5]} <br/>   
+            </div> 
+            <div id="rightSimil">
+              You're gonna be a criminal: {similarities[6]} <br/> 
+              You get sick: {similarities[7]}
+            </div>
+          </React.Fragment>
   }
 
   render() {
     return (
       <div id="mirror-complete">
-        <img id="reflection-img" src={pics[this.state.reflectionPic]} alt={this.state.name} />
-          {/*this.state.name*/}
-        <div id="knn">
-          {this.state.showKNN &&
-            <p> Nearest Neighbours: {this.state.knns.join(', ')} </p>
-          }
-        </div>
-        <div id="similarities">
           {this.state.showSimilarities &&
             this.parseSimilarities()}
+        <div id="webcam">
+          <Webcam />
         </div>
       </div>
     );

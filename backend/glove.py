@@ -26,6 +26,7 @@ NUM_CLUSTERS = 10
 
 # ------------------ Helper functions ---------------------------
 def parseGloveFile(gloveFile):
+    print(gloveFile)
     words = pd.read_table(gloveFile, sep=" ", index_col=0,
                           header=None, quoting=csv.QUOTE_NONE)
     words = words.loc[words.index.notnull()]

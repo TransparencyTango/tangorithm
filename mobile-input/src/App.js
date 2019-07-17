@@ -35,7 +35,7 @@ class App extends Component {
       formValues: ['', '', '', '', '', ''],
       additionalInformation: {
         showNeighbours: false,
-        showSimilarities: false
+        showSimilarities: true
       }
     }
 
