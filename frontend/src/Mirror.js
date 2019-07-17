@@ -84,23 +84,20 @@ class Mirror extends Component {
           </p> */  
     return <React.Fragment> 
             <div id="leftTopSimil" >
-              You will be successful: {similarities[0]} <br/>
-              You'll grow old: {similarities[1]} <br/>
+              You will be successful: <span class="percent">{similarities[0]} </span> <br/>
+              You'll grow old: <span class="percent">{similarities[1]} </span> <br/>
             </div>
             <div id="leftSimil">
               You will be loved: {similarities[2]} <br/>   
             </div>
             <div id="leftBottomSimil">
-              You become antisocial: <br/>
-              {similarities[3]} <br/>        
-              You become male:<br/>
-              {similarities[4]} <br/>          
-              You're gonna do something good: <br/>
-              {similarities[5]} <br/>   
+              You become antisocial: <span class="percent">{similarities[3]} </span> <br/>        
+              You become male: <span class="percent">{similarities[4]} </span> <br/>          
+              You're gonna do something good: <span class="percent">{similarities[5]} </span> <br/>   
             </div> 
             <div id="rightSimil">
-              You're gonna be a criminal: {similarities[6]} <br/> 
-              You get sick: {similarities[7]}
+              You're gonna be a criminal: <span class="percent">{similarities[6]} </span> <br/> 
+              You get sick: <span class="percent">{similarities[7]} </span>
             </div>
           </React.Fragment>
   }

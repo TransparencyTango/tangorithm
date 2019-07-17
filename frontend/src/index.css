@@ -5,12 +5,21 @@ body {
   font-family: Andale Mono,AndaleMono,monospace;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color: green;
+}
+
+#leftTopSimil {
+  width: 80%;
 }
 
 #leftBottomSimil {
   position: absolute;
   left: 0;
   bottom: 0;
+}
+
+.percent {
+    float: right;
 }
 
 #leftSimil {
@@ -33,36 +42,16 @@ body {
   position: absolute;
   top: 0;
   right: 0;
-  /*-webkit-transform-origin: 50% 0;
-   -moz-transform-origin: 50% 0;
-    -ms-transform-origin: 50% 0;
-     -o-transform-origin: 50% 0;
-        transform-origin: 50% 0;*/
   -webkit-transform-origin: top right;
    -moz-transform-origin: top right;
     -ms-transform-origin: top right;
      -o-transform-origin: top right;
         transform-origin: top right;
-  /*-webkit-transform: rotate(90deg);
-     -moz-transform: rotate(90deg);
-      -ms-transform: rotate(90deg);
-       -o-transform: rotate(90deg);
-          transform: rotate(90deg);*/
-  /*  -webkit-transform: translate(50%, 0);
-     -moz-transform: translate(50%, 0);
-      -ms-transform: translate(50%, 0);
-       -o-transform: translate(50%, 0);
-          transform: translate(50%, 0);*/
   -webkit-transform: rotate(90deg) translate(150%, 0);
      -moz-transform: rotate(90deg) translate(150%, 0);
       -ms-transform: rotate(90deg) translate(150%, 0);
        -o-transform: rotate(90deg) translate(150%, 0);
           transform: rotate(90deg) translate(150%, 0);
-  /*-webkit-transform: rotate(90deg) translate(50%, 100%);
-     -moz-transform: rotate(90deg) translate(50%, 100%);
-      -ms-transform: rotate(90deg) translate(50%, 100%);
-       -o-transform: rotate(90deg) translate(50%, 100%);
-          transform: rotate(90deg) translate(50%, 100%);*/
 }
 
 #webcam {
