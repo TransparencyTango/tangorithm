@@ -74,14 +74,7 @@ class Mirror extends Component {
     let similarities = [];
     this.state.similarities.forEach((element) => {
       similarities.push(((element+1)/2).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}));
-    }); 
-    /*return <p> You are "successful":  <br/>
-          {similarities[0]}%<br/>
-          You are "engaged":  <br/>
-          {similarities[1]}% <br/>
-          You are "happy":  <br/>
-          {similarities[2]}%          
-          </p> */  
+    });  
     return <React.Fragment> 
             <div id="leftTopSimil" >
               You will be successful: <span class="percent">{similarities[0]} </span> <br/>

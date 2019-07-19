@@ -355,10 +355,13 @@ class GloveExplorer(GloveModel):
 
         similarities = []
         currentInput = self.similarWordsCache
+        print("currentInput")
+        print(currentInput)
         for word in wordList:
             word = self.getMostSimilarKnownWord(word)
             if word:
-                word_vector = self.getWordVector(word[0])
+                #word_vector = self.getWordVector(word[0])
+                word_vector = self.getWordVector(word)
                 similarity = cosine_similarity(np.vstack([word_vector,
                                                           ref_vector]))[0][1]
                 similarities.append(similarity)
