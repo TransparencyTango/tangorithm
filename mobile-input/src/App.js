@@ -66,7 +66,7 @@ class App extends Component {
   handleChange(name, value) {
     const updatedValues = Object.assign({}, this.state.formValues, {[name]: value});
     const numInputValues = Object.values(this.state.formValues).filter(value => !value.match(/^ *$/)).length;
-    const newButtonsState = Object.assign({}, this.state.buttonsState, {canReset: (numInputValues > 0), canSend: (numInputValues >= 4)});
+    const newButtonsState = Object.assign({}, this.state.buttonsState, {canReset: (numInputValues > 0), canSend: (true)});
     this.setState({formValues: updatedValues, buttonsState: newButtonsState });
   }
 
