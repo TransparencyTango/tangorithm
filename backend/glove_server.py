@@ -4,8 +4,7 @@
 import argparse
 import os
 
-from flask import Flask, jsonify, request
-
+from flask import Flask, jsonify, request, render_template
 import glove
 import mirror_state
 from flask import Flask, request, jsonify
@@ -15,15 +14,45 @@ gloveExplorer = None
 mirror = None
 
 #QUICK_LOOKUP_PATH = "Documents/Tangorithm_Tools/data"
-QUICK_LOOKUP_PATH = "."
+QUICK_LOOKUP_PATH = "./letterCache"
 possible_words = []
 with open("possible_inputs/possibleInputsList") as f:
     possible_words = json.loads(f.read())
 
 # ------------------ Server Functions ---------------------------
-app = Flask(__name__)
+
+def create_app():
+  app = Flask(__name__)
+  @app.route("/inputPage")
+  def inputPage():
+    return render_template('index.html')
+  """parser = argparse.ArgumentParser()
+    parser.add_argument("glove_file_path", action="store",
+                        help="directory of glove word-embeddings")
+    parser.add_argument("models_descriptions_path", action="store",
+                        help="path to file with modelname + tags")
+    args = parser.parse_args()
+
+    glove_path = args.glove_file_path
+    models_path = args.models_descriptions_path
+    pos_args_valid = os.path.exists(glove_path) and os.path.exists(models_path)
+
+    if pos_args_valid:
+        print("valid")
+        gloveExplorer = glove.GloveExplorer(glove_path, models_path)
+        gloveExplorer.setQuickLookUpPath(QUICK_LOOKUP_PATH)
+        mirror = mirror_state.MirrorState()
+        app.run()
+    else:
+        print("invalid")
+        if not os.path.exists(glove_path):
+            print("Couldn't find path: \n" + glove_path)
+        if not os.path.exists(models_path):
+            print("Couldn't find path: #\n" + models_path)
+        print("Aborted server launch.")"""
 
 
+"""
 @app.route("/getMatch")
 def getMatch():
     global gloveExplorer
@@ -197,10 +226,11 @@ def getAutocompletionList(substring, count):
         if result_count > count:
             break
     return jsonify(result)
+    
+"""
 
-
-if __name__ == "__main__":
-
+"""if __name__ == "__main__":
+    pass
     parser = argparse.ArgumentParser()
     parser.add_argument("glove_file_path", action="store",
                         help="directory of glove word-embeddings")
@@ -213,13 +243,15 @@ if __name__ == "__main__":
     pos_args_valid = os.path.exists(glove_path) and os.path.exists(models_path)
 
     if pos_args_valid:
+        print("valid")
         gloveExplorer = glove.GloveExplorer(glove_path, models_path)
         gloveExplorer.setQuickLookUpPath(QUICK_LOOKUP_PATH)
         mirror = mirror_state.MirrorState()
         app.run()
     else:
+        print("invalid")
         if not os.path.exists(glove_path):
             print("Couldn't find path: \n" + glove_path)
         if not os.path.exists(models_path):
             print("Couldn't find path: #\n" + models_path)
-        print("Aborted server launch.")
+        print("Aborted server launch.")"""

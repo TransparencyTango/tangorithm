@@ -1,0 +1,35 @@
+http://localhost:3000/mirror
+
+python glove_server.py glove.6B.50d.txt stereotypen.txt
+
+python glove_server.py letterCache/cleaned_glove.6B.50d.txt stereotypen_new.txt
+
+C:\path\to\app>set FLASK_APP=hello.py
+C:\Users\heem\Documents\WiSe1819\IXD\tangorithm\backend>set FLASK_APP=glove_server.py
+
+export FLASK_APP=glove_server.py
+
+
+First, create your environment and activate it:
+$ conda create -n mirror-env
+
+To activate this environment, use
+
+$ conda activate mirror-env
+
+conda env config vars list
+conda env config vars set FLASK_APP=glove_server.py
+conda env config vars set FLASK_ENV=development
+
+conda install flask
+conda install numpy
+conda install pandas
+
+python -m flask run
+conda install scikit-learn
+
+__________________________________
+
+Server Setup, anständig.
+wann "if __Main__"
+wann app= Flask(...) 
