@@ -1,87 +1,55 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import argparse
 import os
 
-from flask import Flask, jsonify, request, render_template
-import glove
-import mirror_state
-from flask import Flask, request, jsonify
-import json
+from flask import Blueprint, request, jsonify
+#from flask import Flask, jsonify, request, render_template
+
+from . import glove
+from . import mirror_state
+
+QUICK_LOOKUP_PATH = "backend/letterCache"
+
+bp = Blueprint('glove', __name__)
 
 gloveExplorer = None
 mirror = None
 
-#QUICK_LOOKUP_PATH = "Documents/Tangorithm_Tools/data"
-QUICK_LOOKUP_PATH = "./letterCache"
-possible_words = []
-with open("possible_inputs/possibleInputsList") as f:
-    possible_words = json.loads(f.read())
-
-# ------------------ Server Functions ---------------------------
-
-def create_app():
-  app = Flask(__name__)
-  @app.route("/inputPage")
-  def inputPage():
-    return render_template('index.html')
-  """parser = argparse.ArgumentParser()
-    parser.add_argument("glove_file_path", action="store",
-                        help="directory of glove word-embeddings")
-    parser.add_argument("models_descriptions_path", action="store",
-                        help="path to file with modelname + tags")
-    args = parser.parse_args()
-
-    glove_path = args.glove_file_path
-    models_path = args.models_descriptions_path
-    pos_args_valid = os.path.exists(glove_path) and os.path.exists(models_path)
-
-    if pos_args_valid:
-        print("valid")
-        gloveExplorer = glove.GloveExplorer(glove_path, models_path)
-        gloveExplorer.setQuickLookUpPath(QUICK_LOOKUP_PATH)
-        mirror = mirror_state.MirrorState()
-        app.run()
-    else:
-        print("invalid")
-        if not os.path.exists(glove_path):
-            print("Couldn't find path: \n" + glove_path)
-        if not os.path.exists(models_path):
-            print("Couldn't find path: #\n" + models_path)
-        print("Aborted server launch.")"""
+def init_glove():
+  global gloveExplorer, mirror
+  glove_path = "backend/letterCache/cleaned_glove.6B.50d.txt"
+  models_path = "backend/stereotypen_new.txt"
+  pos_args_valid = os.path.exists(glove_path) and os.path.exists(models_path)
+  if pos_args_valid:
+      print("valid")
+      gloveExplorer = glove.GloveExplorer(glove_path, models_path)
+      gloveExplorer.setQuickLookUpPath(QUICK_LOOKUP_PATH)
+      mirror = mirror_state.MirrorState()
+      print("initialized")
+  else:
+      print("invalid")
+      if not os.path.exists(glove_path):
+          print("Couldn't find path: \n" + glove_path)
+      if not os.path.exists(models_path):
+          print("Couldn't find path: #\n" + models_path)
+      print("Aborted glove initialization")
+      raise Exception("Aborted glove initialization")
 
 
-"""
-@app.route("/getMatch")
+@bp.route("/getMatch")
 def getMatch():
-    global gloveExplorer
-    req = request.args.get("words", None)
+    global gloveExplorer, mirror
+    return jsonify(mirror.current_match, mirror.current_knn, mirror.current_similarities) 
+    #req = request.args.get("words", None)
+    #if gloveExplorer and req:
+    #    wordList = req.split(" ")
+    #    match = gloveExplorer.getMatch(wordList)
+    #    return match
+    #else:
+    #    return "gloveExplorer and req is false"
 
-    if gloveExplorer and req:
-        wordList = req.split(" ")
-        match = gloveExplorer.getMatch(wordList)
-        return match
-    else:
-        return None
-
-
-@app.route("/getKNN")
-def getKNN():
-    global gloveExplorer
-    k = int(request.args.get("k", None))
-    input_words = request.args.get("words", None)
-    if k and input_words:
-        wordList = input_words.split(" ")
-        knn_dict = gloveExplorer.getKNN(k, wordList)
-        knn_keys = list(knn_dict.keys())
-        msg = " ".join(knn_keys)
-        return msg
-    else:
-        return None
-
-
-@app.route("/postAttributes", methods=['POST'])
+@bp.route("/postAttributes", methods=['POST'])
 def postAttributes():
     global gloveExplorer, mirror
     req = request.args.get("words", None)
@@ -174,6 +142,58 @@ def postAttributes():
     else:
         mirror.reset_mirror()
         return "failed - gloveExplorer not initialized or no request arguments"
+        
+
+"""
+import argparse
+import os
+
+from flask import Flask, jsonify, request, render_template
+import glove
+import mirror_state
+from flask import Flask, request, jsonify
+import json
+
+gloveExplorer = None
+mirror = None
+
+#QUICK_LOOKUP_PATH = "Documents/Tangorithm_Tools/data"
+QUICK_LOOKUP_PATH = "./letterCache"
+possible_words = []
+with open("possible_inputs/possibleInputsList") as f:
+    possible_words = json.loads(f.read())
+
+# ------------------ Server Functions ---------------------------
+
+
+@app.route("/getMatch")
+def getMatch():
+    global gloveExplorer
+    req = request.args.get("words", None)
+
+    if gloveExplorer and req:
+        wordList = req.split(" ")
+        match = gloveExplorer.getMatch(wordList)
+        return match
+    else:
+        return None
+
+
+@app.route("/getKNN")
+def getKNN():
+    global gloveExplorer
+    k = int(request.args.get("k", None))
+    input_words = request.args.get("words", None)
+    if k and input_words:
+        wordList = input_words.split(" ")
+        knn_dict = gloveExplorer.getKNN(k, wordList)
+        knn_keys = list(knn_dict.keys())
+        msg = " ".join(knn_keys)
+        return msg
+    else:
+        return None
+
+
 
 
 @app.route("/resetMirror", methods=['POST'])

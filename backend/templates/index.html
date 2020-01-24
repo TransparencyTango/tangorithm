@@ -3,17 +3,31 @@
   <head>
     <meta charset="utf-8">
     <title>JavaScript: Hallo Welt</title>
-    <script>
-      alert("Hallo Welt1!");
-       fetch('http://127.0.0.1:5000/getMirrorState')
-      .then(function(response) {
-      alert("Hallo Welt2!");})
-    </script>
-    <noscript>
-      Sie haben JavaScript deaktiviert.
-    </noscript>
   </head>
   <body>
-    <p>Diese Seite tut nichts weiter, als eine Hinweisbox auszugeben.</p>
+      <div>
+        <h1> Please tell me a few things about yourself </h1>
+      </div>
+      <div className="grid-container">
+          <p> Which characteristics describe you the best? </p>
+          <p> What kind of interests do you have? </p>
+      </div>
+      <form id="form">
+        <textarea id="inputCharacteristics" rows="6">characteristic</textarea>
+        <input id="inputSumbmitButton" type="submit">
+      </form> 
+      <div id="waitingSign" hidden=True >Please wait, while glove is processing</div>
+      <p> Similarities to predefined words: </p>
+      <div id="similaritiesContainer">
+        <ul id="similaritiesList">
+          {% for word in similarities %}
+            <li>{{word}}</li>
+          {% endfor %}
+        </ul>       
+      </div>
+      <p> Nearest Neighbours to your input: </p>
+      <div id="knnContainer">
+      </div>
+    <script src="static/index.js"></script>      
   </body>
 </html>

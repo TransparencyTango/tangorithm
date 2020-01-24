@@ -366,7 +366,7 @@ class GloveExplorer(GloveModel):
                                                           ref_vector]))[0][1]
                 similarities.append(similarity)
             else:
-                # -inf indicates that no word like this was found
-                similarities.append(-np.inf)
+                # None indicates that no word like this was found
+                similarities.append(None)
 
         return similarities
