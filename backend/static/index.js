@@ -67,8 +67,8 @@ function showUpdatedResults(json) {
     li.innerHTML += item;
   });
   //showSimilarities  
-  //let similarityValues = json[2];
-  let similarityValues = [0.01, 0.02]; 
+  let similarityValues = json[2];
+  //let similarityValues = [0.01, 0.02, 0.03]; 
   
   ulSim = document.createElement('ul');
   ulSim.setAttribute("id", similaritiesListId);
@@ -76,7 +76,10 @@ function showUpdatedResults(json) {
   similaritiesContainer.appendChild(ulSim);
   
   let index = 0;
-  // todo: length check
+  if (similaritiesKeys.length != similarityValues.length) {
+    throw "Fehler. Weniger oder Mehr Similarities als vorgesehen";
+  }
+  
   similaritiesKeys.forEach(function (item) {
     let li = document.createElement('li');
     li.innerHTML = item.innerHTML + ": " + similarityValues[index]
@@ -84,19 +87,4 @@ function showUpdatedResults(json) {
     index +=1;
   });
   
-  /*//let similarityValues = json[2];
-  let similarityValues = [0.01, 0.02];  
-  
-  //check list length and response length
-  //if similarityValues.length != similaritiesList.children.length {problem}
-  let similarityKeys = Array.from(similaritiesList.children);
-  let index = 0;
-  similarityKeys.forEach(function (item) {
-    item.innerHTML += ": " + similarityValues[index];
-    index +=1;
-  });
-  //show Similaritiers
-  //foreach listenelement
-  //falls liste und responseliste verschieden lang: Fehler
-  */
 }

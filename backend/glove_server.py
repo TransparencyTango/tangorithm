@@ -15,6 +15,18 @@ bp = Blueprint('glove', __name__)
 
 gloveExplorer = None
 mirror = None
+similarities = None
+
+def initialize(initial_similarities):
+  init_glove()
+  return init_similarities(initial_similarities)
+
+def init_similarities(initial_similarities):
+  global similarities
+  similarities = initial_similarities
+  # ToDo: sanitize similarities, save in var similarities 
+  # ToDo: process similarities for frontend (similarity lookup and no match)
+  return similarities
 
 def init_glove():
   global gloveExplorer, mirror
@@ -51,7 +63,7 @@ def getMatch():
 
 @bp.route("/postAttributes", methods=['POST'])
 def postAttributes():
-    global gloveExplorer, mirror
+    global gloveExplorer, mirror, similarities
     req = request.args.get("words", None)
 
     if gloveExplorer and req:
@@ -61,11 +73,13 @@ def postAttributes():
             mirror.is_reflection = True
             mirror.current_match = match
             knns = gloveExplorer.getKNN(20, wordList)
+            mirror.current_similarities = gloveExplorer.getSimilarities(similarities)
             if knns is not None:
                 mirror.current_knn = list(knns.keys())
             else:
                 mirror.current_knn = []
-            mirror.current_similarities = \
+                mirror.current_similarities = gloveExplorer.getSimilarities(similarities)
+                '''mirror.current_similarities = \
                 gloveExplorer.getSimilarities([
 
                 "successfully","eventually","effectively","managed","subsequently","ultimately","aided","pursued","assisted","quickly","begun","simultaneously","entered","determined","soon",
@@ -133,7 +147,7 @@ def postAttributes():
                 "housekeeper","hairdresser","landlady","babysitter","fiance","nanny","fiancé","fiancée","schoolteacher","governess","prostitute","co-worker","barmaid","bartender","receptionist",
 
 
-                "Anthroposophy","Mandaeans","Rosicrucians","Sun-Templar","Sufism","Kabbalah","Catholicism","Orthodox-Church","Protestantism","Free-Churches","Sunnites","Shia","Reform-Judaism","conservative-Judaism","Orthodox Judaism","Hinayana","Mahayanar","Chinese-Buddhism","Satsang-Movement","Sahaja-Yoga","Osho-Rajneesh-Movement","Krishna Consciousness","Parsees","Sikhism","Jainism","Confucianism","Mohism","Shintoism","Taoism","Animism","Paganism","Santeria","Shamanism","Rastafarian","Voodoo","Candomblé","Black-Order-of-the-Trapezoid","Church-of-Satan"])
+                "Anthroposophy","Mandaeans","Rosicrucians","Sun-Templar","Sufism","Kabbalah","Catholicism","Orthodox-Church","Protestantism","Free-Churches","Sunnites","Shia","Reform-Judaism","conservative-Judaism","Orthodox Judaism","Hinayana","Mahayanar","Chinese-Buddhism","Satsang-Movement","Sahaja-Yoga","Osho-Rajneesh-Movement","Krishna Consciousness","Parsees","Sikhism","Jainism","Confucianism","Mohism","Shintoism","Taoism","Animism","Paganism","Santeria","Shamanism","Rastafarian","Voodoo","Candomblé","Black-Order-of-the-Trapezoid","Church-of-Satan"])'''
 
             return "ok"
         else:

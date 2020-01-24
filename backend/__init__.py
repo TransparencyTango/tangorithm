@@ -3,15 +3,18 @@ from flask import Flask, render_template
 def create_app():
   app = Flask(__name__)
   
+  #todo: read similarities
+  similarities_from_file = ["good", "bad", "ugly"]
+  
+  from . import glove_server
+  similarities = glove_server.initialize(similarities_from_file)   
+  app.register_blueprint(glove_server.bp)
+  
   @app.route("/inputPage")
   def inputPage():
-    similarities = ["adj1", "adj2"]
     return render_template('index.html', similarities = similarities)
     
-  from . import glove_server
-  glove_server.init_glove() 
-  
-  app.register_blueprint(glove_server.bp)
+
   
   return app
 
