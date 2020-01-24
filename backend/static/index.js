@@ -4,8 +4,7 @@ const inputSumbmitButton = document.getElementById('inputSumbmitButton');
 const knnContainer = document.getElementById('knnContainer');
 const similaritiesContainer = document.getElementById('similaritiesContainer');
 const similaritiesListId = 'similaritiesList';
-//const similaritiesList = document.getElementById('similaritiesList');
-//const similaritesItems = Array.from(similaritiesList.children);
+const similaritiesKeys = Array.from(document.getElementById(similaritiesListId).children);
 
 
 
@@ -28,7 +27,6 @@ function submit(event) {
     similaritiesContainer.removeChild(similaritiesList);
   }
  
-  
   /*while (similaritiesList.firstChild) {
     similaritiesList.firstChild.remove();
   }
@@ -69,20 +67,22 @@ function showUpdatedResults(json) {
     li.innerHTML += item;
   });
   //showSimilarities  
-  let similarityValues = json[2];
-    
+  //let similarityValues = json[2];
+  let similarityValues = [0.01, 0.02]; 
+  
   ulSim = document.createElement('ul');
   ulSim.setAttribute("id", similaritiesListId);
 
   similaritiesContainer.appendChild(ulSim);
   
-  
-  similarityValues.forEach(function (item) {
+  let index = 0;
+  // todo: length check
+  similaritiesKeys.forEach(function (item) {
     let li = document.createElement('li');
+    li.innerHTML = item.innerHTML + ": " + similarityValues[index]
     ulSim.appendChild(li);
-    li.innerHTML += item;
+    index +=1;
   });
-  
   
   /*//let similarityValues = json[2];
   let similarityValues = [0.01, 0.02];  
