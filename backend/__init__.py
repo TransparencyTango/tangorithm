@@ -1,56 +1,19 @@
 from flask import Flask, render_template 
+import json
 
 def create_app():
   app = Flask(__name__)
   
-  #todo: read similarities
-  similarities_from_file = ["good", "bad", "ugly"]
-  
-  from . import glove_server
-  similarities = glove_server.initialize(similarities_from_file)   
-  app.register_blueprint(glove_server.bp)
-  
-  @app.route("/inputPage")
-  def inputPage():
-    return render_template('index.html', similarities = similarities)
+  #todo: read similarities  
+  with app.open_resource('similarities_keys.json') as f:
+    similarities_from_file = json.load(f)    
     
-
+    from . import glove_server
+    similarities = glove_server.initialize(similarities_from_file)   
+    app.register_blueprint(glove_server.bp)
+    
+    @app.route("/inputPage")
+    def inputPage():
+      return render_template('index.html', similarities = similarities)
   
   return app
-
-"""  
-def get_db():
-  if 'db' not in g:
-      g.db = sqlite3.connect(
-          current_app.config['DATABASE'],
-          detect_types=sqlite3.PARSE_DECLTYPES
-      )
-      g.db.row_factory = sqlite3.Row
-
-  return g.db
-
-
-parser = argparse.ArgumentParser()
-    parser.add_argument("glove_file_path", action="store",
-                        help="directory of glove word-embeddings")
-    parser.add_argument("models_descriptions_path", action="store",
-                        help="path to file with modelname + tags")
-    args = parser.parse_args()
-
-    glove_path = args.glove_file_path
-    models_path = args.models_descriptions_path
-    pos_args_valid = os.path.exists(glove_path) and os.path.exists(models_path)
-
-    if pos_args_valid:
-        print("valid")
-        gloveExplorer = glove.GloveExplorer(glove_path, models_path)
-        gloveExplorer.setQuickLookUpPath(QUICK_LOOKUP_PATH)
-        mirror = mirror_state.MirrorState()
-        app.run()
-    else:
-        print("invalid")
-        if not os.path.exists(glove_path):
-            print("Couldn't find path: \n" + glove_path)
-        if not os.path.exists(models_path):
-            print("Couldn't find path: #\n" + models_path)
-        print("Aborted server launch.")"""
