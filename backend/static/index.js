@@ -2,8 +2,12 @@ const form = document.getElementById('form');
 const waitingSign = document.getElementById('waitingSign');
 const inputSumbmitButton = document.getElementById('inputSumbmitButton');
 const knnContainer = document.getElementById('knnContainer');
-const similaritiesList = document.getElementById('similaritiesList');
-const similaritesItems = similaritiesList.children;
+const similaritiesContainer = document.getElementById('similaritiesContainer');
+const similaritiesListId = 'similaritiesList';
+//const similaritiesList = document.getElementById('similaritiesList');
+//const similaritesItems = Array.from(similaritiesList.children);
+
+
 
 
 form.onsubmit = submit;
@@ -14,10 +18,24 @@ function submit(event) {
   input = input.split('\n');
   waitingSign.hidden = false;
   inputSumbmitButton.disabled = true;
+  
+  // clear old values
   if (knnContainer.firstChild) {
     knnContainer.firstChild.remove();
   }
-  similaritiesList.children = similaritesItems;
+  let similaritiesList = document.getElementById(similaritiesListId);
+  if (similaritiesList) {
+    similaritiesContainer.removeChild(similaritiesList);
+  }
+ 
+  
+  /*while (similaritiesList.firstChild) {
+    similaritiesList.firstChild.remove();
+  }
+  similaritesItems.forEach(function (item) {
+    similaritiesList.appendChild(item)
+  });*/
+  
   //please wait 
 
   fetch('postAttributes?words=' + input,{
@@ -51,7 +69,22 @@ function showUpdatedResults(json) {
     li.innerHTML += item;
   });
   //showSimilarities  
-  //let similarityValues = json[2];
+  let similarityValues = json[2];
+    
+  ulSim = document.createElement('ul');
+  ulSim.setAttribute("id", similaritiesListId);
+
+  similaritiesContainer.appendChild(ulSim);
+  
+  
+  similarityValues.forEach(function (item) {
+    let li = document.createElement('li');
+    ulSim.appendChild(li);
+    li.innerHTML += item;
+  });
+  
+  
+  /*//let similarityValues = json[2];
   let similarityValues = [0.01, 0.02];  
   
   //check list length and response length
@@ -59,11 +92,11 @@ function showUpdatedResults(json) {
   let similarityKeys = Array.from(similaritiesList.children);
   let index = 0;
   similarityKeys.forEach(function (item) {
-    item.innerHTML += similarityValues[index];
+    item.innerHTML += ": " + similarityValues[index];
     index +=1;
   });
   //show Similaritiers
   //foreach listenelement
   //falls liste und responseliste verschieden lang: Fehler
-  
+  */
 }
