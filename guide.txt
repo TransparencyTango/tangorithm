@@ -1,35 +1,60 @@
-http://localhost:3000/mirror
+Auf https://github.com/TransparencyTango/tangorithm gehen.
+Branch auf caras_variation_testing stellen. (siehe Bild bei Telegram)
+Code herunterladen. (siehe Bild bei Telegram)
+Code eventuell entpacken.
 
-python glove_server.py glove.6B.50d.txt stereotypen.txt
+Anaconda installieren.
+https://www.anaconda.com/distribution/
 
-python glove_server.py letterCache/cleaned_glove.6B.50d.txt stereotypen_new.txt
+Das Anaconda Prompt öffnen (sieht aus wie ein Terminal/eine Shell).
 
-C:\path\to\app>set FLASK_APP=hello.py
-C:\Users\heem\Documents\WiSe1819\IXD\tangorithm\backend>set FLASK_APP=glove_server.py
-
-export FLASK_APP=glove_server.py
-
-
-First, create your environment and activate it:
+Ein neues Environment mit dem Namen <mirror-env> erstellen:
 $ conda create -n mirror-env
 
-To activate this environment, use
-
+Neues Environment aktivieren
 $ conda activate mirror-env
 
-conda env config vars list
-conda env config vars set FLASK_APP=glove_server.py
-conda env config vars set FLASK_ENV=development
+Libs installieren:
 
-conda install flask
-conda install numpy
-conda install pandas
+$ conda install flask
+$ conda install numpy
+$ conda install pandas
+$ conda install scikit-learn
 
-python -m flask run
-conda install scikit-learn
+Umgebungsvariablen setzen
+$ conda env config vars set FLASK_APP=backend
+$ conda env config vars set FLASK_ENV=development
 
-__________________________________
+//ToDo: Glove runterladen
 
-Server Setup, anständig.
-wann "if __Main__"
-wann app= Flask(...) 
+in den Backendserver navigieren:
+$ cd tangorithm/backend
+
+Glove vorprozessieren:
+$ python glove_cleaner.py
+
+Einen neuen Ordner "letterCache" in tangorithm/backend anlegen: backend/letterCache
+Folgende Dateien nach letterCache kopieren: cleaned_glove.6B.50d.txt, a.txt, b.txt, ..., z.txt
+
+Anwendung starten:
+
+Das Anaconda Prompt öffnen.
+In den "/tangorithm" Ordner navigieren (mit cd <..>)
+
+Environment aktivieren
+$ conda activate mirror-env
+
+Server starten
+$ python -m flask run
+
+... warten, bis im Terminal "initialized" steht
+
+Webseite öffnen (unter  http://127.0.0.1:5000/inputPage)
+
+Zeilenweise erwünschte Wörter eingeben. Auf Senden klicken. Warten.
+
+Die erscheinenden schmucklosen Zahlen sind die Similarities.
+Für Neighbours runter scrollen.
+
+Falls du andere similarities testen möchtest, in der Datei backend/similarities_keys.json ändern. 
+Dann den Server neu starten.
