@@ -6,8 +6,7 @@ import re
 
 import glove
 
-PATH_TO_GLOVE_FILE = \
-    "C:/Users/heem/Documents/WiSe1819/IXD/tangorithm/backend/glove/glove.6B.50d.txt"
+PATH_TO_GLOVE_FILE = "glove/glove.6B.50d.txt"
 
 
 # --------------- Helper functions -------------------------------

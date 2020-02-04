@@ -1,0 +1,7 @@
+ID_001:successfully,eventually,effectively,managed,subsequently,ultimately,aided,pursued,assisted,quickly,begun,simultaneously,entered,determined,soon
+ID_002:looser,restrictive,loosening,inflexible,polices,tighter,dictated,rigid,conforming,dictating,rigidly,instituting,cumbersome,constrained,burdensome
+ID_003:loved,remember,friends,wonder,remembered,loves,imagine,liked,beloved,remembers,knew,tell,wonders,reminds,dad
+ID_004:hate,despised,despise,betrayed,loathed,hates,obsessed,evidently,cursed,theirs,scorned,dreamed,ironically,adored,dislikes
+ID_005:criminal,crime,crimes,charged,prosecution,charges,alleged,investigating,prosecuting,guilty,conspiracy,case,prosecuted,investigate,involvement
+ID_006:victim,death,killer,finds,witness,child,murder,escaped,man,woman,suspect,escapes,survived,another,innocent
+ID_007:suicidal,ideation,homicidal,impulsive,tendencies,psychotic,antisocial,sociopathic,delusional,self-destructive,paranoid,impetuous,demented,psychopath,narcissistic

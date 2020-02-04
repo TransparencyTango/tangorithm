@@ -5,7 +5,7 @@ body {
   font-family: Andale Mono,AndaleMono,monospace;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: green;
+  color: white;
 }
 
 #leftTopSimil {
@@ -21,6 +21,11 @@ body {
 .percent {
     float: right;
 }
+
+.blackFont {
+  color: black;
+}
+
 
 #leftSimil {
   position: absolute;
