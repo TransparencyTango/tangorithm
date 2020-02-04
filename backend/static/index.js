@@ -2,12 +2,10 @@ const form = document.getElementById('form');
 const waitingSign = document.getElementById('waitingSign');
 const inputSumbmitButton = document.getElementById('inputSumbmitButton');
 const knnContainer = document.getElementById('knnContainer');
+const propheciesContainer = document.getElementById('propheciesContainer');
 const similaritiesContainer = document.getElementById('similaritiesContainer');
 const similaritiesListId = 'similaritiesList';
 const similaritiesKeys = Array.from(document.getElementById(similaritiesListId).children);
-
-
-
 
 form.onsubmit = submit;
 
@@ -19,6 +17,9 @@ function submit(event) {
   inputSumbmitButton.disabled = true;
   
   // clear old values
+  if (propheciesContainer.firstChild) {
+    propheciesContainer.firstChild.remove();
+  }
   if (knnContainer.firstChild) {
     knnContainer.firstChild.remove();
   }
@@ -26,13 +27,6 @@ function submit(event) {
   if (similaritiesList) {
     similaritiesContainer.removeChild(similaritiesList);
   }
- 
-  /*while (similaritiesList.firstChild) {
-    similaritiesList.firstChild.remove();
-  }
-  similaritesItems.forEach(function (item) {
-    similaritiesList.appendChild(item)
-  });*/
   
   //please wait 
 
@@ -56,6 +50,17 @@ function getResults() {
 }
 
 function showUpdatedResults(json) {
+  // show matches
+  let prophecies = json[0];
+  ul = document.createElement('ul');
+  propheciesContainer.appendChild(ul);
+  
+  prophecies.forEach(function (item) {
+    let li = document.createElement('li');
+    ul.appendChild(li);
+    li.innerHTML += item;
+  });
+  
   // show Nearest Neighbours
   let knns = json[1];
   ul = document.createElement('ul');
