@@ -213,11 +213,13 @@ class GloveExplorer(GloveModel):
         self.__unknownTags, self.__modelDescriptions = \
             self.__setModelDescriptions(models_path_1, models_path_2, models_path_3)
         self.__modelAverageVectorsList = self.__setModelAverageVectors()
+        '''
         kMeans = []
         for avgVector in self.__modelAverageVectorsList:
             new_element = KMeans(n_clusters=NUM_CLUSTERS, random_state=0).fit(avgVector)
             kMeans.append(new_element)        
         self.__kMeansList = kMeans
+        '''
         self.currentInputAverageVector = None
 
     def __setModelDescriptions(self, models_path_1, models_path_2, models_path_3):
@@ -345,33 +347,19 @@ class GloveExplorer(GloveModel):
         wordList_vectors = self.getWordVectors(wordList)
         wordList_avg_vector = np.average(wordList_vectors, axis=0)
         self.currentInputAverageVector = wordList_avg_vector
-
+        
         matches = []
-        for model_avg_vector, kMeans in zip(self.__modelAverageVectorsList, self.__kMeansList): 
-            matches.append(getMatch(self, self.currentInputAverageVector, avg_vectors, kMeans))
+        '''for model_avg_vector, kMeans in zip(self.__modelAverageVectorsList, self.__kMeansList): 
+            matches.append(getMatchWithKMeans(self, self.currentInputAverageVector, avg_vectors, kMeans))'''
+        for model_avg_vector in self.__modelAverageVectorsList:
+            all_avg_vectors = np.vstack([wordList_avg_vector, model_avg_vector])
+            cosine_similarities = cosine_similarity(all_avg_vectors)[0][1:]
+            max_sim_index = np.argmax(cosine_similarities)
+            matches.append(model_avg_vector.index[max_sim_index])
         return matches
-        '''
-        closest_cluster = self.__kMeans.predict([avg_vector])[0]
-        cluster_mask = self.__kMeans.labels_ == closest_cluster
-        non_zero_idx = np.nonzero(cluster_mask)
-        cluster_modelVectors = modelAverageVectors[cluster_mask]
-        all_avg_vectors = np.vstack([avg_vector, cluster_modelVectors])
-        cosine_similarities = cosine_similarity(all_avg_vectors)[0][1:]
-        max_sim_index = non_zero_idx[0][np.argmax(cosine_similarities)]
-        match = self.__modelAverageVectors.index[max_sim_index]
-        return match
-        '''
-        # modelAverageVectors = self.__modelAverageVectors.values
-        # vectors = self.getWordVectors(wordList)
-        # avg_vector = np.average(vectors, axis=0)
-        # self.currentInputAverageVector = avg_vector
-        # all_avg_vectors = np.vstack([avg_vector, modelAverageVectors])
-        # cosine_similarities = cosine_similarity(all_avg_vectors)[0][1:]
-        # max_sim_index = np.argmax(cosine_similarities)
-        # match = self.__modelAverageVectors.index[max_sim_index]
-        # return match
-    
-    def getMatch(self, wordListVector, avg_vectors, kMeans):
+
+    '''
+    def getMatchWithKMeans(self, wordListVector, avg_vectors, kMeans):
         modelAverageVectors = avg_vectors.values
         
         closest_cluster = kMeans.predict([wordListVector])[0]
@@ -392,7 +380,7 @@ class GloveExplorer(GloveModel):
         # max_sim_index = np.argmax(cosine_similarities)
         # match = self.__modelAverageVectors.index[max_sim_index]
         # return match
-        
+    '''    
 
     def bulk_match(self, test_dict):
         if not (self.__modelDescriptions[0] and self.__modelDescriptions[1] and self.__modelDescriptions[2]):
