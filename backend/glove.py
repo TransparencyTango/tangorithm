@@ -16,8 +16,13 @@ ALPHABET = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l",
             "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w",
             "x", "y", "z"}
 
-AVG_VECTORS_FILE_NAME = "averageVectors.pkl"
-MODEL_DESCR_FILE_NAME = "modelDescriptions.pkl"
+AVG_VECTORS_FILE_1_NAME = "averageVectors1.pkl"
+AVG_VECTORS_FILE_2_NAME = "averageVectors2.pkl"
+AVG_VECTORS_FILE_3_NAME = "averageVectors3.pkl"
+
+MODEL_DESCR_FILE_1_NAME = "modelDescriptions1.pkl"
+MODEL_DESCR_FILE_2_NAME = "modelDescriptions2.pkl"
+MODEL_DESCR_FILE_3_NAME = "modelDescriptions3.pkl"
 UNKNOWN_TAGS_FILE_NAME = "unknownTags.pkl"
 
 STRING_MATCHING_CUTOFF = 0.5
@@ -202,43 +207,65 @@ class GloveModel():
 # ---------------------- Glove Explorer ---------------------
 class GloveExplorer(GloveModel):
 
-    def __init__(self, glove_file_path, models_path):
+    def __init__(self, glove_file_path, models_path_1, models_path_2, models_path_3):
         GloveModel.__init__(self, glove_file_path)
         self.__kdTree = KDTree(self.dataframe.values)
         self.__unknownTags, self.__modelDescriptions = \
-            self.__setModelDescriptions(models_path)
-        self.__modelAverageVectors = self.__setModelAverageVectors()
-        self.__kMeans = KMeans(n_clusters=NUM_CLUSTERS, random_state=0).fit(
-            self.__modelAverageVectors)
+            self.__setModelDescriptions(models_path_1, models_path_2, models_path_3)
+        self.__modelAverageVectorsList = self.__setModelAverageVectors()
+        kMeans = []
+        for avgVector in self.__modelAverageVectorsList:
+            new_element = KMeans(n_clusters=NUM_CLUSTERS, random_state=0).fit(avgVector)
+            kMeans.append(new_element)        
+        self.__kMeansList = kMeans
         self.currentInputAverageVector = None
 
-    def __setModelDescriptions(self, models_path):
+    def __setModelDescriptions(self, models_path_1, models_path_2, models_path_3):
         currentDir = os.getcwd()
-        model_descr_path = os.path.join(currentDir, MODEL_DESCR_FILE_NAME)
+        model_descr_path_1 = os.path.join(currentDir, MODEL_DESCR_FILE_1_NAME)
+        model_descr_path_2 = os.path.join(currentDir, MODEL_DESCR_FILE_2_NAME)
+        model_descr_path_3 = os.path.join(currentDir, MODEL_DESCR_FILE_3_NAME)
         unknown_tags_path = os.path.join(currentDir, UNKNOWN_TAGS_FILE_NAME)
-        model_path_valid = os.path.isfile(model_descr_path)
+        model_path_valid = os.path.isfile(model_descr_path_1) and os.path.isfile(model_descr_path_2) and os.path.isfile(model_descr_path_3)
         tags_path_valid = os.path.isfile(unknown_tags_path)
         modelDescriptions = None
         unknown_tags = None
         if model_path_valid and tags_path_valid:
-            infile1 = open(model_descr_path, "rb")
-            infile2 = open(unknown_tags_path, "rb")
+            infile1 = open(model_descr_path_1, "rb")
+            infile2 = open(model_descr_path_2, "rb")
+            infile3 = open(model_descr_path_3, "rb")
+            
+            infileUnknown = open(unknown_tags_path, "rb")
 
-            modelDescriptions = pickle.load(infile1)
+            modelDescriptions_1 = pickle.load(infile1)
+            modelDescriptions_2 = pickle.load(infile2)
+            modelDescriptions_3 = pickle.load(infile3)
             print("Loaded model descriptions from disk...")
-            unknown_tags = pickle.load(infile2)
+            unknown_tags = pickle.load(infileUnknown)
             print("Loaded unknown tags from disk...")
 
             infile1.close()
             infile2.close()
+            infile3.close()
+            
+            infileUnknown.close()
         else:
-            modelDescriptions = parseInputFile(models_path)
-            unknown_tags, modelDescriptions = \
-                removeUnknownTags(self.getWords(), modelDescriptions)
-
-            outfile1 = open(model_descr_path, "wb")
-            pickle.dump(modelDescriptions, outfile1)
-            outfile1.close()
+            modelDescriptions_1 = parseInputFile(models_path_1)
+            modelDescriptions_2 = parseInputFile(models_path_2)
+            modelDescriptions_3 = parseInputFile(models_path_3)
+            unknown_tags, modelDescriptions_1 = \
+                removeUnknownTags(self.getWords(), modelDescriptions_1)
+            unknown_tags_2, modelDescriptions_2 = \
+                removeUnknownTags(self.getWords(), modelDescriptions_2)
+            unknown_tags.update(unknown_tags_2)
+            unknown_tags_3, modelDescriptions_3 = \
+                removeUnknownTags(self.getWords(), modelDescriptions_3)
+            unknown_tags.update(unknown_tags_3)
+            
+            for path, description in zip([model_descr_path_1,model_descr_path_2,model_descr_path_3], [modelDescriptions_1, modelDescriptions_2, modelDescriptions_3]):
+              outfile1 = open(path, "wb")
+              pickle.dump(description, outfile1)
+              outfile1.close()
 
             outfile2 = open(unknown_tags_path, "wb")
             pickle.dump(unknown_tags, outfile2)
@@ -247,29 +274,39 @@ class GloveExplorer(GloveModel):
             print("Read model descriptions and saved to disk...")
             print("Filtered unknown tags and saved to disk...")
 
-        return unknown_tags, modelDescriptions
+        return unknown_tags, [modelDescriptions_1, modelDescriptions_2, modelDescriptions_3]
 
     def __setModelAverageVectors(self):
-        if not self.__modelDescriptions:
+        if not (self.__modelDescriptions[0] and self.__modelDescriptions[1] and self.__modelDescriptions[2]):
             print("Average vector calculation failed. No models found.")
             return None
-
+        avgVectors = []
         currentDir = os.getcwd()
-        avg_vectors_path = os.path.join(currentDir, AVG_VECTORS_FILE_NAME)
+        
+        avg_file_names = [AVG_VECTORS_FILE_1_NAME, AVG_VECTORS_FILE_2_NAME, AVG_VECTORS_FILE_3_NAME]
+        
+        for avg_vector_file_name, modelDescriptionsDict in zip(avg_file_names, self.__modelDescriptions):                 
+            avg_vectors_path = os.path.join(currentDir, avg_vector_file_name)
+            print(avg_vectors_path)
+            if os.path.isfile(avg_vectors_path):
+                avgVectors.append(pd.read_pickle(avg_vectors_path))
+                print("Loaded model average vectors from disk from..." + avg_vector_file_name)
+            else:
+                current_avg_vec = self.getAndSaveAvgVectorForModelDescriptions(modelDescriptionsDict, avg_vector_file_name)
+                avgVectors.append(current_avg_vec)
+        return avgVectors
+    
+    def getAndSaveAvgVectorForModelDescriptions(self, modelDescriptionsDict, file_name):
         avgVectors = None
-        if os.path.isfile(avg_vectors_path):
-            avgVectors = pd.read_pickle(avg_vectors_path)
-            print("Loaded model average vectors from disk...")
-        else:
-            for modelName, modelTags in self.__modelDescriptions.items():
-                vectors = self.getWordVectors(modelTags)
-                avg_vector = np.average(vectors, axis=0)
-                if avgVectors is None:
-                    dims = len(avg_vector)
-                    avgVectors = pd.DataFrame(columns=range(dims))
-                avgVectors.loc[modelName] = avg_vector
-            avgVectors.to_pickle(AVG_VECTORS_FILE_NAME)
-            print("Calculated & saved model average vectors.")
+        for modelName, modelTags in modelDescriptionsDict.items():
+            vectors = self.getWordVectors(modelTags)
+            avg_vector = np.average(vectors, axis=0)
+            if avgVectors is None:
+                dims = len(avg_vector)
+                avgVectors = pd.DataFrame(columns=range(dims))
+            avgVectors.loc[modelName] = avg_vector
+        avgVectors.to_pickle(file_name)
+        print("Calculated & saved model average vectors in ..." + file_name)
         return avgVectors
 
     def getDroppedTags(self):
@@ -294,9 +331,9 @@ class GloveExplorer(GloveModel):
             print("Error: All words are unknown.")
             return None
         return results
-
+        
     def getMatch(self, wordList):
-        if self.__modelAverageVectors is None:
+        if self.__modelAverageVectorsList is None:
             print("Missing model average vectors.")
             return None
 
@@ -304,11 +341,16 @@ class GloveExplorer(GloveModel):
         if not wordList:
             print("Warning: All words are unknown!")
             return None
+            
+        wordList_vectors = self.getWordVectors(wordList)
+        wordList_avg_vector = np.average(wordList_vectors, axis=0)
+        self.currentInputAverageVector = wordList_avg_vector
 
-        modelAverageVectors = self.__modelAverageVectors.values
-        vectors = self.getWordVectors(wordList)
-        avg_vector = np.average(vectors, axis=0)
-        self.currentInputAverageVector = avg_vector
+        matches = []
+        for model_avg_vector, kMeans in zip(self.__modelAverageVectorsList, self.__kMeansList): 
+            matches.append(getMatch(self, self.currentInputAverageVector, avg_vectors, kMeans))
+        return matches
+        '''
         closest_cluster = self.__kMeans.predict([avg_vector])[0]
         cluster_mask = self.__kMeans.labels_ == closest_cluster
         non_zero_idx = np.nonzero(cluster_mask)
@@ -317,6 +359,29 @@ class GloveExplorer(GloveModel):
         cosine_similarities = cosine_similarity(all_avg_vectors)[0][1:]
         max_sim_index = non_zero_idx[0][np.argmax(cosine_similarities)]
         match = self.__modelAverageVectors.index[max_sim_index]
+        return match
+        '''
+        # modelAverageVectors = self.__modelAverageVectors.values
+        # vectors = self.getWordVectors(wordList)
+        # avg_vector = np.average(vectors, axis=0)
+        # self.currentInputAverageVector = avg_vector
+        # all_avg_vectors = np.vstack([avg_vector, modelAverageVectors])
+        # cosine_similarities = cosine_similarity(all_avg_vectors)[0][1:]
+        # max_sim_index = np.argmax(cosine_similarities)
+        # match = self.__modelAverageVectors.index[max_sim_index]
+        # return match
+    
+    def getMatch(self, wordListVector, avg_vectors, kMeans):
+        modelAverageVectors = avg_vectors.values
+        
+        closest_cluster = kMeans.predict([wordListVector])[0]
+        cluster_mask = kMeans.labels_ == closest_cluster
+        non_zero_idx = np.nonzero(cluster_mask)
+        cluster_modelVectors = modelAverageVectors[cluster_mask]
+        all_avg_vectors = np.vstack([wordListVector, cluster_modelVectors])
+        cosine_similarities = cosine_similarity(all_avg_vectors)[0][1:]
+        max_sim_index = non_zero_idx[0][np.argmax(cosine_similarities)]
+        match = self.avg_vectors.index[max_sim_index]
         return match
         # modelAverageVectors = self.__modelAverageVectors.values
         # vectors = self.getWordVectors(wordList)
@@ -327,9 +392,10 @@ class GloveExplorer(GloveModel):
         # max_sim_index = np.argmax(cosine_similarities)
         # match = self.__modelAverageVectors.index[max_sim_index]
         # return match
+        
 
     def bulk_match(self, test_dict):
-        if not self.__modelDescriptions:
+        if not (self.__modelDescriptions[0] and self.__modelDescriptions[1] and self.__modelDescriptions[2]):
             print("Model definitions missing.")
             return None
 

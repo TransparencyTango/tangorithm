@@ -31,11 +31,13 @@ def init_similarities(initial_similarities):
 def init_glove():
   global gloveExplorer, mirror
   glove_path = "backend/letterCache/cleaned_glove.6B.50d.txt"
-  models_path = "backend/stereotypen_new.txt"
-  pos_args_valid = os.path.exists(glove_path) and os.path.exists(models_path)
+  models_path_1 = "backend/result_stereotypes/stereotypen_profession.txt"
+  models_path_2 = "backend/result_stereotypes/stereotypen_politics.txt"
+  models_path_3 = "backend/result_stereotypes/stereotypen_success.txt"
+  pos_args_valid = os.path.exists(glove_path) and os.path.exists(models_path_1) and os.path.exists(models_path_2) and os.path.exists(models_path_3)
   if pos_args_valid:
       print("valid")
-      gloveExplorer = glove.GloveExplorer(glove_path, models_path)
+      gloveExplorer = glove.GloveExplorer(glove_path, models_path_1, models_path_2, models_path_3)
       gloveExplorer.setQuickLookUpPath(QUICK_LOOKUP_PATH)
       mirror = mirror_state.MirrorState()
       print("initialized")
@@ -43,8 +45,12 @@ def init_glove():
       print("invalid")
       if not os.path.exists(glove_path):
           print("Couldn't find path: \n" + glove_path)
-      if not os.path.exists(models_path):
-          print("Couldn't find path: #\n" + models_path)
+      if not os.path.exists(models_path_1):
+          print("Couldn't find path: #\n" + models_path_1)      
+      if not os.path.exists(models_path_2):
+          print("Couldn't find path: #\n" + models_path_2)
+      if not os.path.exists(models_path_3):
+          print("Couldn't find path: #\n" + models_path_3)
       print("Aborted glove initialization")
       raise Exception("Aborted glove initialization")
 
