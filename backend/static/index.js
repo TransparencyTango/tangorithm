@@ -73,7 +73,6 @@ function showUpdatedResults(json) {
   });
   //showSimilarities  
   let similarityValues = json[2];
-  //let similarityValues = [0.01, 0.02, 0.03]; 
   
   ulSim = document.createElement('ul');
   ulSim.setAttribute("id", similaritiesListId);

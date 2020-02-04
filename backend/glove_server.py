@@ -3,7 +3,7 @@
 
 import os
 
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, json
 #from flask import Flask, jsonify, request, render_template
 
 from . import glove
@@ -73,7 +73,7 @@ def postAttributes():
     req = request.args.get("words", None)
 
     if gloveExplorer and req:
-        wordList = req.split(" ")
+        wordList = req.split(",")
         match = gloveExplorer.getMatch(wordList)
         if match is not None:
             mirror.is_reflection = True
