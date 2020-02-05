@@ -58,7 +58,8 @@ function showUpdatedResults(json) {
   prophecies.forEach(function (item) {
     let li = document.createElement('li');
     ul.appendChild(li);
-    li.innerHTML += item;
+    let similarityAsPercent = ((item[1]+1)/2).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2});
+    li.innerHTML += item[0] + " (" + (similarityAsPercent) + ")";
   });
   
   // show Nearest Neighbours

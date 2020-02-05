@@ -354,8 +354,9 @@ class GloveExplorer(GloveModel):
         for model_avg_vector in self.__modelAverageVectorsList:
             all_avg_vectors = np.vstack([wordList_avg_vector, model_avg_vector])
             cosine_similarities = cosine_similarity(all_avg_vectors)[0][1:]
+            max_sim = np.amax(cosine_similarities)
             max_sim_index = np.argmax(cosine_similarities)
-            matches.append(model_avg_vector.index[max_sim_index])
+            matches.append([model_avg_vector.index[max_sim_index], max_sim])
         return matches
 
     '''
