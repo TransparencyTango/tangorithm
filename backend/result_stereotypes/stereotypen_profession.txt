@@ -4,7 +4,7 @@ ID_003:nurse,nurses,pediatrician,counselor,therapist,pregnant,nursing,surgeon,pa
 ID_004:waitress,bartender,waiter,hairdresser,housekeeper,homemaker,receptionist,diner,housewife,schoolteacher,hostess,prostitute,mom,janitor,fiance,
 ID_005:policeman,soldier,gunman,fatally,policemen,assailant,gunned,wounding,attacker,killing,assailants,injuring,guards,attackers,police
 ID_006:nursery,nurseries,cottage,orchard,barn,sunnyside,vine,playground,ivy,elms,sheds,gardening,heronswood,tending,farm,
-ID_007:judge,court,attorney,prosecutor,appeals,lawyer,justice,jury,prosecution,judges,magistrate,defendant,supreme,hearing,case,
+ID_judge:judge,court,attorney,prosecutor,appeals,lawyer,justice,jury,prosecution,judges,magistrate,defendant,supreme,hearing,case,
 ID_008:professor,harvard,associate,sociology,emeritus,psychologist,yale,researcher,lecturer,scientist,sociologist,scholar,studied,university,economics,
 ID_009:teacher,student,taught,teaches,teaching,graduate,teachers,classmate,tutor,schoolteacher,counselor,colleague,master,school,mentor,
 ID_010:plumber,janitor,electrician,tradesman,roofer,newspaperman,landscaper,cabdriver,welder,bricklayer,curmudgeon,tinkerer,layabout,woodworker,storekeeper,
