@@ -1,7 +1,16 @@
-ID_001:successfully,eventually,effectively,managed,subsequently,ultimately,aided,pursued,assisted,quickly,begun,simultaneously,entered,determined,soon
-ID_002:looser,restrictive,loosening,inflexible,polices,tighter,dictated,rigid,conforming,dictating,rigidly,instituting,cumbersome,constrained,burdensome
-ID_003:loved,remember,friends,wonder,remembered,loves,imagine,liked,beloved,remembers,knew,tell,wonders,reminds,dad
-ID_004:hate,despised,despise,betrayed,loathed,hates,obsessed,evidently,cursed,theirs,scorned,dreamed,ironically,adored,dislikes
-ID_005:criminal,crime,crimes,charged,prosecution,charges,alleged,investigating,prosecuting,guilty,conspiracy,case,prosecuted,investigate,involvement
-ID_006:victim,death,killer,finds,witness,child,murder,escaped,man,woman,suspect,escapes,survived,another,innocent
-ID_007:suicidal,ideation,homicidal,impulsive,tendencies,psychotic,antisocial,sociopathic,delusional,self-destructive,paranoid,impetuous,demented,psychopath,narcissistic
+ID_successful:success,achieved,successful,thanks,ever,promising,enjoyed,future,successes,making,perhaps,best,yet,bringing,coming,
+ID_loser:loser,restrictive,loosening,inflexible,polices,tighter,dictated,rigid,conforming,dictating,rigidly,instituting,cumbersome,constrained,burdensome
+ID_loved:loved,remember,friends,wonder,remembered,loves,imagine,liked,beloved,remembers,knew,tell,wonders,reminds,dad
+ID_hated:hate,despised,despise,betrayed,loathed,hates,obsessed,evidently,cursed,theirs,scorned,dreamed,ironically,adored,dislikes
+ID_criminal:criminal,crime,crimes,charged,prosecution,charges,alleged,investigating,prosecuting,guilty,conspiracy,case,prosecuted,investigate,involvement
+ID_victim:victim,death,killer,finds,witness,child,murder,escaped,man,woman,suspect,escapes,survived,another,innocent
+ID_ suicidal:suicidal,ideation,homicidal,impulsive,tendencies,psychotic,antisocial,sociopathic,delusional,self-destructive,paranoid,impetuous,demented,psychopath,narcissistic,
+ID_intelligent:articulate,adept,suited,smart,uniquely,intuitive,incredibly,resourceful,thughtful,agile,persuasive,naive,conscious,useful,
+
+ID_happy:happy,everyone,everybody,definitely,glad,maybe,imagine,always,wonder,remember,really,guess,feels,lucky,something,
+
+ID_sad:sad,awful,sorry,sadly,terrible,feels,horrible,feeling,hardly,irony,reminds,tragic,reminder,moment,frankly,
+
+ID_children:children,child,parents,mothers,lives,living,families,girls,elderly,teenagers,others,couple,dying,kids,babies,
+
+ID_empathy:empathy,affection,compassion,individuality,generosity,humility,intuition,conveys,innate,inspires,instinctive,senses,kindness,spontaneity,gentleness,
