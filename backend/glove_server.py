@@ -3,7 +3,7 @@
 
 import os
 
-from flask import Blueprint, request, jsonify, json
+from flask import Blueprint, request, jsonify, json, render_template
 #from flask import Flask, jsonify, request, render_template
 
 from . import glove
@@ -24,7 +24,7 @@ def initialize(initial_similarities):
 def init_similarities(initial_similarities):
   global similarities
   similarities = initial_similarities
-  # ToDo: sanitize similarities, save in var similarities 
+  # ToDo: sanitize similarities, save in var similarities
   # ToDo: process similarities for frontend (similarity lookup and no match)
   return similarities
 
@@ -46,7 +46,7 @@ def init_glove():
       if not os.path.exists(glove_path):
           print("Couldn't find path: \n" + glove_path)
       if not os.path.exists(models_path_1):
-          print("Couldn't find path: #\n" + models_path_1)      
+          print("Couldn't find path: #\n" + models_path_1)
       if not os.path.exists(models_path_2):
           print("Couldn't find path: #\n" + models_path_2)
       if not os.path.exists(models_path_3):
@@ -54,11 +54,15 @@ def init_glove():
       print("Aborted glove initialization")
       raise Exception("Aborted glove initialization")
 
+@bp.route("/bigScreenStart")
+def getBigScreenStart():
+    return render_template('bigScreenStart.html')
+
 
 @bp.route("/getMatch")
 def getMatch():
     global gloveExplorer, mirror
-    return jsonify(mirror.current_match, mirror.current_knn, mirror.current_similarities) 
+    return jsonify(mirror.current_match, mirror.current_knn, mirror.current_similarities)
     #req = request.args.get("words", None)
     #if gloveExplorer and req:
     #    wordList = req.split(" ")
@@ -92,7 +96,7 @@ def postAttributes():
     else:
         mirror.reset_mirror()
         return "failed - gloveExplorer not initialized or no request arguments"
-        
+
 
 """
 import argparse
@@ -196,7 +200,7 @@ def getAutocompletionList(substring, count):
         if result_count > count:
             break
     return jsonify(result)
-    
+
 """
 
 """if __name__ == "__main__":
