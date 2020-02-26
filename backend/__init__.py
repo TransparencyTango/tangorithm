@@ -23,4 +23,17 @@ def create_app():
     @app.route("/mobileStart")
     def mobileStartPage():
       return render_template('mobileStart.html')
+
+    @app.route("/mobileChoice")
+    def mobileChoicePage():
+      return render_template('mobileChoice.html')
+
+    @app.route("/mobileInterpretation")
+    def mobileInterpretationPage():
+      return render_template('mobileInterpretation.html')
+
+    @app.route("/mobileTurningPoint")
+    def mobileTurningPointPage():
+      return render_template('mobileTurningPoint.html')
+
   return app
