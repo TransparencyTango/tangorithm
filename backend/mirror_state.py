@@ -8,6 +8,7 @@ class MirrorState:
         self.current_match = "default"
         self.show_knn, self.show_similarities = True, True
         self.current_knn, self.current_similarities = [], []
+        self.last_input = []
 
     def get_state(self):
         response = {

@@ -63,13 +63,12 @@ def getBigScreenStart():
 def getMatch():
     global gloveExplorer, mirror
     return jsonify(mirror.current_match, mirror.current_knn, mirror.current_similarities)
-    #req = request.args.get("words", None)
-    #if gloveExplorer and req:
-    #    wordList = req.split(" ")
-    #    match = gloveExplorer.getMatch(wordList)
-    #    return match
-    #else:
-    #    return "gloveExplorer and req is false"
+
+@bp.route("/getMatchAndInput")
+def getMatchAndInput():
+    global gloveExplorer, mirror
+    return jsonify(mirror.current_match, mirror.current_knn, mirror.current_similarities, mirror.last_input)
+
 
 @bp.route("/postAttributes", methods=['POST'])
 def postAttributes():
@@ -78,6 +77,7 @@ def postAttributes():
 
     if gloveExplorer and req:
         wordList = req.split(",")
+        mirror.last_input = wordList
         match = gloveExplorer.getMatch(wordList)
         if match is not None:
             mirror.is_reflection = True

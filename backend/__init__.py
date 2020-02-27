@@ -9,7 +9,7 @@ def create_app():
     similarities_from_file = json.load(f)
 
     from . import glove_server
-    #similarities = glove_server.initialize(similarities_from_file)
+    similarities = glove_server.initialize(similarities_from_file)
     app.register_blueprint(glove_server.bp)
 
     @app.route("/inputPage")
@@ -35,5 +35,9 @@ def create_app():
     @app.route("/mobileTurningPoint")
     def mobileTurningPointPage():
       return render_template('mobileTurningPoint.html')
+
+    @app.route("/mobileRelevance")
+    def mobileRelevancePage():
+      return render_template('mobileRelevance.html')
 
   return app
