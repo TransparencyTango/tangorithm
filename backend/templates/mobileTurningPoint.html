@@ -15,7 +15,8 @@
           {# best_match = [category[0][1], category[1][1]] #}
           {# second_best_match = [category[0][0], category[1][0]] #}
           {# <li>{{best_match}} {{second_best_match}}</li> #}
-          <li>{{[category[0][1], category[1][1]]}} {{[category[0][0], category[1][0]]}}</li>
+
+          <li>{{category[0][1]}} {{"{:.0%}".format((category[1][1]+1)/2)}} {{category[0][0]}} {{"{:.0%}".format((category[1][0]+1)/2)}}</li>
         {% endfor %}
       </ul>
     </div>
