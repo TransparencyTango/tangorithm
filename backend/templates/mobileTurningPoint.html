@@ -19,6 +19,8 @@
           <li>{{category[0][1]}} {{"{:.0%}".format((category[1][1]+1)/2)}} {{category[0][0]}} {{"{:.0%}".format((category[1][0]+1)/2)}}</li>
         {% endfor %}
       </ul>
+      <input type="button" onclick="window.location.href=('mobileChoice');" value="Back"/>
+      <input type="button" onclick="fetch('resetMirror', {method: 'POST' }).then(function(response) {window.location.href=('mobileStart');})" value="Reset"/>
     </div>
   </body>
 </html>
