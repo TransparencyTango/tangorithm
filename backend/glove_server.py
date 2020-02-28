@@ -76,7 +76,11 @@ def mobileInterpretationPage():
 
 @bp.route("/mobileTurningPoint")
 def mobileTurningPointPage():
-    return render_template('mobileTurningPoint.html')
+    global mirror
+    try:
+        return render_template('mobileTurningPoint.html', name = mirror.last_input[0])
+    except IndexError:
+        return redirect("/mobileStart")
 
 @bp.route("/mobileRelevance")
 def mobileRelevancePage():
@@ -95,10 +99,11 @@ def postAttributes():
     if gloveExplorer and req:
         wordList = req.split(",")
         mirror.last_input = wordList
-        match = gloveExplorer.getMatch(wordList)
+        match = gloveExplorer.getTwoMatches(wordList)
         if match is not None:
             mirror.is_reflection = True
-            mirror.current_match = match
+            mirror.current_matches = match
+            mirror.current_match = getFirstMatches(match)
             knns = gloveExplorer.getKNN(20, wordList)
             mirror.current_similarities = gloveExplorer.getSimilarities(similarities)
             if knns is not None:
@@ -113,6 +118,16 @@ def postAttributes():
     else:
         mirror.reset_mirror()
         return "failed - gloveExplorer not initialized or no request arguments"
+
+def getFirstMatches(match):
+    first_matches = []
+    for category in match:
+        first_match=[]
+        for element in category:
+            first_match.append(element[1])
+        first_matches.append(first_match)
+    return first_matches
+
 
 @bp.route("/resetMirror", methods=['POST'])
 def resetModel():
