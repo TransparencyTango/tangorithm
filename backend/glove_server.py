@@ -3,7 +3,7 @@
 
 import os
 
-from flask import Blueprint, request, jsonify, json, render_template
+from flask import Blueprint, request, jsonify, json, render_template, redirect
 #from flask import Flask, jsonify, request, render_template
 
 from . import glove
@@ -54,15 +54,25 @@ def init_glove():
       print("Aborted glove initialization")
       raise Exception("Aborted glove initialization")
 
+@bp.route("/mobileStart")
+def mobileStartPage():
+  return render_template('mobileStart.html')
+
 @bp.route("/mobileChoice")
 def mobileChoicePage():
     global mirror
-    return render_template('mobileChoice.html', name = mirror.last_input[0])
+    try:
+        return render_template('mobileChoice.html', name = mirror.last_input[0])
+    except IndexError:
+        return redirect("/mobileStart")
 
 @bp.route("/mobileInterpretation")
 def mobileInterpretationPage():
     global mirror
-    return render_template('mobileInterpretation.html', name = mirror.last_input[0], current_match=mirror.current_match)
+    try:
+        return render_template('mobileInterpretation.html', name = mirror.last_input[0], current_match=mirror.current_match)
+    except IndexError:
+        return redirect("/mobileStart")
 
 @bp.route("/mobileTurningPoint")
 def mobileTurningPointPage():
@@ -76,12 +86,6 @@ def mobileRelevancePage():
 def getMatch():
     global mirror
     return jsonify(mirror.current_match, mirror.current_knn, mirror.current_similarities)
-
-@bp.route("/getMatchAndInput")
-def getMatchAndInput():
-    global mirror
-    return jsonify(mirror.current_match, mirror.current_knn, mirror.current_similarities, mirror.last_input)
-
 
 @bp.route("/postAttributes", methods=['POST'])
 def postAttributes():
@@ -110,6 +114,11 @@ def postAttributes():
         mirror.reset_mirror()
         return "failed - gloveExplorer not initialized or no request arguments"
 
+@bp.route("/resetMirror", methods=['POST'])
+def resetModel():
+    global mirror
+    mirror.reset_mirror()
+    return "ok"
 
 """
 import argparse
