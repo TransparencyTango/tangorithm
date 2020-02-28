@@ -78,7 +78,7 @@ def mobileInterpretationPage():
 def mobileTurningPointPage():
     global mirror
     try:
-        return render_template('mobileTurningPoint.html', name = mirror.last_input[0])
+        return render_template('mobileTurningPoint.html', name = mirror.last_input[0], matches = mirror.current_matches)
     except IndexError:
         return redirect("/mobileStart")
 
