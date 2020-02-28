@@ -54,14 +54,23 @@ def init_glove():
       print("Aborted glove initialization")
       raise Exception("Aborted glove initialization")
 
-@bp.route("/bigScreenStart")
-def getBigScreenStart():
-    return render_template('bigScreenStart.html')
-
-@bp.route("/getInput")
-def getInput():
+@bp.route("/mobileChoice")
+def mobileChoicePage():
     global mirror
-    return jsonify(mirror.last_input)
+    return render_template('mobileChoice.html', name = mirror.last_input[0])
+
+@bp.route("/mobileInterpretation")
+def mobileInterpretationPage():
+    global mirror
+    return render_template('mobileInterpretation.html', name = mirror.last_input[0], current_match=mirror.current_match)
+
+@bp.route("/mobileTurningPoint")
+def mobileTurningPointPage():
+    return render_template('mobileTurningPoint.html')
+
+@bp.route("/mobileRelevance")
+def mobileRelevancePage():
+    return render_template('mobileRelevance.html')
 
 @bp.route("/getMatch")
 def getMatch():

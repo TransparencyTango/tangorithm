@@ -24,20 +24,8 @@ def create_app():
     def mobileStartPage():
       return render_template('mobileStart.html')
 
-    @app.route("/mobileChoice")
-    def mobileChoicePage():
-      return render_template('mobileChoice.html')
-
-    @app.route("/mobileInterpretation")
-    def mobileInterpretationPage():
-      return render_template('mobileInterpretation.html')
-
-    @app.route("/mobileTurningPoint")
-    def mobileTurningPointPage():
-      return render_template('mobileTurningPoint.html')
-
-    @app.route("/mobileRelevance")
-    def mobileRelevancePage():
-      return render_template('mobileRelevance.html')
+    @app.route("/bigScreenStart")
+    def getBigScreenStart():
+        return render_template('bigScreenStart.html')
 
   return app

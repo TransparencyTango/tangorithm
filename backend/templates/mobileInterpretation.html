@@ -2,13 +2,16 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Interpretation</title>
+    <title>Interpretation for {{name}}</title>
   </head>
   <body>
-    <div id="headlineParent">
+    <h1> Interpretation for {{name}}</h1>
+    <div>
+      <ul>
+        {% for result_name, result_score in current_match %}
+          <li>{{result_name}} {{"{:.0%}".format((result_score+1)/2)}}</li>
+        {% endfor %}
+      </ul>
     </div>
-    <div id="resultsParent">
-    </div>
-    <script src="static/mobileInterpretation.js"></script>
   </body>
 </html>
