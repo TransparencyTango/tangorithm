@@ -58,15 +58,19 @@ def init_glove():
 def getBigScreenStart():
     return render_template('bigScreenStart.html')
 
+@bp.route("/getInput")
+def getInput():
+    global mirror
+    return jsonify(mirror.last_input)
 
 @bp.route("/getMatch")
 def getMatch():
-    global gloveExplorer, mirror
+    global mirror
     return jsonify(mirror.current_match, mirror.current_knn, mirror.current_similarities)
 
 @bp.route("/getMatchAndInput")
 def getMatchAndInput():
-    global gloveExplorer, mirror
+    global mirror
     return jsonify(mirror.current_match, mirror.current_knn, mirror.current_similarities, mirror.last_input)
 
 
