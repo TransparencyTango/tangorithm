@@ -40,6 +40,8 @@ def init_glove():
       gloveExplorer = glove.GloveExplorer(glove_path, models_path_1, models_path_2, models_path_3)
       gloveExplorer.setQuickLookUpPath(QUICK_LOOKUP_PATH)
       mirror = mirror_state.MirrorState()
+      mirror.is_introduction = False
+      mirror.is_idle = True
       print("initialized")
   else:
       print("invalid")
@@ -54,9 +56,14 @@ def init_glove():
       print("Aborted glove initialization")
       raise Exception("Aborted glove initialization")
 
+# Mobile Views
+
 @bp.route("/mobileStart")
 def mobileStartPage():
-  return render_template('mobileStart.html')
+    global mirror
+    mirror.is_idle = False
+    mirror.is_introduction = True
+    return render_template('mobileStart.html')
 
 @bp.route("/mobileChoice")
 def mobileChoicePage():
@@ -85,6 +92,13 @@ def mobileTurningPointPage():
 @bp.route("/mobileRelevance")
 def mobileRelevancePage():
     return render_template('mobileRelevance.html')
+
+# Big Screen Views
+@bp.route("/bigScreenIntroduction")
+def bigScreenIntroductionPage():
+    return render_template('bigScreenIntroduction.html')
+
+# AJAX Routes
 
 @bp.route("/getMatch")
 def getMatch():
@@ -135,40 +149,12 @@ def resetModel():
     mirror.reset_mirror()
     return "ok"
 
+@bp.route("/getMirrorState")
+def getModelName():
+    global mirror
+    return jsonify(mirror.get_state())
+
 """
-import argparse
-import os
-
-from flask import Flask, jsonify, request, render_template
-import glove
-import mirror_state
-from flask import Flask, request, jsonify
-import json
-
-gloveExplorer = None
-mirror = None
-
-#QUICK_LOOKUP_PATH = "Documents/Tangorithm_Tools/data"
-QUICK_LOOKUP_PATH = "./letterCache"
-possible_words = []
-with open("possible_inputs/possibleInputsList") as f:
-    possible_words = json.loads(f.read())
-
-# ------------------ Server Functions ---------------------------
-
-
-@app.route("/getMatch")
-def getMatch():
-    global gloveExplorer
-    req = request.args.get("words", None)
-
-    if gloveExplorer and req:
-        wordList = req.split(" ")
-        match = gloveExplorer.getMatch(wordList)
-        return match
-    else:
-        return None
-
 
 @app.route("/getKNN")
 def getKNN():
@@ -183,16 +169,6 @@ def getKNN():
         return msg
     else:
         return None
-
-
-
-
-@app.route("/resetMirror", methods=['POST'])
-def resetModel():
-    global mirror
-    mirror.reset_mirror()
-    return "ok"
-
 
 @app.route("/toggleMirrorView", methods=['POST'])
 def toggleMirrorView():
@@ -221,10 +197,7 @@ def getSimilarities():
         return None
 
 
-@app.route("/getMirrorState")
-def getModelName():
-    global mirror
-    return jsonify(mirror.get_state())
+
 
 @app.route("/getAutocompletionList/<string:substring>/<int:count>")
 def getAutocompletionList(substring, count):

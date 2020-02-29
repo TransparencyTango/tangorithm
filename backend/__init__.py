@@ -20,8 +20,8 @@ def create_app():
     def mobileIdlePage():
       return render_template('mobileIdle.html')
 
-    @app.route("/bigScreenStart")
+    @app.route("/bigScreenIdle")
     def getBigScreenStart():
-        return render_template('bigScreenStart.html')
+        return render_template('bigScreenIdle.html')
 
   return app
