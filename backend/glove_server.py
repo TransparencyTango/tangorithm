@@ -8,6 +8,7 @@ from flask import Blueprint, request, jsonify, json, render_template, redirect
 
 from . import glove
 from . import mirror_state
+from . import profession_color
 
 QUICK_LOOKUP_PATH = "backend/letterCache"
 
@@ -40,8 +41,6 @@ def init_glove():
       gloveExplorer = glove.GloveExplorer(glove_path, models_path_1, models_path_2, models_path_3)
       gloveExplorer.setQuickLookUpPath(QUICK_LOOKUP_PATH)
       mirror = mirror_state.MirrorState()
-      mirror.is_introduction = False
-      mirror.is_idle = True
       print("initialized")
   else:
       print("invalid")
@@ -61,8 +60,6 @@ def init_glove():
 @bp.route("/mobileStart")
 def mobileStartPage():
     global mirror
-    mirror.is_idle = False
-    mirror.is_introduction = True
     return render_template('mobileStart.html')
 
 @bp.route("/mobileChoice")
@@ -71,6 +68,7 @@ def mobileChoicePage():
     try:
         return render_template('mobileChoice.html', name = mirror.last_input[0])
     except IndexError:
+        mirror.currentBigScreen = "intro"
         return redirect("/mobileStart")
 
 @bp.route("/mobileInterpretation")
@@ -79,6 +77,7 @@ def mobileInterpretationPage():
     try:
         return render_template('mobileInterpretation.html', name = mirror.last_input[0], current_match=mirror.current_match)
     except IndexError:
+        mirror.currentBigScreen = "intro"
         return redirect("/mobileStart")
 
 @bp.route("/mobileTurningPoint")
@@ -87,6 +86,7 @@ def mobileTurningPointPage():
     try:
         return render_template('mobileTurningPoint.html', name = mirror.last_input[0], matches = mirror.current_matches)
     except IndexError:
+        mirror.currentBigScreen = "intro"
         return redirect("/mobileStart")
 
 @bp.route("/mobileRelevance")
@@ -96,7 +96,26 @@ def mobileRelevancePage():
 # Big Screen Views
 @bp.route("/bigScreenIntroduction")
 def bigScreenIntroductionPage():
-    return render_template('bigScreenIntroduction.html')
+    return render_template('bigScreen.html', video = "/static/videos/idleBigScreen.mp4", currentScreen = "intro")
+
+@bp.route("/bigScreenInterpretationIntro")
+def bigScreenInterpretationIntroPage():
+    #todo: show correct color
+    #print(mirror.current_match[2]) ['id_ suicidal', 0.18193500843505805]
+    profession = mirror.current_match[0][0] # strip id_ und leading blanks try upper and lower case
+    profession = profession.strip("id _")
+    color = ""
+    profession_lower = profession[0].lower() + profession[1:]
+    profession_upper = profession[0].upper() + profession[1:]
+    try:
+        color = profession_color.profession_color[profession_lower]
+    except KeyError:
+        color = profession_color.profession_color[profession_upper]
+    print(color)
+    # ToDo Black and white?
+    # get Mirror erst nach videoende zeigen
+    # video mehr laden
+    return render_template('bigScreen.html', video = "/static/videos/Vorspann_" +color+".mp4", currentScreen = "interpretation intro")
 
 # AJAX Routes
 
@@ -115,7 +134,7 @@ def postAttributes():
         mirror.last_input = wordList
         match = gloveExplorer.getTwoMatches(wordList)
         if match is not None:
-            mirror.is_reflection = True
+            mirror.currentBigScreen = "interpretation intro"
             mirror.current_matches = match
             mirror.current_match = getFirstMatches(match)
             knns = gloveExplorer.getKNN(20, wordList)

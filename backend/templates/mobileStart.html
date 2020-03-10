@@ -16,7 +16,25 @@
         </div>
         <input id="inputSumbmitButton" type="submit" value="Generate">
       </form>
-    <script src="static/mobileStart.js"></script>
+
+    <script>
+
+      const form = document.getElementById('form')
+      form.onsubmit = submit;
+
+      function submit(event) {
+        event.preventDefault();
+        let name = event.target.inputKidsName.value;
+        //todo: sanitize names? Split them?
+        fetch('postAttributes?words=' + name,{
+              method: "POST",
+            }).then(function(response) {
+              // load next page
+              //ToDo: wait until big Screen interpretation Intro is over
+              window.location.replace("/mobileChoice");
+          })
+      }
+    </script>
 
   </body>
 </html>

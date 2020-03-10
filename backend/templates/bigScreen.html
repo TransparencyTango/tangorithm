@@ -2,18 +2,28 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Title</title>
+    <title>Title {{video}} {{currentScreen}} </title>
   </head>
   <body>
     <video width="400" id="animation" autoPlay loop>
-      <source src="/static/videos/idleBigScreen.mp4" type="video/mp4"/>
+      <source src={{video}} type="video/mp4"/>
     </video>
-
     <script>
       function updateScreen(json){
-        if (json.isIdle === "False") {
+        if (json.currentBigScreen === "{{currentScreen}}") {
+          return;
+        }
+        else if (json.currentBigScreen === "idle") {
+          window.location.href=('bigScreenIdle');
+        }
+        else if (json.currentBigScreen === "intro") {
           window.location.href=('bigScreenIntroduction');
         }
+        else if (json.currentBigScreen === "interpretation intro") {
+          window.location.href=('bigScreenInterpretationIntro');
+        }
+
+
       }
 
       function fetchStatus() {
@@ -30,7 +40,7 @@
         })
       }
 
-      let intervalID = window.setInterval(fetchStatus, 1000);
+      let intervalID = window.setInterval(fetchStatus, 5000);
     </script>
 
   </body>
