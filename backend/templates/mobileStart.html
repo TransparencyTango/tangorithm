@@ -29,9 +29,9 @@
         fetch('postAttributes?words=' + name,{
               method: "POST",
             }).then(function(response) {
-              // load next page
-              //ToDo: wait until big Screen interpretation Intro is over
-              window.location.replace("/mobileChoice");
+              setTimeout(function(){
+                  window.location.replace("/mobileChoice");
+              }, 5000); //50000
           })
       }
     </script>

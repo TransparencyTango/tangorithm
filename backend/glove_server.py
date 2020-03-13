@@ -5,6 +5,7 @@ import os
 
 from flask import Blueprint, request, jsonify, json, render_template, redirect
 #from flask import Flask, jsonify, request, render_template
+from random import randrange
 
 from . import glove
 from . import mirror_state
@@ -100,9 +101,7 @@ def bigScreenIntroductionPage():
 
 @bp.route("/bigScreenInterpretationIntro")
 def bigScreenInterpretationIntroPage():
-    #todo: show correct color
-    #print(mirror.current_match[2]) ['id_ suicidal', 0.18193500843505805]
-    profession = mirror.current_match[0][0] # strip id_ und leading blanks try upper and lower case
+    profession = mirror.current_match[0][0]
     profession = profession.strip("id _")
     color = ""
     profession_lower = profession[0].lower() + profession[1:]
@@ -112,10 +111,28 @@ def bigScreenInterpretationIntroPage():
     except KeyError:
         color = profession_color.profession_color[profession_upper]
     print(color)
-    # ToDo Black and white?
-    # get Mirror erst nach videoende zeigen
-    # video mehr laden
-    return render_template('bigScreen.html', video = "/static/videos/Vorspann_" +color+".mp4", currentScreen = "interpretation intro")
+    if color == "white black":
+        pick = randrange(2)
+        color = color.split()[pick]
+
+    success = mirror.current_match[2][0]
+    success = success.strip("id _")
+    success = success[0].lower() + success[1:]
+    isBig = mirror.current_match[2][1] > 0.3 # match is higher than 65 %
+    size = "groß" if isBig else "klein"
+
+
+    path_color = "" if color == "white" else "_schwarz"
+    video_path = success + "_" + size + path_color
+
+    mirror.current_video = video_path
+    print(mirror.current_video)
+
+    return render_template('bigScreenInterpretationIntro.html', video = "/static/videos/Vorspann_" +color+".mp4")
+
+@bp.route("/bigScreenInterpretation")
+def bigScreenInterpretationPage():
+    return mirror.current_video
 
 # AJAX Routes
 
@@ -152,16 +169,6 @@ def postAttributes():
         mirror.reset_mirror()
         return "failed - gloveExplorer not initialized or no request arguments"
 
-def getFirstMatches(match):
-    first_matches = []
-    for category in match:
-        first_match=[]
-        for element in category:
-            first_match.append(element[1])
-        first_matches.append(first_match)
-    return first_matches
-
-
 @bp.route("/resetMirror", methods=['POST'])
 def resetModel():
     global mirror
@@ -172,6 +179,17 @@ def resetModel():
 def getModelName():
     global mirror
     return jsonify(mirror.get_state())
+
+# helpers
+
+def getFirstMatches(match):
+    first_matches = []
+    for category in match:
+        first_match=[]
+        for element in category:
+            first_match.append(element[1])
+        first_matches.append(first_match)
+    return first_matches
 
 """
 

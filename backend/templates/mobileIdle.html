@@ -5,12 +5,18 @@
     <title>Waiting for Input</title>
   </head>
   <body id="body">
-    <img id="idleElement" style="width:100%;" src="static/mobileIdleDummy.jpg">
-    <!--
-    <video id="animation" autoPlay loop>
-      <source src="/static/silberwasser.mp4" type="video/mp4"/>
+    <video id="idleElement" autoPlay loop>
+      <source src="/static/videos/idleMobile.mp4" type="video/mp4"/>
     </video>
-    -->
-    <script src="static/mobileIdle.js"></script>
+    <script>
+        const body = document.getElementById('idleElement');
+        //body.addEventListener("touchend", showInputPage, false);
+        body.ontouchend = showInputPage;
+        function showInputPage(event) {
+          event.preventDefault();
+          // load next page
+          window.location.replace("/mobileStart");
+          }
+    </script>
   </body>
 </html>

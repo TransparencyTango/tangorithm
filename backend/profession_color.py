@@ -70,7 +70,7 @@ profession_color = {
 "charwoman": "black",
 "Medical-assistant": "black",
 "housekeeper": "black",
-"designer": "black white",
+"designer": "white black",
 "politician:": "white",
 
 "manager": "white",
@@ -79,7 +79,7 @@ profession_color = {
 "entrepreneur": "white",
 "lawyer": "white",
 "postman": "black",
-"soldier": "black white",
+"soldier": "white black",
 "driver": "black",
 "technician": "white",
 "plumber": "black",
@@ -87,8 +87,8 @@ profession_color = {
 "professor": "white",
 "judge": "white",
 "nursery": "black",
-"policeman": "black white",
+"policeman": "white black",
 "waitress": "black",
 "nurse": "black",
-"fireman": "black white"
+"fireman": "white black"
 }

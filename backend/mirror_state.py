@@ -7,6 +7,7 @@ class MirrorState:
         self.currentBigScreen = "intro"
         self.current_match = []
         self.current_matches = []
+        self.current_video = ""
         self.show_knn, self.show_similarities = True, True
         self.current_knn, self.current_similarities = [], []
         self.last_input = []

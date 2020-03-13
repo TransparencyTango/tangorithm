@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Title {{video}} {{currentScreen}} </title>
+  </head>
+  <body>
+    <video width="400" id="animation" autoPlay>
+      <source src={{video}} type="video/mp4"/>
+    </video>
+    <script>
+      document.getElementById('animation').addEventListener('ended',showNextPage,false);
+      function showNextPage(e) {
+          window.location.href=('bigScreenInterpretation');
+      }
+    </script>
+
+  </body>
+</html>
