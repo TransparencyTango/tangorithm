@@ -5,12 +5,11 @@
     <title>Waiting for Input</title>
   </head>
   <body id="body">
-    <video id="idleElement" autoPlay loop>
+    <video style="width: 100% ;" id="idleElement" autoPlay loop>
       <source src="/static/videos/idleMobile.mp4" type="video/mp4"/>
     </video>
     <script>
         const body = document.getElementById('idleElement');
-        //body.addEventListener("touchend", showInputPage, false);
         body.ontouchend = showInputPage;
         function showInputPage(event) {
           event.preventDefault();

@@ -128,11 +128,16 @@ def bigScreenInterpretationIntroPage():
     mirror.current_video = video_path
     print(mirror.current_video)
 
-    return render_template('bigScreenInterpretationIntro.html', video = "/static/videos/Vorspann_" +color+".mp4")
+    return render_template('bigScreenInterpretationIntro.html', video = "/static/videos/Vorspann_" +color+".mp4", currentScreen = "interpretation intro")
 
 @bp.route("/bigScreenInterpretation")
 def bigScreenInterpretationPage():
-    return mirror.current_video
+    mirror.currentBigScreen ="interpretation"
+    folder =  mirror.current_video.partition("_")[0]
+    video_1 = "/static/videos/"+folder+"/"+"D_"+mirror.current_video + ".mp4"
+    video_2 = "/static/videos/"+folder+"/"+mirror.current_video + ".mp4"
+
+    return render_template('bigScreenInterpretation.html', first_video = video_1 , second_video = video_2, currentScreen = "interpretation")
 
 # AJAX Routes
 

@@ -33,7 +33,7 @@ conda config --help
                         (/Users/caraceline/.condarc).
 conda config --env --set FLASK_APP 'backend'
 
- --set KEY VALUE       Set a boolean or string key 
+ --set KEY VALUE       Set a boolean or string key
 
 (mirror-env) bash-3.2$ export FLASK_APP=backend
 (mirror-env) bash-3.2$ export FLASK_ENV=development
@@ -76,9 +76,9 @@ python -m flask run --host 0.0.0.0
 Webseite öffnen (unter  http://127.0.0.1:5000/inputPage)
 
 Zeilenweise erwünschte Wörter eingeben. Auf Senden klicken. Warten.
-Es erscheint die größte Übereinstimmung aus 
-"backend/result_stereotypes/stereotypen_profession.txt" und 
-"backend/result_stereotypes/stereotypen_politics.txt" und 
+Es erscheint die größte Übereinstimmung aus
+"backend/result_stereotypes/stereotypen_profession.txt" und
+"backend/result_stereotypes/stereotypen_politics.txt" und
 "backend/result_stereotypes/stereotypen_success.txt"
 
 _____________________________________________________________
@@ -88,5 +88,11 @@ _____________________________________________________________
 Die erscheinenden schmucklosen Zahlen sind die Similarities.
 Für Neighbours runter scrollen.
 
-Falls du andere similarities testen möchtest, in der Datei backend/similarities_keys.json ändern. 
+Falls du andere similarities testen möchtest, in der Datei backend/similarities_keys.json ändern.
 Dann den Server neu starten.
+
+################
+Präsentationsstart
+
+auf Tablet: mobileIdle
+auf Desktop: bigScreenIntroduction
