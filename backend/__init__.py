@@ -4,7 +4,6 @@ import json
 def create_app():
   app = Flask(__name__)
 
-  #todo: read similarities
   with app.open_resource('similarities_keys.json') as f:
     similarities_from_file = json.load(f)
 
@@ -16,8 +15,8 @@ def create_app():
     def inputPage():
       return render_template('test.html', similarities = similarities)
 
-    @app.route("/mobileIdle")
-    def mobileIdlePage():
-      return render_template('mobileIdle.html')
+    @app.route("/application")
+    def application():
+      return render_template('app.html')
 
   return app

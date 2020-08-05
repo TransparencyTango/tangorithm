@@ -144,6 +144,7 @@ def bigScreenInterpretationPage():
 @bp.route("/getMatch")
 def getMatch():
     global mirror
+    # if not videos: video pfade initialisiern. Und natürlich mitschicken.
     return jsonify(mirror.current_match, mirror.current_knn, mirror.current_similarities)
 
 @bp.route("/postAttributes", methods=['POST'])
