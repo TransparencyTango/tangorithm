@@ -315,10 +315,11 @@ class GloveExplorer(GloveModel):
         return self.__unknownTags
 
     def getKNN(self, k, wordList):
-        if self.similarWordsCache:
-            wordList = self.similarWordsCache
-        else:
-            wordList = self.getMostSimilarKnownWords(wordList)
+        #TODO 
+        # if self.similarWordsCache:
+        #     wordList = self.similarWordsCache
+        # else:
+        #     wordList = self.getMostSimilarKnownWords(wordList)
         if wordList:
             word_vectors = self.getWordVectors(wordList)
             input_avg_vector = np.average(word_vectors, axis=0)

@@ -3,8 +3,7 @@
 
 import os
 
-from flask import Blueprint, request, jsonify, json, render_template, redirect
-#from flask import Flask, jsonify, request, render_template
+from flask import Blueprint, request, jsonify, send_from_directory
 
 from . import glove
 from . import mirror_state
@@ -16,25 +15,13 @@ bp = Blueprint('glove', __name__)
 
 gloveExplorer = None
 mirror = None
-similarities = None
-
-def initialize(initial_similarities):
-  init_glove()
-  return init_similarities(initial_similarities)
-
-def init_similarities(initial_similarities):
-  global similarities
-  similarities = initial_similarities
-  # ToDo: sanitize similarities, save in var similarities
-  # ToDo: process similarities for frontend (similarity lookup and no match)
-  return similarities
 
 def init_glove():
   global gloveExplorer, mirror
   glove_path = "backend/letterCache/cleaned_glove.6B.50d.txt"
-  models_path_1 = "backend/result_stereotypes/stereotypen_profession.txt"
+  models_path_1 = "backend/result_stereotypes/stereotypen_success.txt"
   models_path_2 = "backend/result_stereotypes/stereotypen_politics.txt"
-  models_path_3 = "backend/result_stereotypes/stereotypen_success.txt"
+  models_path_3 = "backend/result_stereotypes/stereotypen_profession.txt"
   pos_args_valid = os.path.exists(glove_path) and os.path.exists(models_path_1) and os.path.exists(models_path_2) and os.path.exists(models_path_3)
   if pos_args_valid:
       print("valid")
@@ -55,206 +42,74 @@ def init_glove():
       print("Aborted glove initialization")
       raise Exception("Aborted glove initialization")
 
-# Mobile Views
+@bp.route("/evaluation")
+def evaluation():
+    response = {
+        "prophecy": mirror.current_matches
+    }
+    return response
 
-@bp.route("/mobileStart")
-def mobileStartPage():
-    global mirror
-    return render_template('mobileStart.html')
+@bp.route("/interpretation")
+def interpretation():
+    term = request.args.get("term", None)
+    #TODO remove term from result list
+    return jsonify(list(gloveExplorer.getKNN(15, [term]).keys())) 
 
-@bp.route("/mobileChoice")
-def mobileChoicePage():
-    global mirror
+@bp.route("/turning-point")
+def turningPoint():
+    result = {
+        "prophecy": mirror.current_matches,
+        "turning-points": mirror.current_turning_points
+    }
+    return result
+
+@bp.route("/video/<video_name>")
+def video(video_name):
+    if video_name.startswith("prophecy"):
+        social_property = mirror.current_matches[0][0]
+        is_strong_interest_val = mirror.current_matches[1][1] > 65 
+        if video_name.endswith("-background"):
+            size = "groß" if is_strong_interest_val else "klein"
+            filename = "h." + social_property + "." + size + ".mp4"
+        elif video_name.endswith("-card"):
+            size = "klein" if is_strong_interest_val else "groß"
+            profession = mirror.current_matches[2][0].lower()
+            color = profession_color.profession_color[profession]
+            filename = social_property + "." + size + "." + color + ".webm"
+    else :
+        filename = video_name 
     try:
-        return render_template('mobileChoice.html', name = mirror.last_input[0])
-    except IndexError:
-        mirror.currentBigScreen = "intro"
-        return redirect("/mobileStart")
+        print(filename)
+        return send_from_directory("static/videos", filename=filename)
+    except FileNotFoundError:
+        abort(404)
 
-@bp.route("/mobileInterpretation")
-def mobileInterpretationPage():
-    global mirror
-    try:
-        return render_template('mobileInterpretation.html', name = mirror.last_input[0], current_match=mirror.current_match)
-    except IndexError:
-        mirror.currentBigScreen = "intro"
-        return redirect("/mobileStart")
-
-@bp.route("/mobileTurningPoint")
-def mobileTurningPointPage():
-    global mirror
-    try:
-        return render_template('mobileTurningPoint.html', name = mirror.last_input[0], matches = mirror.current_matches)
-    except IndexError:
-        mirror.currentBigScreen = "intro"
-        return redirect("/mobileStart")
-
-@bp.route("/mobileRelevance")
-def mobileRelevancePage():
-    return render_template('mobileRelevance.html')
-
-# Big Screen Views
-@bp.route("/bigScreenIntroduction")
-def bigScreenIntroductionPage():
-    return render_template('bigScreen.html', video = "/static/videos/idleBigScreen.mp4", currentScreen = "intro")
-
-@bp.route("/bigScreenInterpretationIntro")
-def bigScreenInterpretationIntroPage():
-    #todo: show correct color
-    #print(mirror.current_match[2]) ['id_ suicidal', 0.18193500843505805]
-    profession = mirror.current_match[0][0] # strip id_ und leading blanks try upper and lower case
-    profession = profession.strip("id _")
-    color = ""
-    profession_lower = profession[0].lower() + profession[1:]
-    profession_upper = profession[0].upper() + profession[1:]
-    try:
-        color = profession_color.profession_color[profession_lower]
-    except KeyError:
-        color = profession_color.profession_color[profession_upper]
-    print(color)
-    # ToDo Black and white?
-    # get Mirror erst nach videoende zeigen
-    # video mehr laden
-    return render_template('bigScreen.html', video = "/static/videos/Vorspann_" +color+".mp4", currentScreen = "interpretation intro")
-
-# AJAX Routes
-
-@bp.route("/getMatch")
-def getMatch():
-    global mirror
-    return jsonify(mirror.current_match, mirror.current_knn, mirror.current_similarities)
-
-@bp.route("/postAttributes", methods=['POST'])
-def postAttributes():
-    global gloveExplorer, mirror, similarities
-    req = request.args.get("words", None)
+@bp.route("/glove-exploration", methods=['POST'])
+def glove_exploration():
+    req = request.args.get("name", None)
 
     if gloveExplorer and req:
-        wordList = req.split(",")
-        mirror.last_input = wordList
-        match = gloveExplorer.getTwoMatches(wordList)
-        if match is not None:
-            mirror.currentBigScreen = "interpretation intro"
-            mirror.current_matches = match
-            mirror.current_match = getFirstMatches(match)
-            knns = gloveExplorer.getKNN(20, wordList)
-            mirror.current_similarities = gloveExplorer.getSimilarities(similarities)
-            if knns is not None:
-                mirror.current_knn = list(knns.keys())
-            else:
-                mirror.current_knn = []
-                mirror.current_similarities = gloveExplorer.getSimilarities(similarities)
-            return "ok"
+        nameList = [name.lower() for name in req.split(" ")]
+        mirror.last_input = nameList
+        matches = gloveExplorer.getTwoMatches(nameList)
+        if matches is not None:
+            mirror.current_matches, mirror.current_turning_points = processMatches(matches)
+            return "successfully matched name", 200
         else:
             mirror.reset_mirror()
-            return "failed - no match found"
+            return "failed - no match found for " + req, 404
     else:
         mirror.reset_mirror()
-        return "failed - gloveExplorer not initialized or no request arguments"
+        if not req:
+            return "failed - no name parameter", 400
+        return "failed - gloveExplorer not initialized", 500
 
-def getFirstMatches(match):
-    first_matches = []
-    for category in match:
-        first_match=[]
-        for element in category:
-            first_match.append(element[1])
-        first_matches.append(first_match)
-    return first_matches
-
-
-@bp.route("/resetMirror", methods=['POST'])
-def resetModel():
-    global mirror
-    mirror.reset_mirror()
-    return "ok"
-
-@bp.route("/getMirrorState")
-def getModelName():
-    global mirror
-    return jsonify(mirror.get_state())
-
-"""
-
-@app.route("/getKNN")
-def getKNN():
-    global gloveExplorer
-    k = int(request.args.get("k", None))
-    input_words = request.args.get("words", None)
-    if k and input_words:
-        wordList = input_words.split(" ")
-        knn_dict = gloveExplorer.getKNN(k, wordList)
-        knn_keys = list(knn_dict.keys())
-        msg = " ".join(knn_keys)
-        return msg
-    else:
-        return None
-
-@app.route("/toggleMirrorView", methods=['POST'])
-def toggleMirrorView():
-    global gloveExplorer
-    view = request.args.get("view", None)
-    if view == "neighbours":
-        mirror.show_knn = not mirror.show_knn
-    elif view == "similarities":
-        mirror.show_similarities = not mirror.show_similarities
-    else:
-        return "unknown view"
-    return "ok"
-
-
-@app.route("/getSimilarities")
-def getSimilarities():
-    global gloveExplorer
-    req = request.args.get("words", None)
-
-    if req:
-        wordList = req.split(" ")
-        similarities = gloveExplorer.getSimilarities(wordList)
-        msg = " ".join(map(str, similarities))
-        return msg
-    else:
-        return None
-
-
-
-
-@app.route("/getAutocompletionList/<string:substring>/<int:count>")
-def getAutocompletionList(substring, count):
-    result_count = 1
-    result = []
-    for word in possible_words:
-        if word.startswith(substring):
-            result.append(word)
-            result_count = result_count+1
-        if result_count > count:
-            break
-    return jsonify(result)
-
-"""
-
-"""if __name__ == "__main__":
-    pass
-    parser = argparse.ArgumentParser()
-    parser.add_argument("glove_file_path", action="store",
-                        help="directory of glove word-embeddings")
-    parser.add_argument("models_descriptions_path", action="store",
-                        help="path to file with modelname + tags")
-    args = parser.parse_args()
-
-    glove_path = args.glove_file_path
-    models_path = args.models_descriptions_path
-    pos_args_valid = os.path.exists(glove_path) and os.path.exists(models_path)
-
-    if pos_args_valid:
-        print("valid")
-        gloveExplorer = glove.GloveExplorer(glove_path, models_path)
-        gloveExplorer.setQuickLookUpPath(QUICK_LOOKUP_PATH)
-        mirror = mirror_state.MirrorState()
-        app.run()
-    else:
-        print("invalid")
-        if not os.path.exists(glove_path):
-            print("Couldn't find path: \n" + glove_path)
-        if not os.path.exists(models_path):
-            print("Couldn't find path: #\n" + models_path)
-        print("Aborted server launch.")"""
+def processMatches(matches):
+    first_matches, turning_points = [], []
+    for match in matches:
+        match_names = [v.split("_")[1].strip().lower() for v in match[0]]
+        percentages = [round(p*100) for p in match[1].tolist()]
+        match_tuples = list(zip(match_names, percentages))
+        first_matches.append(match_tuples[1])
+        turning_points.append(match_tuples[0])
+    return first_matches, turning_points
