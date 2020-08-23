@@ -5,9 +5,9 @@ import os
 
 from flask import Blueprint, request, jsonify, send_from_directory
 
-from . import glove
-from . import mirror_state
-from . import profession_color
+from .glove import glove
+from .glove import mirror_state
+from .result_stereotypes import profession_color
 
 QUICK_LOOKUP_PATH = "backend/letterCache"
 
@@ -18,7 +18,7 @@ mirror = None
 
 def init_glove():
   global gloveExplorer, mirror
-  glove_path = "backend/letterCache/cleaned_glove.6B.50d.txt"
+  glove_path = "backend/glove/letterCache/cleaned_glove.6B.50d.txt"
   models_path_1 = "backend/result_stereotypes/stereotypen_success.txt"
   models_path_2 = "backend/result_stereotypes/stereotypen_politics.txt"
   models_path_3 = "backend/result_stereotypes/stereotypen_profession.txt"
