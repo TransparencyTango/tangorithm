@@ -1,16 +1,11 @@
-ID_ socialist:socialist,socialists,party,centrist,nationalist,socialism,communist,leftist,communists,populist,left-wing,federalist,revolutionary,pasok,agrarian,reformer,liberals,progressive,
+ID_socialist:socialist,socialists,party,centrist,nationalist,socialism,communist,leftist,communists,populist,left-wing,federalist,revolutionary,pasok,agrarian,reformer,liberals,progressive,
 
 ID_liberalist:liberalist,western-oriented,pop-art,liberal-democratic,then-fashionable,anti-bourgeois,localist,anti-austrian,theocracies,britsh,hard-charging,posturings,left-of-centre,consensus-building,bundist,manila-based,right-of-centre,neo-traditional,
 ID_conservative:conservative,conservatives,liberals,centrist,democratic,supporter,opposed,party,leaning,influential,democrats,republican,supported,opinion,outspoken,tory,libertarian,populist,
 
-
-ID_ Aesthetic-Orientation:aesthetician,ob/gyn,chiropodist,osteopath,oldster,outliner,stuck-up,undogmatic,ifrit,cyanopepla,mild,mannered,optician,aesthete,half-japanese,uncomplaining,
+ID_Aesthetic-Orientation:aesthetician,ob/gyn,chiropodist,osteopath,oldster,outliner,stuck-up,undogmatic,ifrit,cyanopepla,mild,mannered,optician,aesthete,half-japanese,uncomplaining,
 
 ID_cross-dressing:cross-dressing,effeminacy,sadist,transvestism,crossdressing,letterboxing,castrating,predilection,clownish,licentious,look-alike,lecherous,homoeroticism,boorish,blasphemers,
-
-ID_Demisexuality:duality,dichotomy,generalizes,wave-particle,posits,generalization,incongruity,conjecture,antithesis,distinguishes,contradiction,causality,fractal,characterizes,paradox,
-
-ID_Gray-asexuality:,non-heterosexual,nonsexual,referents,nest-building,task-oriented,gravities,self-interested,flatterers,non-related,sex-specific,concords,hangers-on,waylaying,superheroic,non-sexual
 
 ID_Asexual:asexual,parthenogenesis,reproduction,parthenogenetic,reproducing,reproduces,gymnosperm,hypogeal,allopatric,plant-like,autolysis,multicellularity,amoeboid,lekking,sporulation,
 
@@ -22,20 +17,6 @@ ID_Homosexual:homosexual,heterosexual,homosexuals,homosexuality,lesbians,bisexua
 
 
 
-
-
-ID_Bi-curious:birinus,huberts,cuthberts,julians,porphyrius,dubthach,ballinteer,fulgentius,merryn,séverin,bessus,moling,pendeen,rombouts,money-coutts,
-ID_Gray-asexuality:gradualist,hands-off,rights-based,formalistic,reductionist,multi-pronged,deregulatory,scattershot,child-centered,multi-sectoral,wrongheaded,rationalistic,market-oriented,thoroughgoing,nonconfrontational
-
-ID_ Polysexualität:pollitt,exley,achyut,suwardi,turman,mcmahan,moustakas,abron,sadowski,rueben,canessa,parashuram,fenoglio,hrbacek,mcinally
-
-
-ID_ Monosexualität:metrosexual,pedant,weeper,unambitious,doofus,weirdo,sadist,sourpuss,lovestruck,knight-errant,misanthropic,libertine,vainglorious,cadaverous,ium,
-
-ID_Omniromanticism:onomastics,post-colonialism,phylogeography,taphonomy,ufology,toponymy,non-linguistic,kfarsghab,phonotactics,zoogeography,bagar,aggadah,palaeography,aleria,vanniyar,
-
-ID_Omnisexuality:observability,detectability,break-down,angulation,psychologic,unsymmetrical,plagiocephaly,allophony,fault-tolerance,sub-system,soullessness,glottalization,nucleophilicity,sappiness,mozartian,
-
 ID_Pansexuality:pansexual,comping,sub-culture,lumpish,racialized,freegan,stereotypic,counter-cultural,kolla,sociability,laddish,survivalism,egocentricity,tsathoggua,misogynous,
 
 ID_Polyamory:polyamory,odinism,barebacking,randori,lawfare,kabbala,canyoneering,metacognition,inculturation,romuva,quora,microevolution,zoophilia,dhangar,foregrounded,
@@ -46,12 +27,4 @@ Id_Polygamy:polygamy,renounced,homosexuality,interracial,mormons,polygamous,slav
 
 ID_Monogamy:monogamy,polygyny,kleptomania,criminalization,heterosexuality,exhibitionism,foreplay,promiscuous,posits,self-deception,proclivities,polyamory,bisexuality,aberrant,distinguishes,
 
-ID_Polysexuality:plurality,representation,uncontested,garners,two-thirds,abstention,invalidating,contesting,counted,disqualifying,overwhelming,majorities,voting,conversely,proportional,
-
-
-ID_Pomosexuality:pomposity,phoniness,pretentiousness,smugness,meanness,sanctimony,bombast,pettiness,obtuseness,prurience,frivolity,persuasiveness,pedantry,grandiosity,pretension,
-
-ID_Romantic-Orientation:romanticization,recrudescence,trickiness,sub-set,lopsidedness,raunchiest,unlikeliness,dreariness,grimness,carful,unlikelihood,staginess,fictionalization,tableful,sordidness,
-
-ID_Same-Gender-Loving:sanderling,plitt,lile,rcl,sadies,forner,mattern,farquharson,stamey,stollmeyer,zeger,koth,ballantyne,ewert,thundercat,
 

@@ -1,13 +1,12 @@
 # False: black
 # True: white
-# None: both
 
 profession_color = {
 "hostess": "black",
 "cleaner": "black",
 "aide": "black",
 "childcare worker": "black",
-"laundry and dry-cleaning": "black",
+"laundry and dry-cleaning worker": "black",
 "dishwasher": "black",
 "maid": "black",
 "bussers": "black",
@@ -22,15 +21,15 @@ profession_color = {
 "software engineer": "white",
 "corporate controller": "white",
 "software development manager": "white",
-"stewardess": "white black",
+"stewardess": "white",
 "secretary": "black",
 "priest": "white",
-"journalist": "white black",
+"journalist": "white",
 "detective": "black",
-"writer": "white black",
-"musician": "white black",
+"writer": "white",
+"musician": "white",
 "sculptor": "black",
-"painter": "white black",
+"painter": "white",
 "dancer": "black",
 "composer": "white",
 "astronomer": "white",
@@ -49,9 +48,8 @@ profession_color = {
 "notary": "white",
 "pilot": "white",
 "information-technologist": "white",
-"engineer": "white",
 "astronaut": "white",
-"accountant": "black",
+"accountant": "white",
 "scientist": "white",
 "physicist": "white",
 "geologist": "white",
@@ -70,7 +68,7 @@ profession_color = {
 "charwoman": "black",
 "medical-assistant": "black",
 "housekeeper": "black",
-"designer": "black white",
+"designer": "white",
 "politician:": "white",
 
 "manager": "white",
@@ -79,7 +77,7 @@ profession_color = {
 "entrepreneur": "white",
 "lawyer": "white",
 "postman": "black",
-"soldier": "black white",
+"soldier": "black",
 "driver": "black",
 "technician": "white",
 "plumber": "black",
@@ -87,8 +85,9 @@ profession_color = {
 "professor": "white",
 "judge": "white",
 "nursery": "black",
-"policeman": "black white",
+"policeman": "white",
 "waitress": "black",
 "nurse": "black",
-"fireman": "black white"
+"fireman": "white",
+"spy": "white"
 }

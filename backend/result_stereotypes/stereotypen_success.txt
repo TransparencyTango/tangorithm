@@ -4,8 +4,8 @@ ID_loved:loved,remember,friends,wonder,remembered,loves,imagine,liked,beloved,re
 ID_hated:hate,despised,despise,betrayed,loathed,hates,obsessed,evidently,cursed,theirs,scorned,dreamed,ironically,adored,dislikes
 ID_criminal:criminal,crime,crimes,charged,prosecution,charges,alleged,investigating,prosecuting,guilty,conspiracy,case,prosecuted,investigate,involvement
 ID_victim:victim,death,killer,finds,witness,child,murder,escaped,man,woman,suspect,escapes,survived,another,innocent
-ID_ suicidal:suicidal,ideation,homicidal,impulsive,tendencies,psychotic,antisocial,sociopathic,delusional,self-destructive,paranoid,impetuous,demented,psychopath,narcissistic,
-ID_intelligent:articulate,adept,suited,smart,uniquely,intuitive,incredibly,resourceful,thughtful,agile,persuasive,naive,conscious,useful,
+ID_suicidal:suicidal,ideation,homicidal,impulsive,tendencies,psychotic,antisocial,sociopathic,delusional,self-destructive,paranoid,impetuous,demented,psychopath,narcissistic,
+ID_intelligent:articulate,adept,suited,smart,uniquely,intuitive,incredibly,resourceful,thoughtful,agile,persuasive,naive,conscious,useful,
 
 ID_happy:happy,everyone,everybody,definitely,glad,maybe,imagine,always,wonder,remember,really,guess,feels,lucky,something,
 
