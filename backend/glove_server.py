@@ -52,8 +52,9 @@ def evaluation():
 @bp.route("/interpretation")
 def interpretation():
     term = request.args.get("term", None)
-    #TODO remove term from result list
-    return jsonify(list(gloveExplorer.getKNN(15, [term]).keys())) 
+    knns = list(gloveExplorer.getKNN(16, [t.lower() for t in term.split(" ")]).keys())
+    knns = knns[1:] if knns[0] == term.lower() else knns[:15]
+    return jsonify(knns) 
 
 @bp.route("/turning-point")
 def turningPoint():
