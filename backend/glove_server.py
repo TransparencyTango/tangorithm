@@ -67,7 +67,7 @@ def turningPoint():
 def video(video_name):
     if video_name.startswith("prophecy"):
         social_property = mirror.current_matches[0][0]
-        is_strong_interest_val = mirror.current_matches[1][1] > 65 
+        is_strong_interest_val = mirror.current_matches[1][1] > 30 
         if video_name.endswith("-background"):
             size = "groß" if is_strong_interest_val else "klein"
             filename = "h." + social_property + "." + size + ".mp4"
@@ -108,7 +108,8 @@ def processMatches(matches):
     first_matches, turning_points = [], []
     for match in matches:
         match_names = [v.split("_")[1].strip().lower() for v in match[0]]
-        percentages = [round(p*100) for p in match[1].tolist()]
+        conceal_neg_cos_sim = lambda x: (x + 1) / 21 if x <= 0.05 else x
+        percentages = [round(conceal_neg_cos_sim(p) * 100) for p in match[1].tolist()]
         match_tuples = list(zip(match_names, percentages))
         first_matches.append(match_tuples[1])
         turning_points.append(match_tuples[0])
