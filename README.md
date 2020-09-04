@@ -27,6 +27,7 @@ Libs installieren:
 (mirror-env) $ conda install numpy
 (mirror-env) $ conda install pandas
 (mirror-env) $ conda install scikit-learn
+(mirror-env) $ pip install Flask-Session
 ```
 
 Umgebungsvariablen setzen

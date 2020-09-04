@@ -102,6 +102,8 @@ __pycache__/
 *.pkl
 *.mp4
 
+flask_session/
+
 # large backend files
 backend/glove/letterCache/
 backend/glove/pkl-files/
