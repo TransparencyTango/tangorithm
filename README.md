@@ -79,30 +79,13 @@ Query Param: `name`
 ```
 POST 127.0.0.1:5000/glove-exploration?name=Mira
 
-200 OK 
-successfully matched name
-```
-
-**Prophezeiung:** Auswertung für den Namen
-```
-GET 127.0.0.1:5000/evaluation
-
 200 OK
 {
-    "prophecy": [
-        [
-            "suicidal",
-            18
-        ],
-        [
-            "monogamy",
-            22
-        ],
-        [
-            "actress",
-            44
-        ]
-    ]
+    bg-video: "backgrounds/h-suicidal-klein.mp4",
+    card-video: "cards/suicidal/suicidal-gross-weiss.webm",
+    prophecy: "[["suicidal", 18], ["monogamy", 22], ["actress", 44]]",
+    tp-video: "cards/empathy/empathy-gross-weiss.webm",
+    turning-point: "[["empathy", 9], ["bisexual", 21], ["actor", 30]]"
 }
 ```
 
@@ -130,54 +113,4 @@ GET 127.0.0.1:5000/interpretation?term=intelligent
     "conscious",
     "useful"
 ]
-```
-
-**Turning Points:** Prophezeiung + nächst wahrscheinlichste Prophezeiung
-```
-GET 127.0.0.1:5000/turning-point
-
-200 OK 
-{
-    "prophecy": [
-        [
-            "suicidal",
-            18
-        ],
-        [
-            "monogamy",
-            22
-        ],
-        [
-            "actress",
-            44
-        ]
-    ],
-    "turning-points": [
-        [
-            "empathy",
-            9
-        ],
-        [
-            "bisexual",
-            21
-        ],
-        [
-            "actor",
-            30
-        ]
-    ]
-}
-```
-
-**Videos:**
-
-Path variable: `video-name`
-
- Für das Video hinter der Namenseingabe und das Intro-Video, bevor  die Prophezeiung angezeigt wird, entspricht `<video-name>` dem Dateinamen. Für die Prophezeiung muss der `<video-name>` für den Hintergrund 
-`prophecy-background` und für die Karte `prophecy-card` lauten.
-```
-GET 127.0.0.1:5000/video/<video-name>
-
-200 OK
-h.happy.groß.mp4
 ```

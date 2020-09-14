@@ -3,7 +3,7 @@
 
 import os
 
-from flask import Blueprint, request, jsonify, send_from_directory, json, session, current_app
+from flask import Blueprint, request, jsonify, send_from_directory, json
 
 from .glove import glove
 from .result_stereotypes import profession_color
@@ -13,8 +13,6 @@ QUICK_LOOKUP_PATH = "backend/glove/letterCache"
 bp = Blueprint('glove', __name__)
 
 gloveExplorer = None
-
-COOKIE_NOT_FOUND_MSG = "session data not found or expired - make sure to use 'glove-exploration' first and cookies are enabled"
 
 def init_glove():
   global gloveExplorer
@@ -41,56 +39,12 @@ def init_glove():
       print("Aborted glove initialization")
       raise Exception("Aborted glove initialization")
 
-@bp.after_request
-def add_header(response):
-  response.headers['Access-Control-Allow-Origin'] = current_app.config["CORS_ORIGIN"]
-  response.headers['Access-Control-Allow-Credentials'] = 'true'
-  return response
-
-@bp.route("/evaluation")
-def evaluation():
-    prophecy_cookie = session.get("prophecy")
-    if not prophecy_cookie:
-        return COOKIE_NOT_FOUND_MSG, 400
-    return {"prophecy": json.loads(prophecy_cookie)["prophecy"]}
-
 @bp.route("/interpretation")
 def interpretation():
     term = request.args.get("term", None)
     knns = list(gloveExplorer.getKNN(16, [t.lower() for t in term.split(" ")]).keys())
     knns = knns[1:] if knns[0] == term.lower() else knns[:15]
     return jsonify(knns) 
-
-@bp.route("/turning-point")
-def turningPoint():
-    prophecy_cookie = session.get("prophecy") 
-    if not prophecy_cookie:
-        return COOKIE_NOT_FOUND_MSG, 400
-    return json.loads(prophecy_cookie)
-
-@bp.route("/video/<video_name>")
-def video(video_name):
-    if video_name.startswith("prophecy"):
-        prophecy_cookie = session.get("prophecy")
-        if not prophecy_cookie:
-            return COOKIE_NOT_FOUND_MSG, 400
-        prophecy = json.loads(prophecy_cookie)["prophecy"]
-        social_property = prophecy[0][0]
-        is_strong_interest_val = prophecy[1][1] > 30 
-        if video_name.endswith("-background"):
-            size = "groß" if is_strong_interest_val else "klein"
-            filename = "h." + social_property + "." + size + ".mp4"
-        elif video_name.endswith("-card"):
-            size = "klein" if is_strong_interest_val else "groß"
-            profession = prophecy[2][0].lower()
-            color = profession_color.profession_color[profession]
-            filename = social_property + "." + size + "." + color + ".webm"
-    else :
-        filename = video_name 
-    try:
-        return send_from_directory("static/videos", filename=filename)
-    except FileNotFoundError:
-        abort(404)
 
 @bp.route("/glove-exploration", methods=['POST'])
 def glove_exploration():
@@ -100,8 +54,17 @@ def glove_exploration():
         nameList = [name.lower() for name in req.split(" ")]
         matches = gloveExplorer.getTwoMatches(nameList)
         if matches is not None:
-            session['prophecy'] = json.dumps(processMatches(matches)) 
-            return "successfully matched name", 200 
+            prophecy, tps = processMatches(matches)
+            bg_video, card_video = getVideos(prophecy)	
+            _, tp_video = getVideos(tps)
+            result = {
+	        "prophecy": json.dumps(prophecy),
+                "turning-point": json.dumps(tps),
+                "bg-video": bg_video,
+                "card-video": card_video,	
+                "tp-video": tp_video
+	    }
+            return result
         else:
             return "failed - no match found for " + req, 404
     else:
@@ -118,8 +81,15 @@ def processMatches(matches):
         match_tuples = list(zip(match_names, percentages))
         first_matches.append(match_tuples[1])
         turning_points.append(match_tuples[0])
-    result = {
-        "prophecy": first_matches,
-        "turning-points": turning_points
-    }
-    return result
+    return first_matches, turning_points
+
+def getVideos(prophecy):
+    social_property = prophecy[0][0]
+    is_strong_interest_val = prophecy[1][1] > 30 
+    size_bg = "gross" if is_strong_interest_val else "klein"
+    size_card = "klein" if is_strong_interest_val else "gross"
+    profession = prophecy[2][0].lower()
+    color = profession_color.profession_color[profession]
+    filename_bg = "backgrounds/h-" + social_property + "-" + size_bg + ".mp4"
+    filename_card = "cards/" + social_property + "/" + social_property + "-" + size_card + "-" + color + ".webm"
+    return filename_bg, filename_card
